@@ -1,24 +1,20 @@
-# Compiled class file
-*.class
+# macOS
+.DS_Store
 
-# Log file
-*.log
+# IntelliJ
+.idea/
+*.iml
 
-# BlueJ files
-*.ctxt
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# Backend build
+backend/build/
+backend/.gradle/
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+# Local secrets
+backend/src/main/resources/application-local.properties

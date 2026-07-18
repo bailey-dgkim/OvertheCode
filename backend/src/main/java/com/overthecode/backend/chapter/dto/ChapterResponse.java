@@ -1,6 +1,6 @@
-package com.overthecode.backend.dto; // 이 파일이 dto 패키지 안에 있다는 뜻
+package com.overthecode.backend.chapter.dto; // 이 파일이 dto 패키지 안에 있다는 뜻
 
-import com.overthecode.backend.entity.Chapter; // Chapter Entity 가져오기
+import com.overthecode.backend.chapter.Chapter; // Chapter Entity 가져오기
 
 public record ChapterResponse(
         Long id, // 응답에 내려줄 챕터 id
