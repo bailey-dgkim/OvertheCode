@@ -10,7 +10,7 @@ function formatDuration(minutes) {
   return remainder ? hours + '시간 ' + remainder + '분' : hours + '시간';
 }
 
-function PartCard({ part, chapters, nodeLabels }) {
+function PartRow({ part, chapters, nodeLabels }) {
   const estimatedMinutes = chapters.reduce(
     (total, chapter) => total + chapter.estimatedMinutes,
     0,
@@ -22,42 +22,47 @@ function PartCard({ part, chapters, nodeLabels }) {
       to={'/parts/' + part.id}
       aria-label={'Part ' + part.order + ' ' + part.title + ' 살펴보기'}
     >
-      <div className="cv2-part-card__top">
-        <span className="cv2-part-card__number">Part {part.order}</span>
-        <span className="cv2-part-card__arrow" aria-hidden="true">→</span>
-      </div>
+      <span className="cv2-part-card__number">
+        {String(part.order).padStart(2, '0')}
+      </span>
 
-      <h2 className="cv2-part-card__title">{part.title}</h2>
-      <p className="cv2-part-card__goal">{part.goal}</p>
+      <div className="cv2-part-card__body">
+        <h2 className="cv2-part-card__title">{part.title}</h2>
+        <p className="cv2-part-card__goal">{part.goal}</p>
 
-      <div className="cv2-part-card__nodes" aria-label="대표 시스템 영역">
-        {nodeLabels.map((label) => (
-          <span key={label} className="cv2-node-chip">{label}</span>
-        ))}
-      </div>
-
-      <div className="cv2-part-card__meta">
-        <span>{chapters.length}개 Chapter</span>
-        <span aria-hidden="true">·</span>
-        <span>{formatDuration(estimatedMinutes)}</span>
-      </div>
-
-      <div className="cv2-progress">
-        <div className="cv2-progress__labels">
-          <span>진행률</span>
-          <strong>0%</strong>
-        </div>
-        <div
-          className="cv2-progress__track"
-          role="progressbar"
-          aria-label={part.title + ' 진행률'}
-          aria-valuemin="0"
-          aria-valuemax="100"
-          aria-valuenow="0"
-        >
-          <span className="cv2-progress__value" />
+        <div className="cv2-part-card__nodes" aria-label="대표 시스템 영역">
+          {nodeLabels.map((label) => (
+            <span key={label} className="cv2-node-chip">{label}</span>
+          ))}
         </div>
       </div>
+
+      <div className="cv2-part-card__side">
+        <div className="cv2-part-card__meta">
+          <span>{chapters.length}개 Chapter</span>
+          <span aria-hidden="true">·</span>
+          <span>{formatDuration(estimatedMinutes)}</span>
+        </div>
+
+        <div className="cv2-progress">
+          <div className="cv2-progress__labels">
+            <span>진행률</span>
+            <strong>0%</strong>
+          </div>
+          <div
+            className="cv2-progress__track"
+            role="progressbar"
+            aria-label={part.title + ' 진행률'}
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+          >
+            <span className="cv2-progress__value" />
+          </div>
+        </div>
+      </div>
+
+      <span className="cv2-part-card__arrow" aria-hidden="true">→</span>
     </Link>
   );
 }
@@ -99,7 +104,7 @@ function CurriculumHome() {
 
         <div className="cv2-part-grid">
           {parts.map((part) => (
-            <PartCard
+            <PartRow
               key={part.id}
               part={part}
               chapters={curriculumRepository.listChapters(part.id)}

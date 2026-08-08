@@ -1,14 +1,14 @@
 /**
  * 디자인 토큰.
- * 엔터프라이즈 교육 서비스 톤 — 밝은 배경, 파란색 강조, 차분한 대비.
+ * V2 공통 톤 — 따뜻한 아이보리, 세이지 그린, 절제된 대비.
  */
 :root {
   /* 강조 */
-  --brand-50: #eff6ff;
-  --brand-100: #dbeafe;
-  --brand-500: #3b82f6;
-  --brand-600: #2563eb;
-  --brand-700: #1d4ed8;
+  --brand-50: #eef1eb;
+  --brand-100: #d9dfd3;
+  --brand-500: #75836f;
+  --brand-600: #566451;
+  --brand-700: #435144;
 
   /* 피드백 */
   --success-50: #f0fdf4;
@@ -21,9 +21,9 @@
   --danger-600: #dc2626;
   --danger-700: #b91c1c;
 
-  --warning-50: #fff7ed;
-  --warning-200: #fed7aa;
-  --warning-600: #ea580c;
+  --warning-50: #f8e8de;
+  --warning-200: #e8b9a8;
+  --warning-600: #b65f4d;
 
   /* 계층 배지 */
   --layer-frontend: #2563eb;
@@ -36,16 +36,16 @@
   --layer-operation-bg: #fff7ed;
 
   /* 표면 */
-  --canvas: #f8fafc;
-  --surface: #ffffff;
-  --surface-muted: #f1f5f9;
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
+  --canvas: #f3ede2;
+  --surface: #fffaf2;
+  --surface-muted: #ece5da;
+  --border: #cbc5b8;
+  --border-strong: #aaa99d;
 
   /* 텍스트 */
-  --text: #334155;
-  --text-strong: #0f172a;
-  --text-muted: #64748b;
+  --text: #3f473f;
+  --text-strong: #273029;
+  --text-muted: #62695f;
   --text-on-brand: #ffffff;
 
   /* 레이아웃 */
@@ -54,12 +54,12 @@
   --list-max: 1080px;
 
   /* 형태 */
-  --radius-sm: 6px;
-  --radius: 10px;
-  --radius-lg: 14px;
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
-  --shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --radius-sm: 3px;
+  --radius: 5px;
+  --radius-lg: 8px;
+  --shadow-sm: none;
+  --shadow: none;
+  --shadow-md: none;
 
   /* 타이포 */
   --sans: system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo',

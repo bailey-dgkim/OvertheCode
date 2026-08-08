@@ -4,11 +4,11 @@
    ========================================================= */
 
 .cv2-player-page {
-  --player-paper: #f3ede2;
-  --player-cream: #fffaf2;
-  --player-sage: #667461;
-  --player-sage-deep: #435144;
-  --player-sage-soft: #d9dfd3;
+  --player-paper: var(--canvas);
+  --player-cream: var(--surface);
+  --player-sage: var(--brand-500);
+  --player-sage-deep: var(--brand-700);
+  --player-sage-soft: var(--brand-100);
   --player-peach: #f2d6c6;
   --player-coral: #c7725d;
   --player-ink: #273029;
@@ -95,7 +95,7 @@
   color: var(--player-ink);
   font-size: clamp(30px, 5vw, 44px);
   font-weight: 800;
-  letter-spacing: -0.035em;
+  letter-spacing: normal;
 }
 
 .cv2-player-step-heading > span {
@@ -121,7 +121,7 @@
   font-size: clamp(24px, 4vw, 34px);
   font-weight: 800;
   line-height: 1.45;
-  letter-spacing: -0.025em;
+  letter-spacing: normal;
 }
 
 .cv2-activity__lead,

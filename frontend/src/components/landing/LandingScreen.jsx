@@ -1,4 +1,4 @@
-import { useScrollReveal, useHasScrolled } from '../../hooks/useScrollReveal';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 import {
   landingHero,
   landingManifesto,
@@ -36,28 +36,34 @@ function PartPreview({ part, index }) {
   return (
     <Reveal delay={index * 60}>
       <article className="ld-track">
-        <div className="ld-track__top">
-          <span className="ld-track__label">Part {part.order}</span>
+        <span className="ld-track__label">{String(part.order).padStart(2, '0')}</span>
+        <div className="ld-track__body">
+          <h3 className="ld-track__headline">{part.title}</h3>
+          <p className="ld-track__desc">{part.goal}</p>
         </div>
-        <h3 className="ld-track__headline">{part.title}</h3>
-        <p className="ld-track__desc">{part.goal}</p>
+        <span className="ld-track__arrow" aria-hidden="true">→</span>
       </article>
     </Reveal>
   );
 }
 
 function LandingScreen({ onStart }) {
-  const scrolled = useHasScrolled();
   const parts = curriculumRepository.listParts();
-
-  const scrollToNext = () => {
-    document
-      .getElementById('ld-manifesto')
-      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
 
   return (
     <main className="ld">
+      <header className="ld-header">
+        <div className="ld-header__inner">
+          <div className="ld-brand">
+            <span className="ld-brand__mark" aria-hidden="true">O</span>
+            <strong>Over the Code</strong>
+          </div>
+          <button type="button" className="ld-header__action" onClick={onStart}>
+            커리큘럼 보기 →
+          </button>
+        </div>
+      </header>
+
       <section className="ld-section ld-hero">
         <div className="ld-inner ld-hero__inner">
           <p className="ld-hero__eyebrow">{landingHero.eyebrow}</p>
@@ -73,20 +79,9 @@ function LandingScreen({ onStart }) {
           <p className="ld-hero__subtitle">{landingHero.subtitle}</p>
 
           <button type="button" className="ld-btn ld-btn--primary" onClick={onStart}>
-            {landingHero.cta}
+            {landingHero.cta} →
           </button>
         </div>
-
-        <button
-          type="button"
-          className={'ld-scroll-hint' + (scrolled ? ' ld-scroll-hint--hidden' : '')}
-          onClick={scrollToNext}
-          aria-label={landingHero.scrollHint}
-          tabIndex={scrolled ? -1 : 0}
-        >
-          <span className="ld-scroll-hint__text">{landingHero.scrollHint}</span>
-          <span className="ld-scroll-hint__chevron" aria-hidden="true" />
-        </button>
       </section>
 
       <section className="ld-section ld-manifesto" id="ld-manifesto">
@@ -101,10 +96,11 @@ function LandingScreen({ onStart }) {
         <div className="ld-inner">
           <Reveal>
             <h2 className="ld-tracks__title">
-              다섯 Part로
-              <br />
-              시스템 전체를 배웁니다
+              다섯 Part로 시스템 전체를 배웁니다
             </h2>
+            <p className="ld-tracks__intro">
+              하나의 서비스가 만들어지고 운영될 때까지, 순서대로 연결해서 살펴봅니다.
+            </p>
           </Reveal>
 
           <div className="ld-tracks__grid">
@@ -120,7 +116,7 @@ function LandingScreen({ onStart }) {
           <Reveal>
             <h2 className="ld-closing__title">{landingClosing.title}</h2>
             <button type="button" className="ld-btn ld-btn--primary" onClick={onStart}>
-              {landingClosing.cta}
+              {landingClosing.cta} →
             </button>
           </Reveal>
         </div>
