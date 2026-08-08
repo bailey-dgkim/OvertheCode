@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 2,
+  "id": "migration-deployment-order",
+  "partId": "delivery",
+  "order": 5,
+  "status": "draft",
+  "title": "DB 변경과 코드 배포는 어떤 순서로 할까?",
+  "description": "컬럼 삭제 때문에 구버전 서버가 실패한 배포를 안전한 단계로 다시 설계합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "구버전과 신버전이 동시에 실행될 때 무엇이 깨질 수 있는가?",
+  "mission": "컬럼 삭제 때문에 구버전 서버가 실패한 배포를 안전한 단계로 다시 설계합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "transaction"
+    ],
+    "relatedNodeIds": [
+      "source-repository",
+      "build",
+      "test",
+      "artifact",
+      "ci-cd",
+      "deployment",
+      "source-code"
+    ],
+    "activeEdgeIds": []
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Migration",
+    "Expand-Migrate-Contract",
+    "Backward Compatibility",
+    "Rollback"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

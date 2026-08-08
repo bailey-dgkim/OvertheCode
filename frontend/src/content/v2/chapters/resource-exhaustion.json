@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 2,
+  "id": "resource-exhaustion",
+  "partId": "operations",
+  "order": 4,
+  "status": "draft",
+  "title": "재시작하면 잠깐 정상인 장애는 무엇일까?",
+  "description": "Connection 반환 누락으로 간헐적 500이 증가하는 패턴을 지표와 로그에서 찾습니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "시간이 지날수록 고갈되는 자원은 무엇인가?",
+  "mission": "Connection 반환 누락으로 간헐적 500이 증가하는 패턴을 지표와 로그에서 찾습니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "memory",
+      "database-primary",
+      "thread",
+      "metrics"
+    ],
+    "relatedNodeIds": [
+      "logs",
+      "traces",
+      "alert",
+      "external-api",
+      "backup",
+      "runbook"
+    ],
+    "activeEdgeIds": [
+      "database-to-backup",
+      "metrics-to-alert"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Memory Leak",
+    "Connection Pool",
+    "Thread Pool",
+    "File Descriptor",
+    "Saturation"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

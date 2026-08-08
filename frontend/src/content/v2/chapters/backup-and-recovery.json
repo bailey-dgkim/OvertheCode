@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 2,
+  "id": "backup-and-recovery",
+  "partId": "operations",
+  "order": 6,
+  "status": "draft",
+  "title": "데이터가 사라지면 어떻게 돌아갈까?",
+  "description": "운영 데이터 손상 시점에서 복구 지점을 선택하고 복구 훈련과 재발 방지 계획을 만듭니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "백업이 존재한다는 것만으로 복구할 수 있는가?",
+  "mission": "운영 데이터 손상 시점에서 복구 지점을 선택하고 복구 훈련과 재발 방지 계획을 만듭니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "backup",
+      "restore",
+      "database-replica",
+      "runbook"
+    ],
+    "relatedNodeIds": [
+      "logs",
+      "metrics",
+      "traces",
+      "alert",
+      "external-api"
+    ],
+    "activeEdgeIds": [
+      "alert-to-runbook",
+      "backup-to-restore",
+      "runbook-to-restore"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Backup",
+    "Restore",
+    "Replica",
+    "Failover",
+    "RTO",
+    "RPO",
+    "Postmortem"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

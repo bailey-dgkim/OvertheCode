@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 2,
+  "id": "horizontal-scaling",
+  "partId": "scale",
+  "order": 2,
+  "status": "draft",
+  "title": "서버를 여러 대로 늘리면 끝일까?",
+  "description": "서버를 세 대로 늘린 뒤 간헐적으로 로그인이 풀리는 현상을 해결합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "요청을 나눠도 상태가 서버마다 다르면 무슨 일이 생기는가?",
+  "mission": "서버를 세 대로 늘린 뒤 간헐적으로 로그인이 풀리는 현상을 해결합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "application-instance",
+      "redis",
+      "health-check"
+    ],
+    "relatedNodeIds": [
+      "load-balancer",
+      "message-queue",
+      "worker",
+      "database-primary",
+      "database-replica"
+    ],
+    "activeEdgeIds": [
+      "load-balancer-to-application"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Horizontal Scaling",
+    "Stateless",
+    "Shared Session",
+    "Health Check"
+  ],
+  "conceptRefs": [
+    "health-check"
+  ],
+  "steps": [],
+  "completionPrompt": null
+}

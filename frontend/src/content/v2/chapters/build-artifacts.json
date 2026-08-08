@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 2,
+  "id": "build-artifacts",
+  "partId": "delivery",
+  "order": 2,
+  "status": "draft",
+  "title": "실행 가능한 결과물은 어떻게 만들어질까?",
+  "description": "개발자 컴퓨터에서는 되지만 빌드 서버에서는 실패하는 Dependency 차이를 분석합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "소스 코드와 서버에 배포하는 파일은 왜 다른가?",
+  "mission": "개발자 컴퓨터에서는 되지만 빌드 서버에서는 실패하는 Dependency 차이를 분석합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "build",
+      "artifact"
+    ],
+    "relatedNodeIds": [
+      "source-repository",
+      "test",
+      "ci-cd",
+      "deployment",
+      "source-code"
+    ],
+    "activeEdgeIds": [
+      "source-to-build",
+      "repository-to-build",
+      "build-to-test",
+      "test-to-artifact",
+      "artifact-to-deployment"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Build",
+    "Dependency",
+    "Package Manager",
+    "Lock File",
+    "Artifact",
+    "Version"
+  ],
+  "conceptRefs": [
+    "build"
+  ],
+  "steps": [],
+  "completionPrompt": null
+}

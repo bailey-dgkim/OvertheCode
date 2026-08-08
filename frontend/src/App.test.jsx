@@ -2,6 +2,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import App from './App';
+import { curriculumRepository } from './content/v2';
 
 function renderAt(path) {
   return renderToStaticMarkup(
@@ -12,6 +13,14 @@ function renderAt(path) {
 }
 
 describe('V2 화면 주소', () => {
+  it('46개 Chapter를 Part별 순서대로 제공한다', () => {
+    const parts = curriculumRepository.listParts();
+
+    expect(curriculumRepository.listChapters()).toHaveLength(46);
+    expect(parts.map((part) => curriculumRepository.listChapters(part.id).length))
+      .toEqual([5, 4, 5, 5, 5, 5, 5, 6, 6]);
+  });
+
   it('커리큘럼 홈에서 Part 0과 여덟 교육 Part를 보여준다', () => {
     const html = renderAt('/curriculum');
 
@@ -63,11 +72,19 @@ describe('V2 화면 주소', () => {
     expect(html).toContain('파일이 존재하는데 왜 서비스는 동작하지 않는가?');
     expect(html).toContain('Source Code');
     expect(html).toContain('11개 영역');
-    expect(html).toContain('43개 요소');
+    expect(html).toContain('62개 요소');
     expect(html).toContain('7개 연결 강조');
     expect(html).toContain('data-node-state="primary"');
     expect(html).toContain('이번 Chapter에서 따라갈 연결');
     expect(html).not.toContain('맵 준비 중');
+    expect(html).toContain('Chapter 시작하기 · 준비 중');
+  });
+
+  it('마지막 Chapter 개요와 시스템 지도를 보여준다', () => {
+    const html = renderAt('/chapters/backup-and-recovery');
+
+    expect(html).toContain('백업이 존재한다는 것만으로 복구할 수 있는가?');
+    expect(html).toContain('62개 요소');
     expect(html).toContain('Chapter 시작하기 · 준비 중');
   });
 

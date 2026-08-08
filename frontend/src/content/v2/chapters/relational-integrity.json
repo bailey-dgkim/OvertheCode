@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 2,
+  "id": "relational-integrity",
+  "partId": "data",
+  "order": 3,
+  "status": "draft",
+  "title": "관계형 데이터베이스는 무엇을 지켜줄까?",
+  "description": "중복 고객과 존재하지 않는 상품을 참조하는 주문을 DB 규칙으로 차단합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "하나만 있어야 하는 값과 반드시 연결되어야 하는 값은 어떻게 보장하는가?",
+  "mission": "중복 고객과 존재하지 않는 상품을 참조하는 주문을 DB 규칙으로 차단합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "primary-key",
+      "foreign-key",
+      "database-index",
+      "table"
+    ],
+    "relatedNodeIds": [
+      "dto",
+      "entity",
+      "database-primary",
+      "database-replica",
+      "repository"
+    ],
+    "activeEdgeIds": [
+      "entity-to-table",
+      "table-to-database",
+      "primary-key-to-table",
+      "foreign-key-to-table",
+      "index-to-table"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Primary Key",
+    "Foreign Key",
+    "Unique",
+    "Not Null",
+    "Integrity"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

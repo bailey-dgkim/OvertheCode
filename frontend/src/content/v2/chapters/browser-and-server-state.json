@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 2,
+  "id": "browser-and-server-state",
+  "partId": "frontend",
+  "order": 3,
+  "status": "draft",
+  "title": "화면의 값과 저장된 값은 같은가?",
+  "description": "새로고침 전후의 값을 비교해 브라우저 상태와 서버 데이터를 분류합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "새로고침하면 사라지는 값과 남는 값은 무엇이 다른가?",
+  "mission": "새로고침 전후의 값을 비교해 브라우저 상태와 서버 데이터를 분류합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "frontend-state",
+      "browser",
+      "http-api"
+    ],
+    "relatedNodeIds": [
+      "user",
+      "dom",
+      "component",
+      "api-client",
+      "frontend"
+    ],
+    "activeEdgeIds": [
+      "user-to-browser",
+      "browser-to-frontend",
+      "component-to-state",
+      "state-to-api-client",
+      "api-client-to-http-api"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Memory State",
+    "Local Storage",
+    "Cookie",
+    "Server State"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

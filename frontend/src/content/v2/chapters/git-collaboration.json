@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 2,
+  "id": "git-collaboration",
+  "partId": "delivery",
+  "order": 1,
+  "status": "draft",
+  "title": "여러 사람의 코드 변경은 어떻게 합칠까?",
+  "description": "AI가 여러 파일을 수정한 Diff에서 요구사항과 무관한 변경과 충돌 위험을 찾아냅니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "무엇이 언제 왜 바뀌었는지 어떻게 추적하는가?",
+  "mission": "AI가 여러 파일을 수정한 Diff에서 요구사항과 무관한 변경과 충돌 위험을 찾아냅니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "source-repository",
+      "transaction"
+    ],
+    "relatedNodeIds": [
+      "build",
+      "test",
+      "artifact",
+      "ci-cd",
+      "deployment",
+      "source-code"
+    ],
+    "activeEdgeIds": [
+      "source-to-repository",
+      "repository-to-build"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Git",
+    "Commit",
+    "Branch",
+    "Diff",
+    "Merge",
+    "Pull Request"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

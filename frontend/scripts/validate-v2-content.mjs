@@ -22,6 +22,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const DEFAULT_CONTENT_DIR = join(HERE, '..', 'src', 'content', 'v2');
 const CHAPTER_STATUS = ['draft', 'available'];
 const PART_KINDS = ['orientation', 'curriculum'];
+const EXPECTED_CHAPTER_COUNTS = [5, 4, 5, 5, 5, 5, 5, 6, 6];
 const REQUIRED_AVAILABLE_STAGES = [
   'orientation',
   'incident',
@@ -369,6 +370,19 @@ export function validateDocuments({
   const conceptIds = new Set(concepts.map((concept) => concept.id));
   const partIds = new Set(parts.map((part) => part.id));
   const chapterDocuments = chapters.map((chapter) => chapter.document);
+  if (chapterDocuments.length !== 46) {
+    fail('chapters', 'Chapter가 ' + chapterDocuments.length + '개 — 새 커리큘럼 기준 46개 필요');
+  }
+  parts.forEach((part, index) => {
+    const expectedCount = EXPECTED_CHAPTER_COUNTS[part.order];
+    const actualCount = chapterDocuments.filter((chapter) => chapter?.partId === part.id).length;
+    if (expectedCount !== undefined && actualCount !== expectedCount) {
+      fail(
+        'chapters',
+        'Part ' + part.order + ' Chapter가 ' + actualCount + '개 — ' + expectedCount + '개 필요',
+      );
+    }
+  });
   validateUniqueIds(chapterDocuments, 'chapters', fail);
 
   const chapterOrderKeys = [];

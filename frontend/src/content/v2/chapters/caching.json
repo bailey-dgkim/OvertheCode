@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 2,
+  "id": "caching",
+  "partId": "scale",
+  "order": 4,
+  "status": "draft",
+  "title": "자주 보는 값을 매번 DB에서 읽어야 할까?",
+  "description": "코드 목록 캐시의 속도와 일관성 사이에서 갱신 정책을 설계합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "캐시를 넣으면 왜 오래된 데이터가 보일 수 있는가?",
+  "mission": "코드 목록 캐시의 속도와 일관성 사이에서 갱신 정책을 설계합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "redis",
+      "dns"
+    ],
+    "relatedNodeIds": [
+      "load-balancer",
+      "application-instance",
+      "message-queue",
+      "worker",
+      "database-primary",
+      "database-replica"
+    ],
+    "activeEdgeIds": []
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Cache Hit",
+    "Miss",
+    "Cache Aside",
+    "TTL",
+    "Invalidation",
+    "Stampede"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

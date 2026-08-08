@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 2,
+  "id": "transactions",
+  "partId": "application",
+  "order": 4,
+  "status": "draft",
+  "title": "여러 저장 작업을 하나로 묶으려면?",
+  "description": "주문과 주문 항목 저장의 트랜잭션 범위를 정하고 외부 API를 포함할 때의 위험을 판단합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "주문은 저장됐지만 주문 항목은 실패하는 상황을 어떻게 막는가?",
+  "mission": "주문과 주문 항목 저장의 트랜잭션 범위를 정하고 외부 API를 포함할 때의 위험을 판단합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "transaction"
+    ],
+    "relatedNodeIds": [
+      "http-api",
+      "controller",
+      "service",
+      "repository",
+      "database-primary"
+    ],
+    "activeEdgeIds": [
+      "service-to-transaction",
+      "transaction-to-repository"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Transaction",
+    "ACID",
+    "Commit",
+    "Rollback",
+    "Atomicity"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

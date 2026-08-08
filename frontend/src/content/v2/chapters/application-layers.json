@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 2,
+  "id": "application-layers",
+  "partId": "application",
+  "order": 2,
+  "status": "draft",
+  "title": "서버 코드는 왜 계층으로 나뉘어 있을까?",
+  "description": "한 파일에 SQL과 할인 계산이 섞인 AI 코드를 올바른 책임 위치로 재배치합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "Controller, Service, Repository는 각각 무엇을 책임지는가?",
+  "mission": "한 파일에 SQL과 할인 계산이 섞인 AI 코드를 올바른 책임 위치로 재배치합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "controller",
+      "service",
+      "repository"
+    ],
+    "relatedNodeIds": [
+      "http-api",
+      "transaction",
+      "database-primary"
+    ],
+    "activeEdgeIds": [
+      "http-api-to-controller",
+      "controller-to-service",
+      "service-to-transaction",
+      "transaction-to-repository",
+      "service-to-repository",
+      "repository-to-database"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Controller",
+    "Service",
+    "Repository",
+    "Separation of Concerns"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 2,
+  "id": "performance-signals",
+  "partId": "scale",
+  "order": 1,
+  "status": "draft",
+  "title": "느리다는 말은 정확히 무엇을 뜻할까?",
+  "description": "CPU는 낮지만 응답이 느린 통계 화면에서 실제 대기 구간을 찾습니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "응답시간, 처리량, 사용률은 어떻게 다른가?",
+  "mission": "CPU는 낮지만 응답이 느린 통계 화면에서 실제 대기 구간을 찾습니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "load-balancer",
+      "redis",
+      "database-replica"
+    ],
+    "relatedNodeIds": [
+      "application-instance",
+      "message-queue",
+      "worker",
+      "database-primary"
+    ],
+    "activeEdgeIds": [
+      "load-balancer-to-application",
+      "database-to-replica"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Latency",
+    "Throughput",
+    "Utilization",
+    "p50",
+    "p95",
+    "p99",
+    "Bottleneck"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

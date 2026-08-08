@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 2,
+  "id": "ip-port-connections",
+  "partId": "network",
+  "order": 2,
+  "status": "draft",
+  "title": "IP와 Port는 무엇을 찾아갈까?",
+  "description": "서버에는 도착했지만 애플리케이션 Port에 연결되지 않는 상황을 구분합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "한 서버에서 여러 프로그램이 동시에 요청을 받을 수 있는 이유는?",
+  "mission": "서버에는 도착했지만 애플리케이션 Port에 연결되지 않는 상황을 구분합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "port"
+    ],
+    "relatedNodeIds": [
+      "browser",
+      "dns",
+      "cdn",
+      "tls",
+      "firewall",
+      "load-balancer",
+      "application-instance"
+    ],
+    "activeEdgeIds": []
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "IP",
+    "Port",
+    "TCP",
+    "Socket",
+    "Connection"
+  ],
+  "conceptRefs": [
+    "port"
+  ],
+  "steps": [],
+  "completionPrompt": null
+}

@@ -13,7 +13,7 @@
 - `curriculumRepository.js`: JSON을 자동으로 찾아 화면에 전달하는 통로
 - `source/eight-part-outline.json`: 첨부 HTML에서 보존한 9개 Part·46개 Chapter 원본
 - `source/node-aliases.json`: 같은 시스템 요소를 하나의 id로 합치는 표
-- `scripts/import-eight-part-curriculum.mjs`: 원본 HTML을 JSON으로 옮기는 변환기
+- `scripts/import-eight-part-curriculum.mjs`: 보존한 원본을 46개 Chapter JSON으로 옮기는 변환기
 
 ## 지켜야 할 규칙
 
@@ -44,4 +44,16 @@
 
 ```bash
 npm run validate:content
+```
+
+보존한 원본으로 Part와 46개 Chapter 개요를 다시 생성하려면 다음을 실행한다.
+
+```bash
+node scripts/import-eight-part-curriculum.mjs
+```
+
+새 HTML 원본을 다시 가져올 때만 `--input` 경로를 추가한다.
+
+```bash
+node scripts/import-eight-part-curriculum.mjs --input /path/to/curriculum.html
 ```

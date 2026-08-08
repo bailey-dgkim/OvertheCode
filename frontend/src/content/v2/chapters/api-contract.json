@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 2,
+  "id": "api-contract",
+  "partId": "application",
+  "order": 1,
+  "status": "draft",
+  "title": "브라우저와 서버는 무엇을 주고받을까?",
+  "description": "주문 저장 요청과 응답을 읽고 화면 필드가 API 데이터로 변환되는 과정을 연결합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "화면 코드가 서버 기능을 어떻게 호출하는가?",
+  "mission": "주문 저장 요청과 응답을 읽고 화면 필드가 API 데이터로 변환되는 과정을 연결합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "http-api",
+      "dto"
+    ],
+    "relatedNodeIds": [
+      "controller",
+      "service",
+      "repository",
+      "transaction",
+      "database-primary"
+    ],
+    "activeEdgeIds": [
+      "http-api-to-controller",
+      "controller-to-dto",
+      "dto-to-service"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "API",
+    "HTTP Method",
+    "URL",
+    "Header",
+    "Body",
+    "Status Code",
+    "JSON"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

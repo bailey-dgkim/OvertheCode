@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 2,
+  "id": "domain-data-model",
+  "partId": "data",
+  "order": 2,
+  "status": "draft",
+  "title": "업무의 대상을 데이터로 어떻게 표현할까?",
+  "description": "딜러 주문 업무 설명에서 Entity와 관계를 찾아 데이터 모델을 구성합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "고객, 주문, 상품은 어떤 관계를 가지는가?",
+  "mission": "딜러 주문 업무 설명에서 Entity와 관계를 찾아 데이터 모델을 구성합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "entity"
+    ],
+    "relatedNodeIds": [
+      "dto",
+      "table",
+      "primary-key",
+      "foreign-key",
+      "database-index",
+      "database-primary",
+      "database-replica"
+    ],
+    "activeEdgeIds": [
+      "entity-to-table"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Domain Model",
+    "Entity",
+    "Attribute",
+    "Relationship",
+    "Cardinality"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

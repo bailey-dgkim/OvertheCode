@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 2,
+  "id": "continuous-integration",
+  "partId": "delivery",
+  "order": 3,
+  "status": "draft",
+  "title": "변경할 때마다 무엇을 자동으로 확인할까?",
+  "description": "주문 계산 변경을 검증할 최소 CI 단계와 실패 기준을 설계합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "문제가 있는 코드가 합쳐지기 전에 어떻게 막는가?",
+  "mission": "주문 계산 변경을 검증할 최소 CI 단계와 실패 기준을 설계합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "ci-cd",
+      "test"
+    ],
+    "relatedNodeIds": [
+      "source-repository",
+      "build",
+      "artifact",
+      "deployment",
+      "source-code"
+    ],
+    "activeEdgeIds": [
+      "build-to-test",
+      "test-to-artifact",
+      "ci-to-test",
+      "ci-to-deployment"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "CI",
+    "Automated Test",
+    "Lint",
+    "Type Check",
+    "Static Analysis"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

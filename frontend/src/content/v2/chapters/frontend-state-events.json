@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 2,
+  "id": "frontend-state-events",
+  "partId": "frontend",
+  "order": 2,
+  "status": "draft",
+  "title": "화면은 사용자의 행동을 어떻게 기억할까?",
+  "description": "화면에는 금액이 바뀌었지만 저장 요청에는 이전 값이 들어간 원인을 추적합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "입력한 값과 버튼 상태는 어디에 보관되는가?",
+  "mission": "화면에는 금액이 바뀌었지만 저장 요청에는 이전 값이 들어간 원인을 추적합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "frontend-state",
+      "dom",
+      "component"
+    ],
+    "relatedNodeIds": [
+      "user",
+      "browser",
+      "api-client",
+      "frontend"
+    ],
+    "activeEdgeIds": [
+      "frontend-to-component",
+      "component-to-dom",
+      "component-to-state",
+      "state-to-api-client"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "State",
+    "Event",
+    "Rendering",
+    "Form",
+    "Event Handler"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

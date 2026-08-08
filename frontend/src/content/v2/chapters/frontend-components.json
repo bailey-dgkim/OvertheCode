@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 2,
+  "id": "frontend-components",
+  "partId": "frontend",
+  "order": 1,
+  "status": "draft",
+  "title": "구상한 화면은 코드 어디에 존재할까?",
+  "description": "AI가 만든 주문 화면에서 사용자에게 보이는 요소와 그것을 그리는 Component를 연결합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "디자인과 실제 실행되는 화면은 무엇이 다른가?",
+  "mission": "AI가 만든 주문 화면에서 사용자에게 보이는 요소와 그것을 그리는 Component를 연결합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "dom",
+      "frontend",
+      "component"
+    ],
+    "relatedNodeIds": [
+      "user",
+      "browser",
+      "frontend-state",
+      "api-client"
+    ],
+    "activeEdgeIds": [
+      "browser-to-frontend",
+      "frontend-to-component",
+      "component-to-dom",
+      "component-to-state"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "React",
+    "Component",
+    "DOM"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}
