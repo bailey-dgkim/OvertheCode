@@ -71,7 +71,7 @@ function PartDetail() {
         <div>
           <p className="cv2-eyebrow">Part {part.order}</p>
           <h1 id="part-title">{part.title}</h1>
-          <p>{part.goal}</p>
+          <p>{part.realization}</p>
         </div>
 
         <aside className="cv2-part-hero__map" aria-label="대표 시스템 영역">
@@ -83,6 +83,62 @@ function PartDetail() {
           </div>
         </aside>
       </section>
+
+      <section className="cv2-part-context" aria-labelledby="part-question-title">
+        <div className="cv2-part-context__question">
+          <p className="cv2-eyebrow">Core Question</p>
+          <h2 id="part-question-title">{part.question}</h2>
+        </div>
+
+        <div className="cv2-part-context__details">
+          <section className="cv2-part-context__row" aria-labelledby="part-scope-title">
+            <h3 id="part-scope-title">교육 범위</h3>
+            <ol className="cv2-part-scope">
+              {part.scope.map((item, index) => (
+                <li key={item}>
+                  <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  {item}
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          <section className="cv2-part-context__row" aria-labelledby="part-existing-title">
+            <h3 id="part-existing-title">이미 가진 역량과 연결</h3>
+            <p>{part.existingCompetency}</p>
+          </section>
+
+          <section className="cv2-part-context__row" aria-labelledby="part-outcome-title">
+            <h3 id="part-outcome-title">이 Part를 마치면</h3>
+            <p>{part.outcome}</p>
+          </section>
+        </div>
+      </section>
+
+      {part.memory && (
+        <section className="cv2-memory-design" aria-labelledby="memory-design-title">
+          <div className="cv2-memory-design__intro">
+            <p className="cv2-eyebrow">Learning Design</p>
+            <h2 id="memory-design-title">{part.memory.title}</h2>
+            <p>{part.memory.copy}</p>
+          </div>
+
+          <div className="cv2-memory-design__body">
+            <div className="cv2-memory-design__rule">
+              <strong>학습 규칙</strong>
+              <p>{part.memory.rule}</p>
+            </div>
+            <ol>
+              {part.memory.items.map((item, index) => (
+                <li key={item}>
+                  <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  <p>{item}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      )}
 
       <section aria-labelledby="chapter-list-title">
         <div className="cv2-section-heading">
