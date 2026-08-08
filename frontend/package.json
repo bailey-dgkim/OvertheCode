@@ -8,6 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "validate:cases": "node scripts/validate-cases.mjs",
+    "validate:content": "node scripts/validate-v2-content.mjs",
+    "test:content-validator": "node --test scripts/validate-v2-content.test.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
