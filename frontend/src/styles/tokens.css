@@ -1,0 +1,68 @@
+/**
+ * 디자인 토큰.
+ * 엔터프라이즈 교육 서비스 톤 — 밝은 배경, 파란색 강조, 차분한 대비.
+ */
+:root {
+  /* 강조 */
+  --brand-50: #eff6ff;
+  --brand-100: #dbeafe;
+  --brand-500: #3b82f6;
+  --brand-600: #2563eb;
+  --brand-700: #1d4ed8;
+
+  /* 피드백 */
+  --success-50: #f0fdf4;
+  --success-200: #bbf7d0;
+  --success-600: #16a34a;
+  --success-700: #15803d;
+
+  --danger-50: #fef2f2;
+  --danger-200: #fecaca;
+  --danger-600: #dc2626;
+  --danger-700: #b91c1c;
+
+  --warning-50: #fff7ed;
+  --warning-200: #fed7aa;
+  --warning-600: #ea580c;
+
+  /* 계층 배지 */
+  --layer-frontend: #2563eb;
+  --layer-frontend-bg: #eff6ff;
+  --layer-backend: #7c3aed;
+  --layer-backend-bg: #f5f3ff;
+  --layer-database: #16a34a;
+  --layer-database-bg: #f0fdf4;
+  --layer-operation: #ea580c;
+  --layer-operation-bg: #fff7ed;
+
+  /* 표면 */
+  --canvas: #f8fafc;
+  --surface: #ffffff;
+  --surface-muted: #f1f5f9;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  /* 텍스트 */
+  --text: #334155;
+  --text-strong: #0f172a;
+  --text-muted: #64748b;
+  --text-on-brand: #ffffff;
+
+  /* 레이아웃 */
+  --content-max: 840px;
+  --onboarding-max: 760px;
+  --list-max: 1080px;
+
+  /* 형태 */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+
+  /* 타이포 */
+  --sans: system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo',
+    'Noto Sans KR', Roboto, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+}

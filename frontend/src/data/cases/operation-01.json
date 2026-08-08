@@ -1,0 +1,246 @@
+{
+  "id": "operation-01",
+  "steps": [
+    {
+      "id": "intro",
+      "type": "mission",
+      "label": "Mission",
+      "mission": "딜러가 차량 모델, 고객 정보, 딜러 코드, 계약 금액을 입력한 뒤 저장 버튼을 눌러 주문을 등록하는 기능이 운영 중입니다.",
+      "problem": "한 사용자가 저장 버튼을 빠르게 두 번 눌렀고, 동일한 주문이 두 건 생성되었습니다.",
+      "question": "어떻게 해결할 수 있을까요?",
+      "actionLabel": "문제 해결 시작"
+    },
+    {
+      "id": "question-1",
+      "type": "quiz",
+      "label": "질문 1",
+      "question": "가장 먼저 적용할 수 있는 조치는 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "저장 버튼을 누르면 처리 완료 전까지 버튼을 비활성화한다" },
+        { "id": "B", "text": "DB 서버의 사양을 높인다" },
+        { "id": "C", "text": "저장 버튼의 색상을 변경한다" },
+        { "id": "D", "text": "주문 테이블을 삭제하고 다시 만든다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "좋은 시작입니다",
+        "description": "저장 버튼을 비활성화하면 사용자가 연속으로 클릭해 같은 요청을 여러 번 보내는 상황을 줄일 수 있습니다.",
+        "keywords": ["UI 상태", "중복 클릭", "중복 요청"],
+        "note": "하지만 이것만으로 문제를 완전히 해결할 수는 없습니다. 브라우저 요청은 조작될 수 있고, 네트워크 오류로 클라이언트가 같은 요청을 다시 보낼 수도 있습니다. 이 문제에서 얻어가야 할 것은 "
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "현재 문제는 서버 성능이나 화면 색상이 아니라 동일한 저장 요청이 여러 번 전달되는 문제입니다."
+      }
+    },
+    {
+      "id": "question-2",
+      "type": "quiz",
+      "label": "질문 2",
+      "situation": "프론트에서 저장 버튼을 비활성화했습니다. 그런데 네트워크 응답이 지연되었고, 클라이언트가 같은 저장 요청을 다시 전송했습니다.",
+      "question": "서버에서는 어떤 처리가 필요할까요?",
+      "choices": [
+        { "id": "A", "text": "같은 요청 ID가 이미 처리되었는지 확인한다" },
+        { "id": "B", "text": "CSS 파일을 수정한다" },
+        { "id": "C", "text": "브라우저 캐시를 삭제한다" },
+        { "id": "D", "text": "사용자를 강제로 로그아웃시킨다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "서버에서도 중복 요청을 구분해야 합니다",
+        "description": "각 저장 요청에 고유한 요청 ID를 부여하고, 이미 처리한 요청 ID라면 같은 주문을 다시 생성하지 않도록 합니다.",
+        "keywords": ["멱등성", "Idempotency Key", "Retry", "서버 검증"],
+        "detail": {
+          "title": "멱등성이란",
+          "body": "같은 요청을 여러 번 실행하더라도 최종 결과가 한 번 실행한 것과 동일하도록 만드는 성질입니다.",
+          "example": "동일한 주문 저장 요청이 세 번 들어와도 주문은 한 건만 생성되어야 합니다."
+        }
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "현재 문제는 서버 성능이나 화면 색상이 아니라 동일한 저장 요청이 여러 번 전달되는 문제입니다."
+      }
+    },
+    {
+      "id": "question-3",
+      "type": "quiz",
+      "label": "질문 3",
+      "situation": "서버에서 주문번호 중복 여부를 먼저 조회한 뒤 저장하도록 구현했습니다. 그런데 두 요청이 거의 동시에 도착했고, 두 요청 모두 중복 조회 시점에는 주문이 없다고 판단했습니다. 결국 두 요청이 모두 INSERT를 실행했습니다.",
+      "question": "이 문제를 최종적으로 막기 위한 가장 적절한 방법은 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "주문번호 컬럼에 DB Unique Constraint를 설정한다" },
+        { "id": "B", "text": "버튼의 글자 크기를 줄인다" },
+        { "id": "C", "text": "서버를 매번 재시작한다" },
+        { "id": "D", "text": "로그 파일을 삭제한다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "DB를 최종 방어선으로 사용합니다",
+        "description": "두 요청이 거의 동시에 실행되면 애플리케이션의 사전 중복 검사를 둘 다 통과할 수 있습니다. DB Unique Constraint는 실제 저장 시점에 같은 주문번호가 중복 저장되는 것을 차단합니다.",
+        "keywords": [
+          "Race Condition",
+          "동시성",
+          "Unique Constraint",
+          "데이터 무결성",
+          "DB 최종 방어선"
+        ],
+        "note": "프론트의 버튼 비활성화는 사용자 실수를 줄이고, 백엔드의 요청 ID 검증은 중복 요청을 제어하며, DB Unique Constraint는 동시에 실행되는 요청까지 최종 차단합니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "현재 문제는 서버 성능이나 화면 색상이 아니라 동일한 저장 요청이 여러 번 전달되는 문제입니다."
+      }
+    },
+    {
+      "id": "solution",
+      "type": "solution",
+      "label": "최종 해결안",
+      "title": "중복 저장은 여러 계층에서 함께 막습니다",
+      "description": "세 질문에서 확인한 조치를 요청이 흐르는 순서대로 정리했습니다.",
+      "flow": [
+        {
+          "layer": "frontend",
+          "layerLabel": "Frontend",
+          "action": "저장 버튼 클릭 후 처리 완료 전까지 비활성화",
+          "solves": "사용자의 빠른 연속 클릭",
+          "keywords": ["UI State", "Duplicate Click"]
+        },
+        {
+          "layer": "frontend",
+          "layerLabel": "Request",
+          "action": "각 저장 요청에 고유한 Idempotency Key 부여",
+          "solves": "네트워크 재시도와 동일 요청 재전송",
+          "keywords": ["Idempotency", "Retry"]
+        },
+        {
+          "layer": "backend",
+          "layerLabel": "Backend Service",
+          "action": "이미 처리한 요청 ID인지 확인하고, 이미 처리되었다면 기존 결과 반환",
+          "solves": "동일 요청의 반복 처리",
+          "keywords": ["Server Validation", "Business Logic"]
+        },
+        {
+          "layer": "database",
+          "layerLabel": "Database",
+          "action": "주문번호 또는 업무상 유일해야 하는 컬럼에 Unique Constraint 설정",
+          "solves": "두 요청이 동시에 중복 검사를 통과하는 Race Condition",
+          "keywords": ["Concurrency", "Unique Constraint", "Data Integrity"]
+        },
+        {
+          "layer": "operation",
+          "layerLabel": "Operation",
+          "action": "중복 저장 시도와 DB 제약조건 오류를 로그로 남기고 모니터링",
+          "solves": "운영 중 반복 발생 여부와 공격·오류 탐지",
+          "keywords": ["Logging", "Monitoring", "Audit"]
+        }
+      ],
+      "summary": [
+        "중복 저장 문제는 한 계층만 수정해서 완전히 해결할 수 없습니다.",
+        "프론트는 사용자 실수를 줄이고, 백엔드는 같은 요청을 구분하며, DB는 동시 요청을 최종 차단하고, 운영 모니터링은 문제가 다시 발생하는지 추적합니다."
+      ]
+    },
+    {
+      "id": "mapping",
+      "type": "mapping",
+      "label": "키워드 매핑",
+      "title": "조치와 기술 키워드 연결",
+      "description": "내가 선택한 조치가 실제로 어떤 개념을 사용한 것인지 확인합니다.",
+      "mappings": [
+        {
+          "action": "저장 버튼 비활성화",
+          "keywords": ["UI 상태", "중복 클릭"],
+          "solves": "사용자의 연속 클릭으로 같은 요청이 여러 번 발생하는 문제",
+          "layer": "frontend",
+          "layerLabel": "Frontend",
+          "why": "프론트엔드의 1차 방어로 불필요한 중복 요청 자체를 줄입니다."
+        },
+        {
+          "action": "Idempotency Key 생성",
+          "keywords": ["멱등성", "재시도"],
+          "solves": "네트워크 지연과 재전송으로 같은 요청이 다시 도착하는 문제",
+          "layer": "frontend",
+          "layerLabel": "Frontend",
+          "why": "동일 요청을 식별할 수 있어야 서버가 반복 처리를 피할 수 있습니다."
+        },
+        {
+          "action": "Service 요청 ID 검증",
+          "keywords": ["서버 검증", "업무 로직"],
+          "solves": "이미 처리한 요청이 다시 실행되는 문제",
+          "layer": "backend",
+          "layerLabel": "Backend",
+          "why": "중복 판단은 조작 가능한 화면이 아니라 서버의 업무 로직에서 해야 합니다."
+        },
+        {
+          "action": "DB Unique Constraint",
+          "keywords": ["동시성", "Race Condition", "데이터 무결성"],
+          "solves": "두 요청이 동시에 중복 검사를 통과해 모두 INSERT하는 문제",
+          "layer": "database",
+          "layerLabel": "Database",
+          "why": "애플리케이션 검사를 통과하더라도 저장 시점에 DB가 최종 차단합니다."
+        },
+        {
+          "action": "로그와 알람",
+          "keywords": ["Monitoring", "Audit", "운영 추적"],
+          "solves": "같은 문제가 운영에서 반복 발생하는지 알 수 없는 상태",
+          "layer": "operation",
+          "layerLabel": "Operation",
+          "why": "재발을 사용자 신고 전에 감지하고 원인을 추적할 수 있게 합니다."
+        }
+      ]
+    },
+    {
+      "id": "concepts",
+      "type": "concepts",
+      "label": "개념 복습",
+      "title": "이번 미션에서 사용한 개념",
+      "description": "문제를 풀며 등장한 개념을 정리합니다.",
+      "conceptRefs": [
+        { "id": "idempotency", "usedAt": "질문 2 — 서버의 요청 ID 검증" },
+        { "id": "race-condition", "usedAt": "질문 3 — 동시 도착한 두 요청" },
+        { "id": "unique-constraint", "usedAt": "질문 3 — DB 최종 방어선" },
+        { "id": "data-integrity", "usedAt": "최종 해결안 — Database 계층" },
+        { "id": "defense-in-depth", "usedAt": "최종 해결안 — 전체 흐름" }
+      ]
+    },
+    {
+      "id": "transfer",
+      "type": "quiz",
+      "label": "응용 문제",
+      "situation": "결제 API 호출 후 응답이 늦어 클라이언트가 동일한 결제 요청을 다시 전송했습니다.",
+      "question": "같은 결제가 두 번 처리되지 않게 하려면 가장 핵심적으로 적용해야 하는 개념은 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "멱등성 키를 사용해 동일 결제 요청을 식별한다" },
+        { "id": "B", "text": "결제 버튼의 색상을 변경한다" },
+        { "id": "C", "text": "서버 로그를 모두 삭제한다" },
+        { "id": "D", "text": "사용자의 비밀번호를 변경한다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "다른 도메인에도 그대로 적용됩니다",
+        "description": "주문 저장 문제에서 배운 멱등성은 결제, 쿠폰 발급, 포인트 적립처럼 중복 실행되면 안 되는 기능에도 적용할 수 있습니다.",
+        "keywords": ["멱등성", "Idempotency Key", "재시도"]
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "응답 지연으로 같은 요청이 다시 도착한 상황입니다. 요청을 식별해 한 번만 처리하는 방법을 떠올려보세요."
+      }
+    },
+    {
+      "id": "complete",
+      "type": "complete",
+      "label": "미션 완료",
+      "title": "운영 케이스 01 완료",
+      "learnedConcepts": [
+        "멱등성",
+        "중복 요청",
+        "Race Condition",
+        "Unique Constraint",
+        "데이터 무결성",
+        "다층 방어",
+        "Logging",
+        "Monitoring"
+      ],
+      "badge": "중복 저장 해결사"
+    }
+  ]
+}

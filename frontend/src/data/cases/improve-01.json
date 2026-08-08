@@ -1,0 +1,137 @@
+{
+  "id": "improve-01",
+  "steps": [
+    {
+      "id": "intro",
+      "type": "mission",
+      "label": "Mission",
+      "mission": "당신은 딜러 포탈 프론트엔드를 맡게 되었습니다. 지금 주문 폼에는 차량 모델과 계약 금액만 입력할 수 있습니다.",
+      "problem": "기획자가 요청합니다. \"주문 폼의 '차량 모델'과 '계약 금액' 사이에 '배송 지역' 선택을 하나 추가해 주세요.\"",
+      "question": "화면은 보이는데, 이걸 코드 어디에서 고쳐야 할까요?",
+      "actionLabel": "코드 찾으러 가기"
+    },
+    {
+      "id": "locate-file",
+      "type": "locate-file",
+      "label": "1단계 · 어느 파일",
+      "question": "'배송 지역'을 추가할 파일은 어느 것일까요?",
+      "hint": "주문을 입력하는 화면을 그리는 파일을 찾으세요.",
+      "correctPath": "frontend/components/OrderForm.jsx",
+      "files": [
+        {
+          "path": "frontend/api/orderApi.js",
+          "layer": "frontend",
+          "role": "백엔드와 통신하는 코드. 화면을 그리지 않습니다.",
+          "feedback": "여기는 백엔드로 주문을 보내는 통로예요. 화면에 무언가를 그리는 곳이 아닙니다. 프론트엔드 코드지만 UI는 없어요."
+        },
+        {
+          "path": "frontend/components/OrderForm.jsx",
+          "layer": "frontend",
+          "role": "주문을 입력하는 폼 화면.",
+          "feedback": null
+        },
+        {
+          "path": "frontend/components/OrderCard.jsx",
+          "layer": "frontend",
+          "role": "저장된 주문 하나를 보여주는 카드.",
+          "feedback": "여기는 이미 저장된 주문을 '보여주는' 화면이에요. 우리가 고칠 건 주문을 '입력하는' 화면입니다."
+        },
+        {
+          "path": "frontend/components/OrderList.jsx",
+          "layer": "frontend",
+          "role": "주문들을 목록으로 보여주는 화면.",
+          "feedback": "여기는 주문 목록이에요. 입력 폼이 아닙니다. 이름에 Form이 들어간 파일을 찾아보세요."
+        },
+        {
+          "path": "frontend/App.jsx",
+          "layer": "frontend",
+          "role": "화면들을 조립하는 최상위 파일.",
+          "feedback": "여기는 화면들을 끼워 맞추는 곳이지, 폼의 내부를 그리는 곳은 아니에요."
+        }
+      ]
+    },
+    {
+      "id": "locate-code",
+      "type": "locate-code",
+      "label": "2단계 · 코드 어디에",
+      "question": "'차량 모델'과 '계약 금액' 사이에 넣으려면 코드의 어느 자리를 클릭해야 할까요?",
+      "fileName": "frontend/components/OrderForm.jsx",
+      "language": "jsx",
+      "lines": [
+        "import { useState } from \"react\";",
+        "import { createOrder } from \"../api/orderApi\";",
+        "",
+        "function OrderForm() {",
+        "  const [model, setModel] = useState(\"\");",
+        "  const [amount, setAmount] = useState(\"\");",
+        "",
+        "  const handleSubmit = (e) => {",
+        "    e.preventDefault();",
+        "    createOrder({ model, amount });",
+        "  };",
+        "",
+        "  return (",
+        "    <form onSubmit={handleSubmit}>",
+        "      <label>차량 모델</label>",
+        "      <input value={model} onChange={(e) => setModel(e.target.value)} />",
+        "",
+        "      <label>계약 금액</label>",
+        "      <input value={amount} onChange={(e) => setAmount(e.target.value)} />",
+        "",
+        "      <button type=\"submit\">저장</button>",
+        "    </form>",
+        "  );",
+        "}",
+        "",
+        "export default OrderForm;"
+      ],
+      "gaps": [
+        {
+          "id": "g1",
+          "afterLine": 8,
+          "correct": false,
+          "feedback": "여기는 자바스크립트 로직이에요(handleSubmit). 화면에 보이는 요소는 아래 return 안에 들어갑니다."
+        },
+        {
+          "id": "g2",
+          "afterLine": 14,
+          "correct": false,
+          "feedback": "폼 안이긴 한데 맨 위예요. 미션은 '차량 모델'과 '계약 금액' 사이입니다. 차량 모델 항목보다 아래여야 해요."
+        },
+        {
+          "id": "g3",
+          "afterLine": 16,
+          "correct": true,
+          "feedback": "정확합니다. 차량 모델 입력이 끝나고 계약 금액이 시작되기 직전, 바로 이 자리입니다."
+        },
+        {
+          "id": "g4",
+          "afterLine": 19,
+          "correct": false,
+          "feedback": "여기도 폼 안이지만 '계약 금액' 아래예요. '차량 모델'과 '계약 금액' 사이를 다시 찾아보세요."
+        },
+        {
+          "id": "g5",
+          "afterLine": 21,
+          "correct": false,
+          "feedback": "저장 버튼 뒤예요. 입력 항목들은 보통 버튼 위에 모읍니다."
+        },
+        {
+          "id": "g6",
+          "afterLine": 22,
+          "correct": false,
+          "feedback": "</form> 바깥이에요. 화면 요소는 <form> 안에 있어야 합니다."
+        }
+      ]
+    },
+    {
+      "id": "complete",
+      "type": "complete",
+      "label": "완료",
+      "title": "코드에서 자리를 찾았습니다",
+      "message": "화면에 보이는 '차량 모델'과 '계약 금액'이 코드에서는 <label>과 <input>이었습니다. 그 사이를 찾아낸 것이, 실제로 배송 지역을 추가할 때 코드를 넣을 바로 그 자리입니다. 화면에 보이는 모든 것은 코드 어딘가에 이렇게 적혀 있습니다.",
+      "learnedConcepts": ["화면과 코드의 연결", "컴포넌트 파일 찾기", "JSX 구조 읽기"],
+      "badge": "코드 길찾기 입문"
+    }
+  ]
+}
