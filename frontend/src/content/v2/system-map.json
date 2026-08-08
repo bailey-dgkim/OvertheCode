@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "groups": [
+    { "id": "client", "label": "사용자·클라이언트", "order": 1 },
+    { "id": "ingress", "label": "네트워크·진입", "order": 2 },
+    { "id": "runtime", "label": "서버·실행 환경", "order": 3 },
+    { "id": "application", "label": "애플리케이션", "order": 4 },
+    { "id": "data", "label": "데이터 계층", "order": 5 },
+    { "id": "async", "label": "메시지·백그라운드", "order": 6 },
+    { "id": "external", "label": "외부 시스템", "order": 7 },
+    { "id": "delivery", "label": "빌드·배포", "order": 8 },
+    { "id": "observability", "label": "관측", "order": 9 },
+    { "id": "recovery", "label": "복구", "order": 10 }
+  ],
+  "nodes": [
+    { "id": "browser", "groupId": "client", "label": "Browser" },
+    { "id": "frontend", "groupId": "client", "label": "Frontend" },
+
+    { "id": "dns", "groupId": "ingress", "label": "DNS" },
+    { "id": "cdn", "groupId": "ingress", "label": "CDN" },
+    { "id": "tls", "groupId": "ingress", "label": "TLS" },
+    { "id": "load-balancer", "groupId": "ingress", "label": "Load Balancer" },
+
+    { "id": "environment-variable", "groupId": "runtime", "label": "Environment Variable" },
+    { "id": "container", "groupId": "runtime", "label": "Container" },
+    { "id": "runtime", "groupId": "runtime", "label": "Runtime" },
+    { "id": "process", "groupId": "runtime", "label": "Process" },
+    { "id": "memory", "groupId": "runtime", "label": "Memory" },
+    { "id": "port", "groupId": "runtime", "label": "Port" },
+    { "id": "health-check", "groupId": "runtime", "label": "Health Check" },
+    { "id": "application-instance", "groupId": "runtime", "label": "Application Instance" },
+
+    { "id": "controller", "groupId": "application", "label": "Controller" },
+    { "id": "service", "groupId": "application", "label": "Service" },
+    { "id": "repository", "groupId": "application", "label": "Repository" },
+    { "id": "authentication", "groupId": "application", "label": "Authentication" },
+    { "id": "authorization", "groupId": "application", "label": "Authorization" },
+
+    { "id": "database-primary", "groupId": "data", "label": "Database Primary" },
+    { "id": "database-replica", "groupId": "data", "label": "Database Replica" },
+    { "id": "redis", "groupId": "data", "label": "Redis Cache · Session" },
+    { "id": "object-storage", "groupId": "data", "label": "Object Storage" },
+
+    { "id": "message-queue", "groupId": "async", "label": "Message Queue" },
+    { "id": "worker", "groupId": "async", "label": "Worker" },
+    { "id": "scheduler", "groupId": "async", "label": "Scheduler" },
+    { "id": "batch-job", "groupId": "async", "label": "Batch Job" },
+
+    { "id": "external-api", "groupId": "external", "label": "External API" },
+
+    { "id": "source-code", "groupId": "delivery", "label": "Source Code" },
+    { "id": "build", "groupId": "delivery", "label": "Build" },
+    { "id": "ci-cd", "groupId": "delivery", "label": "CI/CD" },
+    { "id": "deployment", "groupId": "delivery", "label": "Deployment" },
+
+    { "id": "logs", "groupId": "observability", "label": "Logs" },
+    { "id": "metrics", "groupId": "observability", "label": "Metrics" },
+    { "id": "traces", "groupId": "observability", "label": "Traces" },
+
+    { "id": "backup", "groupId": "recovery", "label": "Backup" },
+    { "id": "restore", "groupId": "recovery", "label": "Restore" }
+  ],
+  "edges": [
+    { "id": "browser-to-frontend", "from": "browser", "to": "frontend" },
+    { "id": "frontend-to-dns", "from": "frontend", "to": "dns" },
+    { "id": "dns-to-cdn", "from": "dns", "to": "cdn" },
+    { "id": "cdn-to-load-balancer", "from": "cdn", "to": "load-balancer" },
+    { "id": "load-balancer-to-application", "from": "load-balancer", "to": "application-instance" },
+    { "id": "application-to-controller", "from": "application-instance", "to": "controller" },
+    { "id": "controller-to-service", "from": "controller", "to": "service" },
+    { "id": "service-to-repository", "from": "service", "to": "repository" },
+    { "id": "repository-to-database", "from": "repository", "to": "database-primary" },
+    { "id": "service-to-redis", "from": "service", "to": "redis" },
+    { "id": "service-to-queue", "from": "service", "to": "message-queue" },
+    { "id": "queue-to-worker", "from": "message-queue", "to": "worker" },
+    { "id": "worker-to-external-api", "from": "worker", "to": "external-api" },
+    { "id": "scheduler-to-batch", "from": "scheduler", "to": "batch-job" },
+    { "id": "source-to-build", "from": "source-code", "to": "build" },
+    { "id": "build-to-container", "from": "build", "to": "container" },
+    { "id": "container-to-runtime", "from": "container", "to": "runtime" },
+    { "id": "environment-to-runtime", "from": "environment-variable", "to": "runtime" },
+    { "id": "runtime-to-process", "from": "runtime", "to": "process" },
+    { "id": "process-to-port", "from": "process", "to": "port" },
+    { "id": "health-check-to-process", "from": "health-check", "to": "process" },
+    { "id": "ci-to-deployment", "from": "ci-cd", "to": "deployment" },
+    { "id": "database-to-replica", "from": "database-primary", "to": "database-replica" },
+    { "id": "database-to-backup", "from": "database-primary", "to": "backup" },
+    { "id": "backup-to-restore", "from": "backup", "to": "restore" }
+  ]
+}
