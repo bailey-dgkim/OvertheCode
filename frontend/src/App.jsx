@@ -57,7 +57,7 @@ function App() {
               <PlaceholderScreen
                 eyebrow="Final Project"
                 title="AI가 만든 서비스를 엔지니어링하기"
-                description="다섯 Part의 학습을 하나의 시스템에 적용하는 종합 프로젝트입니다."
+                description="여덟 Part의 학습을 하나의 시스템에 적용하는 종합 프로젝트입니다."
               />
             )}
           />

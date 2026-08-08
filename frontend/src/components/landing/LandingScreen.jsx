@@ -96,7 +96,7 @@ function LandingScreen({ onStart }) {
         <div className="ld-inner">
           <Reveal>
             <h2 className="ld-tracks__title">
-              다섯 Part로 시스템 전체를 배웁니다
+              Part 0에서 Part 8까지 시스템 전체를 배웁니다
             </h2>
             <p className="ld-tracks__intro">
               하나의 서비스가 만들어지고 운영될 때까지, 순서대로 연결해서 살펴봅니다.

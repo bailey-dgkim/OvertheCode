@@ -1,16 +1,22 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "id": "runtime-basics",
-  "partId": "read-system",
+  "partId": "runtime",
   "order": 1,
   "status": "draft",
-  "title": "코드가 프로그램이 되는 과정",
-  "description": "AI가 만든 코드가 실행 중인 서비스가 되기까지 필요한 조건을 추적합니다.",
+  "title": "코드와 실행 중인 프로그램은 무엇이 다를까?",
+  "description": "터미널을 닫자 사라진 서비스를 통해 파일과 실행 중인 프로세스를 구분합니다.",
   "estimatedMinutes": 40,
-  "coreQuestion": "AI가 만들어준 코드는 어떻게 실행 중인 서비스가 되는가?",
+  "coreQuestion": "파일이 존재하는데 왜 서비스는 동작하지 않는가?",
+  "mission": "터미널을 닫자 사라진 서비스를 통해 파일과 실행 중인 프로세스를 구분합니다.",
   "incident": "터미널을 닫자 조금 전까지 접속되던 서비스가 사라졌습니다.",
   "map": {
-    "primaryNodeIds": ["source-code", "build", "runtime", "process"],
+    "primaryNodeIds": [
+      "source-code",
+      "build",
+      "runtime",
+      "process"
+    ],
     "relatedNodeIds": [
       "environment-variable",
       "memory",
@@ -33,16 +39,17 @@
     "프로그램을 실행하는 데 필요한 환경과 설정을 찾습니다.",
     "프로세스, 메모리, 포트의 관계를 설명합니다."
   ],
+  "outlineConcepts": [
+    "Source Code",
+    "Runtime",
+    "Program",
+    "Process",
+    "PID"
+  ],
   "conceptRefs": [
     "source-code",
-    "build",
     "runtime",
-    "process",
-    "memory",
-    "port",
-    "environment-variable",
-    "container",
-    "health-check"
+    "process"
   ],
   "steps": [],
   "completionPrompt": "이 서비스가 실행되기 위해 필요한 조건을 설명하세요."

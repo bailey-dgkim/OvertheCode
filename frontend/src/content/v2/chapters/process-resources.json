@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 2,
+  "id": "process-resources",
+  "partId": "runtime",
+  "order": 2,
+  "status": "draft",
+  "title": "프로세스 안에서는 무엇이 일어날까?",
+  "description": "대용량 파일을 한 번에 읽어 Heap이 가득 차는 상황을 분석합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "요청을 여러 개 받으면 CPU와 메모리는 어떻게 사용되는가?",
+  "mission": "대용량 파일을 한 번에 읽어 Heap이 가득 차는 상황을 분석합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "process",
+      "thread",
+      "memory"
+    ],
+    "relatedNodeIds": [
+      "runtime"
+    ],
+    "activeEdgeIds": [
+      "runtime-to-process",
+      "process-to-thread",
+      "process-to-memory"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Thread",
+    "Stack",
+    "Heap",
+    "Garbage Collection",
+    "Resource"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

@@ -1,6 +1,7 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "groups": [
+    { "id": "workspace", "label": "개발 작업 공간", "order": 0 },
     { "id": "client", "label": "사용자·클라이언트", "order": 1 },
     { "id": "ingress", "label": "네트워크·진입", "order": 2 },
     { "id": "runtime", "label": "서버·실행 환경", "order": 3 },
@@ -13,6 +14,11 @@
     { "id": "recovery", "label": "복구", "order": 10 }
   ],
   "nodes": [
+    { "id": "project-folder", "groupId": "workspace", "label": "Project Folder" },
+    { "id": "editor", "groupId": "workspace", "label": "Editor" },
+    { "id": "terminal", "groupId": "workspace", "label": "Terminal" },
+    { "id": "current-path", "groupId": "workspace", "label": "Current Path" },
+
     { "id": "browser", "groupId": "client", "label": "Browser" },
     { "id": "frontend", "groupId": "client", "label": "Frontend" },
 
@@ -25,8 +31,10 @@
     { "id": "container", "groupId": "runtime", "label": "Container" },
     { "id": "runtime", "groupId": "runtime", "label": "Runtime" },
     { "id": "process", "groupId": "runtime", "label": "Process" },
+    { "id": "thread", "groupId": "runtime", "label": "Thread" },
     { "id": "memory", "groupId": "runtime", "label": "Memory" },
     { "id": "port", "groupId": "runtime", "label": "Port" },
+    { "id": "ec2", "groupId": "runtime", "label": "EC2" },
     { "id": "health-check", "groupId": "runtime", "label": "Health Check" },
     { "id": "application-instance", "groupId": "runtime", "label": "Application Instance" },
 
@@ -61,6 +69,13 @@
     { "id": "restore", "groupId": "recovery", "label": "Restore" }
   ],
   "edges": [
+    { "id": "project-folder-to-source", "from": "project-folder", "to": "source-code" },
+    { "id": "editor-to-source", "from": "editor", "to": "source-code" },
+    { "id": "current-path-to-terminal", "from": "current-path", "to": "terminal" },
+    { "id": "terminal-to-process", "from": "terminal", "to": "process" },
+    { "id": "process-to-thread", "from": "process", "to": "thread" },
+    { "id": "process-to-memory", "from": "process", "to": "memory" },
+    { "id": "ec2-to-runtime", "from": "ec2", "to": "runtime" },
     { "id": "browser-to-frontend", "from": "browser", "to": "frontend" },
     { "id": "frontend-to-dns", "from": "frontend", "to": "dns" },
     { "id": "dns-to-cdn", "from": "dns", "to": "cdn" },

@@ -2,13 +2,19 @@ import { Link, useParams } from 'react-router-dom';
 import { curriculumRepository } from '../../content/v2';
 import NotFoundScreen from './NotFoundScreen';
 
-function ChapterCard({ chapter }) {
+function ChapterCard({ chapter, unitLabel }) {
   const available = chapter.status === 'available';
+  const duration = typeof chapter.estimatedMinutes === 'number'
+    ? chapter.estimatedMinutes + '분'
+    : '예상 시간 미정';
+  const objectiveSummary = chapter.learningObjectives.length > 0
+    ? chapter.learningObjectives.length + '개 학습 목표'
+    : '학습 목표 정리 중';
 
   return (
     <Link className="cv2-chapter-card" to={'/chapters/' + chapter.id}>
       <div className="cv2-chapter-card__number">
-        <span>Chapter</span>
+        <span>{unitLabel}</span>
         <strong>{String(chapter.order).padStart(2, '0')}</strong>
       </div>
 
@@ -21,9 +27,9 @@ function ChapterCard({ chapter }) {
         </div>
         <p>{chapter.description}</p>
         <div className="cv2-chapter-card__meta">
-          <span>{chapter.estimatedMinutes}분</span>
+          <span>{duration}</span>
           <span aria-hidden="true">·</span>
-          <span>{chapter.learningObjectives.length}개 학습 목표</span>
+          <span>{objectiveSummary}</span>
         </div>
       </div>
 
@@ -51,6 +57,7 @@ function PartDetail() {
   const representativeNodes = part.representativeNodeIds
     .map((nodeId) => nodeById.get(nodeId))
     .filter(Boolean);
+  const unitObject = part.unitLabel === '설명' ? '설명을' : part.unitLabel + '를';
 
   return (
     <div className="cv2-container cv2-page">
@@ -80,16 +87,16 @@ function PartDetail() {
       <section aria-labelledby="chapter-list-title">
         <div className="cv2-section-heading">
           <div>
-            <p className="cv2-eyebrow">Chapters</p>
-            <h2 id="chapter-list-title">{chapters.length}개 Chapter</h2>
+            <p className="cv2-eyebrow">Contents</p>
+            <h2 id="chapter-list-title">{chapters.length}개 {part.unitLabel}</h2>
           </div>
-          <p>순서대로 살펴보되 언제든 원하는 Chapter를 열 수 있습니다.</p>
+          <p>순서대로 살펴보되 언제든 원하는 {unitObject} 열 수 있습니다.</p>
         </div>
 
         {chapters.length > 0 ? (
           <div className="cv2-chapter-list">
             {chapters.map((chapter) => (
-              <ChapterCard key={chapter.id} chapter={chapter} />
+              <ChapterCard key={chapter.id} chapter={chapter} unitLabel={part.unitLabel} />
             ))}
           </div>
         ) : (

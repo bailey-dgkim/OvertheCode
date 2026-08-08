@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 2,
+  "id": "source-and-process",
+  "partId": "workspace",
+  "order": 5,
+  "status": "draft",
+  "title": "파일과 실행 중인 프로그램은 다르다",
+  "description": "명령을 실행하면 Process가 시작되고 중단하면 화면이 사라지는 관계를 짧게 보여줍니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "코드 파일이 존재하는데 왜 서비스는 동작하지 않는가?",
+  "mission": "명령을 실행하면 Process가 시작되고 중단하면 화면이 사라지는 관계를 짧게 보여줍니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "source-code",
+      "process"
+    ],
+    "relatedNodeIds": [
+      "terminal",
+      "runtime"
+    ],
+    "activeEdgeIds": [
+      "terminal-to-process",
+      "runtime-to-process"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Source",
+    "Command",
+    "Process",
+    "Stop"
+  ],
+  "conceptRefs": [
+    "process"
+  ],
+  "steps": [],
+  "completionPrompt": null
+}

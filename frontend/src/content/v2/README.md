@@ -1,16 +1,19 @@
 # V2 콘텐츠 폴더
 
-이 폴더는 새 공통 엔지니어링 커리큘럼의 내용만 관리한다.
-현재 화면은 아직 이 데이터를 사용하지 않는다.
+이 폴더는 Part 0과 여덟 교육 Part로 구성된 공통 엔지니어링 커리큘럼을 관리한다.
+화면은 이 폴더의 JSON을 `curriculumRepository`를 통해 읽는다.
 
 ## 파일별 역할
 
-- `parts.json`: 다섯 Part의 이름, 순서, 목표
+- `parts.json`: Part 0과 여덟 교육 Part의 이름, 순서, 목표
 - `system-map.json`: 시스템 맵의 그룹, 노드, 연결선
 - `concepts.json`: 개념의 이름과 설명
 - `chapters/*.json`: Chapter 메타데이터, 맵 강조 영역, 학습 단계
 - `contentContract.js`: 단계와 활동 유형의 공통 이름
 - `curriculumRepository.js`: JSON을 자동으로 찾아 화면에 전달하는 통로
+- `source/eight-part-outline.json`: 첨부 HTML에서 보존한 9개 Part·46개 Chapter 원본
+- `source/node-aliases.json`: 같은 시스템 요소를 하나의 id로 합치는 표
+- `scripts/import-eight-part-curriculum.mjs`: 원본 HTML을 JSON으로 옮기는 변환기
 
 ## 지켜야 할 규칙
 
@@ -20,6 +23,7 @@
 4. 시스템 맵과 개념은 복사하지 않고 id로 참조한다.
 5. `stage`는 학습 목적, `activity.type`은 화면 동작을 뜻한다.
 6. 새 Chapter JSON은 `chapters/`에 넣으면 자동으로 발견된다.
+7. `draft` Chapter는 개요만 있어도 되지만 `available` Chapter는 시간, 목표, 개념 참조와 학습 단계를 모두 가져야 한다.
 
 ## Chapter 단계 예시
 

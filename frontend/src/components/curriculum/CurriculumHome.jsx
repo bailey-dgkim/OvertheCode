@@ -1,8 +1,15 @@
 import { Link } from 'react-router-dom';
 import { curriculumRepository } from '../../content/v2';
 
-function formatDuration(minutes) {
-  if (!minutes) return '콘텐츠 준비 중';
+function formatDuration(chapters) {
+  if (chapters.length === 0) return '콘텐츠 준비 중';
+
+  const durations = chapters
+    .map((chapter) => chapter.estimatedMinutes)
+    .filter((minutes) => typeof minutes === 'number');
+  if (durations.length !== chapters.length) return '예상 시간 정리 중';
+
+  const minutes = durations.reduce((total, duration) => total + duration, 0);
   if (minutes < 60) return minutes + '분';
 
   const hours = Math.floor(minutes / 60);
@@ -11,11 +18,6 @@ function formatDuration(minutes) {
 }
 
 function PartRow({ part, chapters, nodeLabels }) {
-  const estimatedMinutes = chapters.reduce(
-    (total, chapter) => total + chapter.estimatedMinutes,
-    0,
-  );
-
   return (
     <Link
       className={'cv2-part-card cv2-part-card--' + part.order}
@@ -39,9 +41,9 @@ function PartRow({ part, chapters, nodeLabels }) {
 
       <div className="cv2-part-card__side">
         <div className="cv2-part-card__meta">
-          <span>{chapters.length}개 Chapter</span>
+          <span>{chapters.length}개 {part.unitLabel}</span>
           <span aria-hidden="true">·</span>
-          <span>{formatDuration(estimatedMinutes)}</span>
+          <span>{formatDuration(chapters)}</span>
         </div>
 
         <div className="cv2-progress">
@@ -77,10 +79,10 @@ function CurriculumHome() {
       <section className="cv2-hero" aria-labelledby="curriculum-title">
         <div>
           <p className="cv2-eyebrow">Common Engineering Curriculum</p>
-          <h1 id="curriculum-title">시스템 전체를 읽는 다섯 Part</h1>
+          <h1 id="curriculum-title">Part 0부터 Part 8까지</h1>
           <p className="cv2-hero__description">
-            코드를 많이 쓰는 것보다, 요청이 어디로 이동하고 무엇이 실패할 수 있는지
-            설명하는 능력을 먼저 기릅니다.
+            개발 작업 공간에서 시작해 프론트엔드, 데이터, 서버, 네트워크와 운영까지
+            소프트웨어가 확장되는 순서로 배웁니다.
           </p>
         </div>
 
@@ -121,7 +123,7 @@ function CurriculumHome() {
           <p className="cv2-eyebrow">Final Project</p>
           <h2 id="final-title">AI가 만든 서비스를 엔지니어링하기</h2>
           <p>
-            다섯 Part에서 배운 내용을 하나의 시스템에 적용하는 종합 프로젝트입니다.
+            여덟 Part에서 배운 내용을 하나의 시스템에 적용하는 종합 프로젝트입니다.
           </p>
         </div>
         <Link className="cv2-button cv2-button--secondary" to="/final">

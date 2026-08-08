@@ -19,6 +19,8 @@ function ChapterEntry() {
   const part = curriculumRepository.getPart(chapter.partId);
   const systemMap = curriculumRepository.getSystemMap();
   const canStart = chapter.status === 'available' && chapter.steps.length > 0;
+  const contextLabel = chapter.incident ? '대표 실패 상황' : '실습 미션';
+  const contextText = chapter.incident ?? chapter.mission;
 
   return (
     <div className="cv2-container cv2-page">
@@ -27,14 +29,14 @@ function ChapterEntry() {
         <span aria-hidden="true">/</span>
         <Link to={'/parts/' + part.id}>Part {part.order}</Link>
         <span aria-hidden="true">/</span>
-        <span aria-current="page">Chapter {chapter.order}</span>
+        <span aria-current="page">{part.unitLabel} {chapter.order}</span>
       </nav>
 
       <section className="cv2-entry" aria-labelledby="chapter-title">
         <div className="cv2-entry__heading">
           <div>
             <p className="cv2-eyebrow">
-              Part {part.order} · Chapter {String(chapter.order).padStart(2, '0')}
+              Part {part.order} · {part.unitLabel} {String(chapter.order).padStart(2, '0')}
             </p>
             <h1 id="chapter-title">{chapter.title}</h1>
             <p>{chapter.description}</p>
@@ -48,8 +50,8 @@ function ChapterEntry() {
         </blockquote>
 
         <div className="cv2-incident">
-          <span>대표 실패 상황</span>
-          <p>{chapter.incident}</p>
+          <span>{contextLabel}</span>
+          <p>{contextText}</p>
         </div>
 
         <section className="cv2-entry__map-preview" aria-labelledby="map-preview-title">

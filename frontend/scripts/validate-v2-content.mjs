@@ -21,6 +21,7 @@ import {
 const HERE = dirname(fileURLToPath(import.meta.url));
 const DEFAULT_CONTENT_DIR = join(HERE, '..', 'src', 'content', 'v2');
 const CHAPTER_STATUS = ['draft', 'available'];
+const PART_KINDS = ['orientation', 'curriculum'];
 const REQUIRED_AVAILABLE_STAGES = [
   'orientation',
   'incident',
@@ -46,6 +47,17 @@ function requireFields(value, fields, where, fail) {
       fail(where, "'" + field + "' 누락 또는 비어 있음");
     }
   });
+}
+
+function requireArray(value, field, where, fail, { allowEmpty = false } = {}) {
+  if (!Array.isArray(value?.[field])) {
+    fail(where, "'" + field + "'는 배열이어야 함");
+    return;
+  }
+
+  if (!allowEmpty && value[field].length === 0) {
+    fail(where, "'" + field + "'가 비어 있음");
+  }
 }
 
 function validateUniqueIds(items, where, fail) {
@@ -252,17 +264,54 @@ export function validateDocuments({
   const concepts = conceptsDocument?.concepts ?? [];
 
   requireFields(partsDocument, ['parts'], 'parts.json', fail);
-  if (parts.length !== 5) fail('parts.json', 'Part가 ' + parts.length + '개 — PRD 기준 5개 필요');
+  if (parts.length !== 9) {
+    fail('parts.json', 'Part가 ' + parts.length + '개 — 새 커리큘럼 기준 9개 필요');
+  }
   validateUniqueIds(parts, 'parts.json.parts', fail);
   validateUniqueValues(parts.map((part) => part.order), 'parts.json.parts.order', fail);
   parts.forEach((part, index) => {
+    const partWhere = 'parts.json.parts[' + index + ']';
     requireFields(
       part,
-      ['id', 'order', 'title', 'goal', 'representativeNodeIds'],
-      'parts.json.parts[' + index + ']',
+      [
+        'id',
+        'order',
+        'kind',
+        'title',
+        'goal',
+        'question',
+        'realization',
+        'scope',
+        'representativeNodeIds',
+        'existingCompetency',
+        'outcome',
+        'unitLabel',
+      ],
+      partWhere,
       fail,
     );
+    if (part.kind && !PART_KINDS.includes(part.kind)) {
+      fail(partWhere, 'kind는 ' + PART_KINDS.join(' 또는 ') + '만 가능');
+    }
+    requireArray(part, 'scope', partWhere, fail);
+    requireArray(part, 'representativeNodeIds', partWhere, fail);
+
+    if (part.memory !== undefined) {
+      requireFields(part.memory, ['kind', 'title', 'copy', 'rule', 'items'], partWhere + '.memory', fail);
+      requireArray(part.memory, 'items', partWhere + '.memory', fail);
+    }
   });
+
+  const expectedPartOrders = Array.from({ length: 9 }, (_, index) => index);
+  expectedPartOrders.forEach((order) => {
+    if (!parts.some((part) => part.order === order)) {
+      fail('parts.json.parts.order', 'Part ' + order + '이 없음');
+    }
+  });
+  const orientationParts = parts.filter((part) => part.kind === 'orientation');
+  if (orientationParts.length !== 1 || orientationParts[0]?.order !== 0) {
+    fail('parts.json.parts', 'Part 0 하나만 orientation이어야 함');
+  }
 
   requireFields(systemMapDocument, ['groups', 'nodes', 'edges'], 'system-map.json', fail);
   validateUniqueIds(groups, 'system-map.json.groups', fail);
@@ -335,19 +384,31 @@ export function validateDocuments({
         'status',
         'title',
         'description',
-        'estimatedMinutes',
         'coreQuestion',
-        'incident',
+        'mission',
         'map',
-        'learningObjectives',
-        'conceptRefs',
-        'completionPrompt',
+        'outlineConcepts',
       ],
       where,
       fail,
     );
     if (!Object.hasOwn(chapter, 'steps')) {
       fail(where, "'steps' 누락");
+    }
+
+    requireArray(chapter, 'outlineConcepts', where, fail);
+    requireArray(chapter, 'learningObjectives', where, fail, { allowEmpty: true });
+    requireArray(chapter, 'conceptRefs', where, fail, { allowEmpty: true });
+
+    if (chapter.status === 'available') {
+      requireFields(
+        chapter,
+        ['estimatedMinutes', 'incident', 'learningObjectives', 'conceptRefs', 'completionPrompt'],
+        where,
+        fail,
+      );
+      requireArray(chapter, 'learningObjectives', where, fail);
+      requireArray(chapter, 'conceptRefs', where, fail);
     }
 
     const expectedId = basename(fileName, '.json');
@@ -371,7 +432,9 @@ export function validateDocuments({
     }
 
     const map = chapter.map ?? {};
-    requireFields(map, ['primaryNodeIds', 'relatedNodeIds', 'activeEdgeIds'], where + '.map', fail);
+    requireArray(map, 'primaryNodeIds', where + '.map', fail);
+    requireArray(map, 'relatedNodeIds', where + '.map', fail, { allowEmpty: true });
+    requireArray(map, 'activeEdgeIds', where + '.map', fail, { allowEmpty: true });
     const chapterNodeIds = [...(map.primaryNodeIds ?? []), ...(map.relatedNodeIds ?? [])];
     validateUniqueValues(chapterNodeIds, where + '.map node ids', fail);
     chapterNodeIds.forEach((nodeId) => {

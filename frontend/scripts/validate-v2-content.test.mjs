@@ -17,6 +17,14 @@ test('현재 V2 콘텐츠는 검증을 통과한다', () => {
   assert.deepEqual(validateDocuments(freshDocuments()), []);
 });
 
+test('Part 0부터 Part 8까지 정확히 존재한다', () => {
+  const documents = freshDocuments();
+  assert.deepEqual(
+    documents.partsDocument.parts.map((part) => part.order),
+    [0, 1, 2, 3, 4, 5, 6, 7, 8],
+  );
+});
+
 test('존재하지 않는 시스템 맵 노드를 잡는다', () => {
   const documents = freshDocuments();
   documents.chapters[0].document.map.primaryNodeIds.push('missing-node');
@@ -30,7 +38,7 @@ test('중복 Part id를 잡는다', () => {
   const documents = freshDocuments();
   documents.partsDocument.parts[1].id = documents.partsDocument.parts[0].id;
   const problems = validateDocuments(documents);
-  assert.ok(problems.some((problem) => problem.includes("id 'read-system' 중복")));
+  assert.ok(problems.some((problem) => problem.includes("id 'workspace' 중복")));
 });
 
 test('공개 Chapter에 학습 단계가 없으면 잡는다', () => {

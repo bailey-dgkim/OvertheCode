@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 2,
+  "id": "paths",
+  "partId": "workspace",
+  "order": 3,
+  "status": "draft",
+  "title": "경로는 파일과 폴더의 주소다",
+  "description": "같은 파일을 Finder의 위치와 터미널 경로로 나란히 보여줍니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "현재 폴더와 상위 폴더는 무엇인가?",
+  "mission": "같은 파일을 Finder의 위치와 터미널 경로로 나란히 보여줍니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "current-path"
+    ],
+    "relatedNodeIds": [
+      "project-folder",
+      "terminal"
+    ],
+    "activeEdgeIds": [
+      "current-path-to-terminal"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Path",
+    "Current Directory",
+    "Relative Path",
+    "Absolute Path"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

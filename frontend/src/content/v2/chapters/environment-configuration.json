@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 2,
+  "id": "environment-configuration",
+  "partId": "runtime",
+  "order": 5,
+  "status": "draft",
+  "title": "같은 코드가 환경마다 다르게 동작하는 이유는?",
+  "description": "개발 DB 주소를 바라보는 운영 서버를 찾아 환경설정을 분리합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "주소와 접속 정보는 코드 안에 있어야 하는가?",
+  "mission": "개발 DB 주소를 바라보는 운영 서버를 찾아 환경설정을 분리합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "environment-variable"
+    ],
+    "relatedNodeIds": [
+      "runtime",
+      "health-check",
+      "process"
+    ],
+    "activeEdgeIds": [
+      "environment-to-runtime",
+      "health-check-to-process"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Environment Variable",
+    "Configuration",
+    "Secret",
+    "Health Check",
+    "Graceful Shutdown"
+  ],
+  "conceptRefs": [
+    "environment-variable",
+    "health-check"
+  ],
+  "steps": [],
+  "completionPrompt": null
+}
