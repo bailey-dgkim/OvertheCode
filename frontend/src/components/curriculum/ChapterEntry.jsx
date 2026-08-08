@@ -18,6 +18,7 @@ function ChapterEntry() {
 
   const part = curriculumRepository.getPart(chapter.partId);
   const systemMap = curriculumRepository.getSystemMap();
+  const canStart = chapter.status === 'available' && chapter.steps.length > 0;
 
   return (
     <div className="cv2-container cv2-page">
@@ -64,10 +65,20 @@ function ChapterEntry() {
         </section>
 
         <div className="cv2-entry__actions">
-          <button className="cv2-button cv2-button--primary" type="button" disabled>
-            Chapter 시작하기 · 준비 중
-          </button>
-          <span>학습 단계가 준비되면 이 버튼이 열립니다.</span>
+          {canStart ? (
+            <Link className="cv2-button cv2-button--primary" to={`/chapters/${chapter.id}/learn`}>
+              Chapter 시작하기
+            </Link>
+          ) : (
+            <button className="cv2-button cv2-button--primary" type="button" disabled>
+              Chapter 시작하기 · 준비 중
+            </button>
+          )}
+          <span>
+            {canStart
+              ? `${chapter.steps.length}개 학습 단계를 시작합니다.`
+              : '학습 내용이 준비되면 이 버튼이 자동으로 열립니다.'}
+          </span>
         </div>
       </section>
     </div>

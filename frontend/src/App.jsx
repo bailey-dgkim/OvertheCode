@@ -4,12 +4,14 @@ import './styles/tokens.css';
 import './styles/learning.css';
 import './styles/landing.css';
 import './styles/curriculum.css';
+import './styles/chapter-player.css';
 
 import LandingScreen from './components/landing/LandingScreen';
 import CurriculumLayout from './components/curriculum/CurriculumLayout';
 import CurriculumHome from './components/curriculum/CurriculumHome';
 import PartDetail from './components/curriculum/PartDetail';
 import ChapterEntry from './components/curriculum/ChapterEntry';
+import ChapterPlayer from './components/learning/ChapterPlayer';
 import PlaceholderScreen from './components/curriculum/PlaceholderScreen';
 import NotFoundScreen from './components/curriculum/NotFoundScreen';
 
@@ -28,6 +30,7 @@ function App() {
           <Route path="curriculum" element={<CurriculumHome />} />
           <Route path="parts/:partId" element={<PartDetail />} />
           <Route path="chapters/:chapterId" element={<ChapterEntry />} />
+          <Route path="chapters/:chapterId/learn" element={<ChapterPlayer />} />
           <Route
             path="diagnosis"
             element={(

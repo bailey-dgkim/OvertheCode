@@ -49,4 +49,12 @@ describe('V2 화면 주소', () => {
     expect(html).toContain('페이지를 찾을 수 없습니다');
     expect(html).toContain('커리큘럼 홈으로');
   });
+
+  it('내용이 비어 있는 Chapter 학습 주소에는 준비 안내를 보여준다', () => {
+    const html = renderAt('/chapters/runtime-basics/learn');
+
+    expect(html).toContain('학습 콘텐츠 준비 중');
+    expect(html).toContain('공통 학습 화면은 준비되었습니다');
+    expect(html).toContain('Chapter 소개로 돌아가기');
+  });
 });
