@@ -30,28 +30,6 @@ export const landingManifesto = [
   },
 ];
 
-/** 세 번째 섹션 — 두 개의 트랙 예고 */
-export const landingTracks = [
-  {
-    id: 'development',
-    headline: '좋은 개발자의 사고방식을 학습하세요',
-    description:
-      '요구사항을 분석하고, 화면과 API와 테이블로 옮기고, 배포까지 준비하는 과정을 따라갑니다.',
-    trackLabel: '개발 트랙',
-    status: 'comingSoon',
-    statusLabel: '준비 중',
-  },
-  {
-    id: 'operation',
-    headline: '실무에서 마주하는 운영 이슈를 트러블슈팅 하세요',
-    description:
-      '중복 저장, 로그인 유실, 동시 수정 충돌, 성능 저하, 운영 장애를 직접 파고들며 해결합니다.',
-    trackLabel: '운영 트랙',
-    status: 'available',
-    statusLabel: '학습 가능',
-  },
-];
-
 export const landingClosing = {
   title: '이제, 시작해볼까요?',
   cta: '시작하기',

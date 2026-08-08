@@ -2,19 +2,21 @@ import { useScrollReveal, useHasScrolled } from '../../hooks/useScrollReveal';
 import {
   landingHero,
   landingManifesto,
-  landingTracks,
   landingClosing,
 } from '../../data/landing';
+import { curriculumRepository } from '../../content/v2';
 
-/** 스크롤에 반응해 아래에서 올라오며 나타나는 래퍼 */
 function Reveal({ children, delay = 0, className = '' }) {
   const [ref, revealed] = useScrollReveal();
+  const classes = 'ld-reveal'
+    + (revealed ? ' ld-reveal--in' : '')
+    + (className ? ' ' + className : '');
 
   return (
     <div
       ref={ref}
-      className={`ld-reveal${revealed ? ' ld-reveal--in' : ''} ${className}`.trim()}
-      style={{ transitionDelay: `${delay}ms` }}
+      className={classes}
+      style={{ transitionDelay: delay + 'ms' }}
     >
       {children}
     </div>
@@ -30,22 +32,15 @@ function ManifestoBlock({ item, index }) {
   );
 }
 
-function TrackPreview({ track, index }) {
+function PartPreview({ part, index }) {
   return (
-    <Reveal delay={index * 80}>
-      <article className={`ld-track ld-track--${track.id}`}>
+    <Reveal delay={index * 60}>
+      <article className="ld-track">
         <div className="ld-track__top">
-          <span className="ld-track__label">{track.trackLabel}</span>
-          <span
-            className={`ld-track__status ld-track__status--${
-              track.status === 'available' ? 'on' : 'off'
-            }`}
-          >
-            {track.statusLabel}
-          </span>
+          <span className="ld-track__label">Part {part.order}</span>
         </div>
-        <h3 className="ld-track__headline">{track.headline}</h3>
-        <p className="ld-track__desc">{track.description}</p>
+        <h3 className="ld-track__headline">{part.title}</h3>
+        <p className="ld-track__desc">{part.goal}</p>
       </article>
     </Reveal>
   );
@@ -53,6 +48,7 @@ function TrackPreview({ track, index }) {
 
 function LandingScreen({ onStart }) {
   const scrolled = useHasScrolled();
+  const parts = curriculumRepository.listParts();
 
   const scrollToNext = () => {
     document
@@ -62,7 +58,6 @@ function LandingScreen({ onStart }) {
 
   return (
     <main className="ld">
-      {/* ---------- 히어로 ---------- */}
       <section className="ld-section ld-hero">
         <div className="ld-inner ld-hero__inner">
           <p className="ld-hero__eyebrow">{landingHero.eyebrow}</p>
@@ -84,7 +79,7 @@ function LandingScreen({ onStart }) {
 
         <button
           type="button"
-          className={`ld-scroll-hint${scrolled ? ' ld-scroll-hint--hidden' : ''}`}
+          className={'ld-scroll-hint' + (scrolled ? ' ld-scroll-hint--hidden' : '')}
           onClick={scrollToNext}
           aria-label={landingHero.scrollHint}
           tabIndex={scrolled ? -1 : 0}
@@ -94,7 +89,6 @@ function LandingScreen({ onStart }) {
         </button>
       </section>
 
-      {/* ---------- 이 서비스가 존재하는 이유 ---------- */}
       <section className="ld-section ld-manifesto" id="ld-manifesto">
         <div className="ld-inner">
           {landingManifesto.map((item, index) => (
@@ -103,26 +97,24 @@ function LandingScreen({ onStart }) {
         </div>
       </section>
 
-      {/* ---------- 두 개의 트랙 ---------- */}
       <section className="ld-section ld-tracks">
         <div className="ld-inner">
           <Reveal>
             <h2 className="ld-tracks__title">
-              두 가지 방식으로
+              다섯 Part로
               <br />
-              개발자의 일을 배웁니다
+              시스템 전체를 배웁니다
             </h2>
           </Reveal>
 
           <div className="ld-tracks__grid">
-            {landingTracks.map((track, index) => (
-              <TrackPreview key={track.id} track={track} index={index} />
+            {parts.map((part, index) => (
+              <PartPreview key={part.id} part={part} index={index} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ---------- 마무리 ---------- */}
       <section className="ld-section ld-closing">
         <div className="ld-inner">
           <Reveal>

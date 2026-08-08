@@ -10,11 +10,13 @@
     "validate:cases": "node scripts/validate-cases.mjs",
     "validate:content": "node scripts/validate-v2-content.mjs",
     "test:content-validator": "node --test scripts/validate-v2-content.test.mjs",
+    "test:v2-shell": "vitest run src/App.test.jsx",
     "preview": "vite preview"
   },
   "dependencies": {
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "react-router-dom": "^7.18.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -25,6 +27,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.7.0",
-    "vite": "^8.1.1"
+    "vite": "^8.1.1",
+    "vitest": "^4.1.10"
   }
 }
