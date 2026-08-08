@@ -29,11 +29,17 @@ describe('V2 화면 주소', () => {
     expect(html).toContain('내용 설계 중');
   });
 
-  it('Chapter 입구에서 핵심 질문과 시스템 영역을 보여준다', () => {
+  it('Chapter 입구에서 핵심 질문과 연결된 시스템 지도를 보여준다', () => {
     const html = renderAt('/chapters/runtime-basics');
 
     expect(html).toContain('AI가 만들어준 코드는 어떻게 실행 중인 서비스가 되는가?');
     expect(html).toContain('Source Code');
+    expect(html).toContain('10개 영역');
+    expect(html).toContain('37개 요소');
+    expect(html).toContain('7개 연결 강조');
+    expect(html).toContain('data-node-state="primary"');
+    expect(html).toContain('이번 Chapter에서 따라갈 연결');
+    expect(html).not.toContain('맵 준비 중');
     expect(html).toContain('Chapter 시작하기 · 준비 중');
   });
 

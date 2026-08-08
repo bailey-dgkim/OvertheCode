@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { curriculumRepository } from '../../content/v2';
 import NotFoundScreen from './NotFoundScreen';
+import SystemMap from './SystemMap';
 
 function ChapterEntry() {
   const { chapterId } = useParams();
@@ -17,13 +18,6 @@ function ChapterEntry() {
 
   const part = curriculumRepository.getPart(chapter.partId);
   const systemMap = curriculumRepository.getSystemMap();
-  const nodeById = new Map(systemMap.nodes.map((node) => [node.id, node]));
-  const primaryNodes = chapter.map.primaryNodeIds
-    .map((nodeId) => nodeById.get(nodeId))
-    .filter(Boolean);
-  const relatedNodes = chapter.map.relatedNodeIds
-    .map((nodeId) => nodeById.get(nodeId))
-    .filter(Boolean);
 
   return (
     <div className="cv2-container cv2-page">
@@ -62,33 +56,11 @@ function ChapterEntry() {
             <div>
               <p className="cv2-eyebrow">System Map</p>
               <h2 id="map-preview-title">이번 Chapter의 위치</h2>
+              <p>전체 시스템 안에서 지금 배울 요소와 연결 흐름을 먼저 살펴보세요.</p>
             </div>
-            <span className="cv2-status-badge">맵 준비 중</span>
+            <span className="cv2-status-badge cv2-status-badge--ready">Chapter 영역 강조</span>
           </div>
-
-          <div className="cv2-entry__node-group">
-            <strong>주요 영역</strong>
-            <div>
-              {primaryNodes.map((node) => (
-                <span key={node.id} className="cv2-node-chip cv2-node-chip--primary">
-                  {node.label}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="cv2-entry__node-group">
-            <strong>함께 볼 영역</strong>
-            <div>
-              {relatedNodes.map((node) => (
-                <span key={node.id} className="cv2-node-chip">{node.label}</span>
-              ))}
-            </div>
-          </div>
-
-          <p className="cv2-entry__map-note">
-            다음 단계에서 노드와 연결선을 직접 탐색할 수 있는 시스템 맵을 이 자리에 연결합니다.
-          </p>
+          <SystemMap key={chapter.id} systemMap={systemMap} chapterMap={chapter.map} />
         </section>
 
         <div className="cv2-entry__actions">
