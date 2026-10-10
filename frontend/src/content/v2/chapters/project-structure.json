@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 2,
+  "id": "project-structure",
+  "partId": "workspace",
+  "order": 2,
+  "status": "draft",
+  "title": "프로젝트는 여러 파일과 폴더의 묶음이다",
+  "description": "하나의 간단한 프로젝트 트리에서 작성한 코드와 설정, 외부 Dependency를 구분해 보여줍니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "Project Root, src, 설정 파일은 무엇을 뜻하는가?",
+  "mission": "하나의 간단한 프로젝트 트리에서 작성한 코드와 설정, 외부 Dependency를 구분해 보여줍니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "project-folder"
+    ],
+    "relatedNodeIds": [
+      "source-code",
+      "editor",
+      "current-path"
+    ],
+    "activeEdgeIds": [
+      "project-folder-to-source"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Project Root",
+    "src",
+    "Configuration",
+    "Dependency",
+    "Build Output"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

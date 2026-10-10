@@ -1,0 +1,243 @@
+{
+  "id": "operation-07",
+  "steps": [
+    {
+      "id": "intro",
+      "type": "mission",
+      "label": "Mission",
+      "mission": "React 프론트와 Spring Boot 백엔드를 운영 환경에 처음 배포했습니다. 로컬에서는 프론트가 localhost:5173, 백엔드가 localhost:8080으로 잘 동작했습니다.",
+      "problem": "배포한 사이트는 열리는데, 주문 목록이 계속 비어 있습니다. 브라우저 개발자도구를 보니 API 요청이 하나도 성공하지 못하고 있습니다.",
+      "question": "로컬에서는 되는데 운영에서는 왜 안 될까요?",
+      "actionLabel": "문제 해결 시작"
+    },
+    {
+      "id": "question-1",
+      "type": "quiz",
+      "label": "질문 1",
+      "question": "배포 직후 API 호출이 실패하는 가장 흔한 원인은 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "프론트가 여전히 localhost:8080을 호출하고 있다" },
+        { "id": "B", "text": "백엔드 코드에 버그가 생겼다" },
+        { "id": "C", "text": "사용자의 브라우저가 오래되었다" },
+        { "id": "D", "text": "DB에 주문 데이터가 하나도 없다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "코드는 그대로인데 바라보는 곳이 다릅니다",
+        "description": "localhost는 '이 요청을 보내는 컴퓨터 자신'을 뜻합니다. 사용자의 브라우저에서 실행되면 사용자 PC를 가리키게 되고, 거기에는 백엔드가 없습니다.",
+        "keywords": ["환경 분리", "환경변수", "IP / DNS"],
+        "note": "이 문제의 본질은 주소가 코드 안에 박혀 있다는 것입니다. 개발·검증·운영이 서로 다른 주소를 바라봐야 하므로, 주소는 코드가 아니라 환경 설정으로 빠져 있어야 합니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "코드는 로컬에서 잘 돌던 것 그대로 배포했습니다. 바뀐 것은 코드가 아니라 실행되는 위치입니다. 프론트가 API를 부를 때 쓰는 주소가 어디를 가리키게 될지 생각해보세요."
+      }
+    },
+    {
+      "id": "question-2",
+      "type": "quiz",
+      "label": "질문 2",
+      "situation": "환경별로 API 주소를 분리했습니다.\n\n개발계  API_URL=http://localhost:8080\n검증계  API_URL=https://api-stg.example.com\n운영계  API_URL=https://api.example.com\n\n이제 요청은 올바른 주소로 나갑니다. 그런데 브라우저 콘솔에 CORS 오류가 뜨며 응답이 차단됩니다.",
+      "question": "어떻게 해결해야 할까요?",
+      "choices": [
+        { "id": "A", "text": "백엔드에서 운영 프론트 도메인을 허용 출처로 추가한다" },
+        { "id": "B", "text": "모든 출처를 허용하도록 와일드카드로 열어둔다" },
+        { "id": "C", "text": "사용자에게 브라우저 보안 옵션을 끄고 접속하도록 안내한다" },
+        { "id": "D", "text": "프론트에서 CORS 오류를 무시하도록 설정한다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "허용은 서버가, 필요한 곳에만 합니다",
+        "description": "CORS는 브라우저가 사용자를 보호하려고 거는 제동입니다. 다른 출처로 요청을 보낼 때 '그 서버가 이 출처를 허용했는가'를 확인합니다. 그러니 서버가 자기 프론트 도메인을 명시적으로 허용해 주면 됩니다.",
+        "keywords": ["CORS", "Browser Security", "환경 분리"],
+        "detail": {
+          "title": "B가 위험한 이유",
+          "body": "모든 출처를 열면 아무 사이트나 사용자의 로그인 상태를 이용해 우리 API를 호출할 수 있게 됩니다. 오류는 사라지지만 브라우저가 막아주던 보호도 함께 사라집니다.",
+          "example": "허용 출처는 환경별로 다르게 두어야 합니다. 검증계에 운영 도메인을 열어둘 이유가 없습니다."
+        },
+        "note": "C와 D는 애초에 불가능합니다. CORS는 브라우저가 판단하는 것이라 프론트 코드로 끌 수 없고, 사용자에게 보안 기능을 끄라고 요구할 수도 없습니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "CORS는 서버가 아니라 브라우저가 거는 제동입니다. 그렇다면 '이 출처를 허용한다'고 말해줄 수 있는 쪽은 누구일까요? 그리고 어디까지 허용하는 것이 적절할까요?"
+      }
+    },
+    {
+      "id": "question-3",
+      "type": "quiz",
+      "label": "질문 3",
+      "situation": "CORS 설정을 마쳤습니다. 그런데 이제는 오류 메시지도 없이 요청이 한참 멈춰 있다가 타임아웃으로 끝납니다. 서버에 직접 접속해 확인해보니 Spring Boot 프로세스는 8080 포트로 정상 실행 중입니다.",
+      "question": "다음으로 확인해야 할 것은 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "서버의 보안 그룹과 방화벽이 해당 포트로의 외부 접근을 허용하는지" },
+        { "id": "B", "text": "프론트의 CSS가 깨지지 않았는지" },
+        { "id": "C", "text": "DB에 주문 데이터가 들어 있는지" },
+        { "id": "D", "text": "로그인 세션이 만료되지 않았는지" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "프로세스가 떠 있는 것과 닿을 수 있는 것은 다릅니다",
+        "description": "CORS 오류는 요청이 서버까지 갔다가 응답이 차단될 때 나옵니다. 지금은 오류조차 없이 멈춰 있으니 요청 자체가 서버에 닿지 못한 것입니다. 포트가 열려 있지 않으면 서버가 아무리 정상이어도 밖에서는 존재하지 않는 것과 같습니다.",
+        "keywords": ["방화벽 · 보안 그룹", "프로세스와 포트", "Network"],
+        "note": "증상으로 구간을 좁히는 연습이기도 합니다. 오류 메시지가 오면 서버까지는 닿은 것이고, 무응답이면 그 앞 구간을 의심합니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "서버 프로세스는 정상이고, CORS 오류도 더는 나오지 않습니다. 대신 응답이 아예 오지 않습니다. 요청이 서버까지 도착은 하고 있는 걸까요?"
+      }
+    },
+    {
+      "id": "solution",
+      "type": "solution",
+      "label": "최종 해결안",
+      "title": "배포는 주소 · 허용 · 통로를 함께 맞추는 일입니다",
+      "description": "세 질문에서 확인한 조치를 요청이 흐르는 순서대로 정리했습니다.",
+      "flow": [
+        {
+          "layer": "frontend",
+          "layerLabel": "Frontend",
+          "action": "API 주소를 코드에서 빼고 환경변수로 관리해 환경별로 다르게 주입",
+          "solves": "운영에서도 localhost를 바라보는 문제",
+          "keywords": ["환경 분리", "환경변수"]
+        },
+        {
+          "layer": "frontend",
+          "layerLabel": "Hosting",
+          "action": "빌드된 정적 파일을 오브젝트 스토리지에 올리고 CDN으로 배포",
+          "solves": "정적 파일을 애플리케이션 서버가 직접 서빙하며 부담을 지는 문제",
+          "keywords": ["CDN", "오브젝트 스토리지"]
+        },
+        {
+          "layer": "backend",
+          "layerLabel": "Backend",
+          "action": "환경별 허용 출처를 지정해 CORS 설정",
+          "solves": "브라우저가 다른 출처의 응답을 차단하는 문제",
+          "keywords": ["CORS", "Browser Security"]
+        },
+        {
+          "layer": "backend",
+          "layerLabel": "Network",
+          "action": "보안 그룹에서 필요한 포트만 필요한 출발지에 열어둠",
+          "solves": "요청이 서버에 도달하지 못하는 문제",
+          "keywords": ["방화벽 · 보안 그룹", "프로세스와 포트"]
+        },
+        {
+          "layer": "operation",
+          "layerLabel": "Operation",
+          "action": "HTTPS를 적용하고 환경별 접속 정보를 코드가 아닌 설정으로 분리 관리",
+          "solves": "통신 내용이 평문으로 오가고 설정이 코드에 섞이는 문제",
+          "keywords": ["TLS", "환경 분리"]
+        }
+      ],
+      "summary": [
+        "배포가 안 되는 문제는 대부분 코드 버그가 아니라 환경 차이입니다.",
+        "어디를 바라보는가(주소), 누구를 허용하는가(CORS), 닿을 수 있는가(포트) 세 가지가 각각 다른 층위의 문제이고, 증상도 서로 다르게 나타납니다."
+      ]
+    },
+    {
+      "id": "mapping",
+      "type": "mapping",
+      "label": "키워드 매핑",
+      "title": "조치와 기술 키워드 연결",
+      "description": "내가 선택한 조치가 실제로 어떤 개념을 사용한 것인지 확인합니다.",
+      "mappings": [
+        {
+          "action": "환경별 API_URL 분리",
+          "keywords": ["환경변수", "환경 분리"],
+          "solves": "같은 코드가 모든 환경에서 같은 주소를 바라보는 문제",
+          "layer": "frontend",
+          "layerLabel": "Frontend",
+          "why": "코드를 고치지 않고도 환경마다 다른 서버를 보게 할 수 있습니다."
+        },
+        {
+          "action": "CDN 배포",
+          "keywords": ["CDN", "오브젝트 스토리지"],
+          "solves": "정적 파일 전송까지 애플리케이션 서버가 감당하는 문제",
+          "layer": "frontend",
+          "layerLabel": "Frontend",
+          "why": "사용자와 가까운 곳에서 파일을 받아 더 빠르고 안정적입니다."
+        },
+        {
+          "action": "허용 출처 지정",
+          "keywords": ["CORS", "Browser Security"],
+          "solves": "브라우저가 다른 출처의 응답을 차단하는 문제",
+          "layer": "backend",
+          "layerLabel": "Backend",
+          "why": "필요한 출처만 열어 보호는 유지하면서 통신을 허용합니다."
+        },
+        {
+          "action": "보안 그룹 포트 개방",
+          "keywords": ["방화벽 · 보안 그룹", "프로세스와 포트"],
+          "solves": "요청이 서버까지 도달하지 못하는 문제",
+          "layer": "operation",
+          "layerLabel": "Operation",
+          "why": "프로세스가 떠 있어도 통로가 없으면 외부에서는 닿지 않습니다."
+        },
+        {
+          "action": "HTTPS 적용",
+          "keywords": ["TLS", "Security"],
+          "solves": "통신 내용이 평문으로 오가는 문제",
+          "layer": "operation",
+          "layerLabel": "Operation",
+          "why": "중간에서 내용을 엿보거나 바꾸지 못하게 합니다."
+        }
+      ]
+    },
+    {
+      "id": "concepts",
+      "type": "concepts",
+      "label": "개념 복습",
+      "title": "이번 미션에서 사용한 개념",
+      "description": "문제를 풀며 등장한 개념을 정리합니다.",
+      "conceptRefs": [
+        { "id": "environment-separation", "usedAt": "질문 1 — 환경별로 다른 주소" },
+        { "id": "cors", "usedAt": "질문 2 — 브라우저의 출처 확인" },
+        { "id": "port-process", "usedAt": "질문 3 — 프로세스와 통로의 차이" },
+        { "id": "firewall", "usedAt": "질문 3 — 외부 접근 허용 규칙" },
+        { "id": "cdn", "usedAt": "최종 해결안 — 정적 파일 배포" },
+        { "id": "object-storage", "usedAt": "최종 해결안 — 빌드 결과물 보관" }
+      ]
+    },
+    {
+      "id": "transfer",
+      "type": "quiz",
+      "label": "응용 문제",
+      "situation": "검증계에 새 기능을 배포하고 테스트 주문을 몇 건 넣었습니다. 그런데 다음 날 운영 통계에 그 테스트 주문이 그대로 집계되어 있었습니다.",
+      "question": "가장 핵심적으로 적용해야 하는 개념은 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "환경별 DB 접속 정보를 설정으로 분리해 검증계가 운영 DB를 보지 않게 한다" },
+        { "id": "B", "text": "테스트 주문을 통계에서 제외하는 조건을 추가한다" },
+        { "id": "C", "text": "검증계에서는 주문 등록 기능을 막아둔다" },
+        { "id": "D", "text": "테스트가 끝나면 담당자가 데이터를 직접 지운다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "API 주소에서 배운 것이 DB에도 그대로 적용됩니다",
+        "description": "검증계가 운영 DB를 바라보고 있었다는 뜻입니다. 이건 통계가 틀리는 문제로 끝나지 않습니다. 검증계에서의 실수가 운영 데이터를 지우거나 바꿀 수도 있습니다.",
+        "keywords": ["환경 분리", "환경변수"],
+        "note": "B, C, D는 증상을 덮는 대응입니다. 원인은 두 환경이 같은 데이터를 공유하고 있다는 것이고, 그대로 두면 언젠가 더 큰 사고로 돌아옵니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "검증계에서 넣은 데이터가 운영 통계에 나타났습니다. 두 환경이 지금 무엇을 함께 쓰고 있는 걸까요?"
+      }
+    },
+    {
+      "id": "complete",
+      "type": "complete",
+      "label": "미션 완료",
+      "title": "운영 케이스 07 완료",
+      "learnedConcepts": [
+        "환경 분리",
+        "환경변수",
+        "CORS",
+        "프로세스와 포트",
+        "방화벽 · 보안 그룹",
+        "CDN",
+        "오브젝트 스토리지",
+        "TLS"
+      ],
+      "badge": "배포 환경 정복자"
+    }
+  ]
+}

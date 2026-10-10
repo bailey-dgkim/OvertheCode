@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 2,
+  "id": "incident-response",
+  "partId": "operations",
+  "order": 2,
+  "status": "draft",
+  "title": "장애가 나면 원인부터 완전히 찾아야 할까?",
+  "description": "주문 전체가 중단된 상황에서 원인 조사와 임시 우회 조치의 우선순위를 정합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "사용자 영향을 줄이는 일과 근본 원인 분석 중 무엇이 먼저인가?",
+  "mission": "주문 전체가 중단된 상황에서 원인 조사와 임시 우회 조치의 우선순위를 정합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "runbook",
+      "restore"
+    ],
+    "relatedNodeIds": [
+      "logs",
+      "metrics",
+      "traces",
+      "alert",
+      "external-api",
+      "backup"
+    ],
+    "activeEdgeIds": [
+      "alert-to-runbook",
+      "backup-to-restore",
+      "runbook-to-restore"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Incident",
+    "Severity",
+    "Triage",
+    "Mitigation",
+    "Recovery",
+    "Runbook"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

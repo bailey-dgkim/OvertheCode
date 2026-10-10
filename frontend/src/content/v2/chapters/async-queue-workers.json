@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 2,
+  "id": "async-queue-workers",
+  "partId": "scale",
+  "order": 5,
+  "status": "draft",
+  "title": "오래 걸리는 일을 요청과 분리하려면?",
+  "description": "대용량 업로드와 알림 발송을 Queue와 Worker로 분리하고 실패 처리를 설계합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "이메일과 파일 처리를 뒤에서 실행하면 무엇이 달라지는가?",
+  "mission": "대용량 업로드와 알림 발송을 Queue와 Worker로 분리하고 실패 처리를 설계합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "message-queue",
+      "worker"
+    ],
+    "relatedNodeIds": [
+      "load-balancer",
+      "application-instance",
+      "redis",
+      "database-primary",
+      "database-replica"
+    ],
+    "activeEdgeIds": [
+      "queue-to-worker"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Async",
+    "Message Queue",
+    "Producer",
+    "Consumer",
+    "Worker",
+    "DLQ",
+    "Backpressure"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

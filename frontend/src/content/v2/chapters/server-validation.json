@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 2,
+  "id": "server-validation",
+  "partId": "application",
+  "order": 3,
+  "status": "draft",
+  "title": "업무 규칙은 어디에서 판단해야 할까?",
+  "description": "클라이언트에서 보낸 할인율과 딜러 ID를 서버가 그대로 믿을 때 생기는 문제를 찾습니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "화면에서 검사한 값을 서버가 다시 검증해야 하는 이유는 무엇인가?",
+  "mission": "클라이언트에서 보낸 할인율과 딜러 ID를 서버가 그대로 믿을 때 생기는 문제를 찾습니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "service",
+      "authentication"
+    ],
+    "relatedNodeIds": [
+      "http-api",
+      "controller",
+      "repository",
+      "transaction",
+      "database-primary"
+    ],
+    "activeEdgeIds": [
+      "controller-to-service",
+      "service-to-transaction",
+      "service-to-repository"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Validation",
+    "Business Rule",
+    "Trust Boundary",
+    "Invariant"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

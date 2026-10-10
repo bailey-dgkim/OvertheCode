@@ -1,0 +1,62 @@
+{
+  "id": "basic-08",
+  "steps": [
+    {
+      "id": "intro",
+      "type": "mission",
+      "label": "상황",
+      "mission": "운영 중인 주문 저장 코드를 처음 열어봤습니다. 낯선 문법이 줄줄이 보입니다.",
+      "problem": "한 줄 한 줄이 무슨 뜻인지 모르면 고칠 수도 없습니다. 코드는 결국 '읽는' 것부터 시작입니다.",
+      "question": "외국어를 배우듯, Java 코드를 한글로 해석하는 연습을 해봅시다. 가장 기본인 '변수'부터입니다.",
+      "actionLabel": "해석 시작"
+    },
+    {
+      "id": "translate",
+      "type": "translate",
+      "label": "번역 · 변수",
+      "title": "변수 — 값에 이름을 붙여 담기",
+      "intro": "변수는 '값을 담는 상자에 이름을 붙이는 것'입니다. 한 줄씩 뜻을 떠올린 뒤 확인하세요. 아래로 갈수록 조금씩 복잡해집니다.",
+      "lines": [
+        { "code": "int age = 20;", "ko": "age(나이)라는 정수(int) 변수에 20을 담는다." },
+        { "code": "String name = \"김철수\";", "ko": "name(이름)이라는 문자열(String) 변수에 \"김철수\"를 담는다." },
+        { "code": "boolean isActive = true;", "ko": "isActive(활성 여부)라는 참/거짓(boolean) 변수에 true(참)를 담는다." },
+        { "code": "double price = 15000.5;", "ko": "price(가격)라는 실수(double) 변수에 15000.5를 담는다." },
+        { "code": "age = age + 1;", "ko": "age에 1을 더한 결과를, 다시 age에 담는다. (나이를 한 살 올린다)" },
+        { "code": "int total = price * count;", "ko": "가격(price)에 개수(count)를 곱한 결과를 total(총액) 변수에 담는다." },
+        { "code": "final int MAX = 100;", "ko": "MAX라는 정수 변수에 100을 담되, final이라 이후 값을 바꿀 수 없다. (상수)" }
+      ]
+    },
+    {
+      "id": "quiz",
+      "type": "quiz",
+      "label": "확인",
+      "question": "다음 코드를 실행하면 count의 최종 값은 얼마일까요?\n\nint count = 5;\ncount = count + 3;",
+      "choices": [
+        { "id": "A", "text": "8 — 기존 5에 3을 더한 값을 다시 count에 담는다" },
+        { "id": "B", "text": "3 — 나중에 쓴 3으로 바뀐다" },
+        { "id": "C", "text": "5 — 처음 값 그대로다" },
+        { "id": "D", "text": "53 — 5와 3이 이어 붙는다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "8입니다",
+        "description": "count = count + 3 은 '지금 count(5)에 3을 더한 결과(8)를 다시 count에 담아라'라는 뜻입니다. 오른쪽을 먼저 계산하고, 그 결과를 왼쪽 변수에 넣습니다.",
+        "keywords": ["변수", "할당", "= 의 방향"],
+        "note": "여기서 =는 수학의 '같다'가 아니라 '오른쪽 값을 왼쪽에 담아라'라는 뜻입니다. 이 방향을 익히는 것이 코드 읽기의 첫걸음입니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "count = count + 3 에서 오른쪽(count + 3)을 먼저 계산합니다. 지금 count는 5이므로 5 + 3은 얼마일까요? 그 결과를 다시 count에 담습니다."
+      }
+    },
+    {
+      "id": "complete",
+      "type": "complete",
+      "label": "완료",
+      "title": "변수를 해석할 수 있게 됐습니다",
+      "message": "변수는 '값에 이름을 붙여 담는 것', 그리고 =는 '오른쪽을 왼쪽에 담아라'입니다. 코드를 외국어처럼 한글로 옮기는 첫 연습을 마쳤습니다. 다음 문법들도 같은 방식으로 읽어 나갑니다.",
+      "learnedConcepts": ["변수", "자료형(int/String/boolean)", "할당(=)", "상수(final)"],
+      "badge": "코드 읽기 · 변수"
+    }
+  ]
+}

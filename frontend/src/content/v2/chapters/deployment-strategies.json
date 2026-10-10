@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 2,
+  "id": "deployment-strategies",
+  "partId": "delivery",
+  "order": 4,
+  "status": "draft",
+  "title": "운영 서버에 어떻게 안전하게 반영할까?",
+  "description": "신규 버전 오류의 사용자 영향을 제한하는 배포 전략을 선택합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "배포 중에도 사용자가 서비스를 이용하게 하려면?",
+  "mission": "신규 버전 오류의 사용자 영향을 제한하는 배포 전략을 선택합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "deployment"
+    ],
+    "relatedNodeIds": [
+      "source-repository",
+      "build",
+      "test",
+      "artifact",
+      "ci-cd",
+      "source-code"
+    ],
+    "activeEdgeIds": [
+      "artifact-to-deployment",
+      "ci-to-deployment"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Deployment",
+    "Rolling",
+    "Blue-Green",
+    "Canary",
+    "Feature Flag"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

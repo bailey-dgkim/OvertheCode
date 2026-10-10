@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 2,
+  "id": "auth-and-security",
+  "partId": "operations",
+  "order": 5,
+  "status": "draft",
+  "title": "정상 기능이 공격 도구가 되면?",
+  "description": "다른 딜러의 주문을 조회할 수 있는 권한 오류의 영향과 재발 방지책을 작성합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "누가 무엇을 할 수 있는지 어디에서 통제해야 하는가?",
+  "mission": "다른 딜러의 주문을 조회할 수 있는 권한 오류의 영향과 재발 방지책을 작성합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "authentication",
+      "authorization",
+      "logs",
+      "environment-variable"
+    ],
+    "relatedNodeIds": [
+      "metrics",
+      "traces",
+      "alert",
+      "external-api",
+      "backup",
+      "runbook"
+    ],
+    "activeEdgeIds": [
+      "logs-to-alert"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Authentication",
+    "Authorization",
+    "Least Privilege",
+    "Input Validation",
+    "Audit",
+    "Secret"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

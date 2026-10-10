@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 2,
+  "concepts": [
+    {
+      "id": "source-code",
+      "name": "Source Code",
+      "definition": "사람이 읽고 수정할 수 있는 프로그램의 원본입니다."
+    },
+    {
+      "id": "build",
+      "name": "Build",
+      "definition": "소스 코드와 필요한 재료를 실행하거나 배포할 수 있는 결과물로 만드는 과정입니다."
+    },
+    {
+      "id": "runtime",
+      "name": "Runtime",
+      "definition": "만들어진 프로그램이 실제로 실행되는 환경입니다."
+    },
+    {
+      "id": "process",
+      "name": "Process",
+      "definition": "실행 중인 프로그램 한 개를 운영체제가 관리하는 단위입니다."
+    },
+    {
+      "id": "memory",
+      "name": "Memory",
+      "definition": "실행 중인 프로그램이 코드와 임시 데이터를 올려두는 공간입니다."
+    },
+    {
+      "id": "port",
+      "name": "Port",
+      "definition": "한 컴퓨터 안에서 요청을 받을 프로그램을 구분하는 번호입니다."
+    },
+    {
+      "id": "environment-variable",
+      "name": "Environment Variable",
+      "definition": "코드를 바꾸지 않고 실행 환경마다 다른 설정을 전달하는 값입니다."
+    },
+    {
+      "id": "container",
+      "name": "Container",
+      "definition": "프로그램과 실행에 필요한 환경을 함께 묶어 일관되게 실행하는 단위입니다."
+    },
+    {
+      "id": "health-check",
+      "name": "Health Check",
+      "definition": "서비스가 요청을 처리할 수 있는 상태인지 반복해서 확인하는 검사입니다."
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 2,
+  "id": "source-files",
+  "partId": "workspace",
+  "order": 1,
+  "status": "draft",
+  "title": "소스코드도 폴더 안에 있는 파일이다",
+  "description": "Finder와 VS Code가 같은 프로젝트 폴더를 서로 다른 방식으로 보여준다는 장면으로 설명합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "코드는 실제로 컴퓨터의 어디에 존재하는가?",
+  "mission": "Finder와 VS Code가 같은 프로젝트 폴더를 서로 다른 방식으로 보여준다는 장면으로 설명합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "source-code"
+    ],
+    "relatedNodeIds": [
+      "project-folder",
+      "editor"
+    ],
+    "activeEdgeIds": [
+      "project-folder-to-source",
+      "editor-to-source"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "File",
+    "Folder",
+    "Extension",
+    "Source Code"
+  ],
+  "conceptRefs": [
+    "source-code"
+  ],
+  "steps": [],
+  "completionPrompt": null
+}

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 2,
+  "id": "browser-and-server-state",
+  "partId": "frontend",
+  "order": 3,
+  "status": "available",
+  "renderer": "frontend-state",
+  "lessonCount": 13,
+  "title": "화면과 상태",
+  "description": "같은 Component의 화면이 왜 달라지는지 살펴보고, Variable과 State, Props가 화면을 바꾸는 방식을 연결합니다.",
+  "estimatedMinutes": 45,
+  "coreQuestion": "같은 Component인데 화면은 왜 계속 달라질까?",
+  "mission": "setStatus와 setItemCount가 실행될 때 실제 화면에서 바뀌는 영역을 선택합니다.",
+  "incident": "같은 주문 카드인데 버튼을 누를 때마다 배송 상태와 상품 수량이 달라집니다.",
+  "map": {
+    "primaryNodeIds": [
+      "frontend-state",
+      "browser",
+      "http-api"
+    ],
+    "relatedNodeIds": [
+      "user",
+      "dom",
+      "component",
+      "api-client",
+      "frontend"
+    ],
+    "activeEdgeIds": [
+      "user-to-browser",
+      "browser-to-frontend",
+      "component-to-state",
+      "state-to-api-client",
+      "api-client-to-http-api"
+    ]
+  },
+  "learningObjectives": [
+    "Variable과 State의 차이를 화면 갱신 여부로 구분한다.",
+    "useState의 값과 변경 함수가 맡는 역할을 설명한다.",
+    "Props와 State가 Component 화면을 바꾸는 위치를 찾는다."
+  ],
+  "outlineConcepts": [
+    "Variable",
+    "State",
+    "useState",
+    "Props",
+    "Re-rendering"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": "OTC의 실제 상태 코드에서 값, 변경 함수, 다시 렌더링되는 화면을 각각 찾아보세요."
+}

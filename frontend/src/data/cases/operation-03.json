@@ -1,0 +1,236 @@
+{
+  "id": "operation-03",
+  "steps": [
+    {
+      "id": "intro",
+      "type": "mission",
+      "label": "Mission",
+      "mission": "주문 상태를 접수 → 계약 완료 → 출고 준비 → 출고 완료로 변경할 수 있는 기능이 운영 중입니다. 담당자가 주문 상세 화면을 열어 상태를 고르고 저장합니다.",
+      "problem": "두 담당자가 같은 주문을 거의 동시에 수정했습니다. 나중에 저장한 사람의 내용만 남고, 먼저 저장한 사람의 변경은 아무 경고 없이 사라졌습니다.",
+      "question": "왜 먼저 저장한 내용이 사라졌을까요?",
+      "actionLabel": "문제 해결 시작"
+    },
+    {
+      "id": "question-1",
+      "type": "quiz",
+      "label": "질문 1",
+      "question": "먼저 저장한 변경이 사라진 직접적인 이유는 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "두 사람이 각자 화면을 연 시점의 데이터를 기준으로 전체를 덮어썼기 때문" },
+        { "id": "B", "text": "DB가 트랜잭션을 지원하지 않기 때문" },
+        { "id": "C", "text": "주문 테이블에 인덱스가 없어 저장이 누락되었기 때문" },
+        { "id": "D", "text": "화면이 자동으로 새로고침되지 않기 때문" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "둘 다 자기가 본 과거를 저장했습니다",
+        "description": "두 사람 모두 화면을 열던 시점의 값을 들고 있었습니다. 나중에 저장한 요청은 그 사이에 무엇이 바뀌었는지 모른 채, 자기가 알고 있는 값으로 전체를 덮어씁니다.",
+        "keywords": ["갱신 손실", "동시성", "공유 자원"],
+        "note": "여기서 무서운 점은 오류가 나지 않는다는 것입니다. DB 입장에서는 정상적인 UPDATE 두 번이라 로그에도 아무 흔적이 남지 않습니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "저장은 두 번 다 정상적으로 성공했습니다. 실패하거나 누락된 것이 아닙니다. 두 사람이 각각 '무엇을 기준으로' 저장했는지 생각해보세요."
+      }
+    },
+    {
+      "id": "question-2",
+      "type": "quiz",
+      "label": "질문 2",
+      "situation": "이 문제를 막는 방법은 여러 가지가 있고, 아래 네 가지 모두 실제로 쓰이는 기법입니다. 주문 상태 변경은 하루 수백 건 정도이고, 같은 주문을 동시에 건드리는 일은 드물지만 발생하면 반드시 막아야 합니다.",
+      "question": "이 상황에 가장 먼저 적용할 방법은 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "수정 요청에 읽은 시점의 version을 함께 보내고, 값이 그대로일 때만 UPDATE한다" },
+        { "id": "B", "text": "주문 행을 읽는 순간 DB에 잠금을 걸어 다른 사용자를 기다리게 한다" },
+        { "id": "C", "text": "모든 주문 수정을 큐에 넣어 한 번에 하나씩 순차 처리한다" },
+        { "id": "D", "text": "수정 이력을 전부 저장해두고 충돌 시 담당자가 수동으로 병합한다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "충돌이 드물다면 낙관적 락이 적합합니다",
+        "description": "같은 주문을 동시에 수정하는 일이 드물기 때문에, 미리 잠그는 비용을 치르는 대신 저장 시점에 확인만 하면 됩니다. 평소에는 아무 부담이 없고 충돌이 실제로 일어났을 때만 실패합니다.",
+        "keywords": ["낙관적 락", "Version", "동시성"],
+        "note": "나머지도 틀린 방법은 아닙니다. B(비관적 락)는 충돌이 잦을 때 유효하지만 잠금 대기와 교착 위험이 생깁니다. C는 확실하지만 처리량을 스스로 1로 줄입니다. D는 문서 공동 편집처럼 병합이 의미 있는 곳에 맞지, 주문 상태처럼 값이 하나로 정해져야 하는 데이터에는 과합니다."
+      },
+      "incorrectFeedback": {
+        "title": "방향은 맞지만 지금은 아닙니다",
+        "description": "고른 방법도 실제로 쓰이는 기법입니다. 다만 여기서는 '같은 주문을 동시에 건드리는 일이 드물다'는 조건이 핵심입니다. 충돌이 드문데도 매번 비용을 치르는 방법인지, 충돌이 났을 때만 비용을 치르는 방법인지 비교해보세요."
+      }
+    },
+    {
+      "id": "question-3",
+      "type": "quiz",
+      "label": "질문 3",
+      "situation": "version을 비교하도록 바꿨습니다.\n\nUPDATE orders SET status = 'READY_FOR_DELIVERY', version = version + 1 WHERE order_no = 'O1001' AND version = 3\n\n실행 결과 수정된 행이 0건으로 나왔습니다.",
+      "question": "이때 서버는 어떻게 처리해야 할까요?",
+      "choices": [
+        { "id": "A", "text": "다른 사람이 먼저 수정한 것으로 보고 실패를 알린 뒤, 최신 데이터를 다시 불러오게 한다" },
+        { "id": "B", "text": "0건이므로 바꿀 것이 없었다고 보고 성공으로 처리한다" },
+        { "id": "C", "text": "version 조건을 빼고 다시 UPDATE를 실행한다" },
+        { "id": "D", "text": "서버를 재시작한 뒤 사용자에게 다시 시도하게 한다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "0건은 성공이 아니라 충돌 신호입니다",
+        "description": "version이 3이 아니라는 것은 내가 화면을 연 뒤 누군가 이미 수정했다는 뜻입니다. 사용자에게 알리고 최신 상태를 다시 보여준 다음, 그것을 보고 다시 판단하게 해야 합니다.",
+        "keywords": ["충돌 감지", "낙관적 락", "일관성"],
+        "note": "B와 C가 특히 위험합니다. B는 저장이 안 됐는데 됐다고 말하는 것이고, C는 애써 만든 안전장치를 스스로 없애 원래 문제로 되돌아가는 것입니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "UPDATE 조건에 version = 3을 넣었는데 0건이 나왔습니다. 이는 지금 DB의 version이 3이 아니라는 뜻입니다. 그 사이에 무슨 일이 있었던 걸까요?"
+      }
+    },
+    {
+      "id": "solution",
+      "type": "solution",
+      "label": "최종 해결안",
+      "title": "동시 수정은 감지하고 알리는 방식으로 다룹니다",
+      "description": "세 질문에서 확인한 조치를 요청이 흐르는 순서대로 정리했습니다.",
+      "flow": [
+        {
+          "layer": "database",
+          "layerLabel": "Database",
+          "action": "주문 테이블에 version 컬럼을 두고 수정할 때마다 1씩 증가",
+          "solves": "데이터가 언제 바뀌었는지 판단할 기준이 없는 상태",
+          "keywords": ["Version Column", "Optimistic Lock"]
+        },
+        {
+          "layer": "frontend",
+          "layerLabel": "Client",
+          "action": "화면을 열 때 받은 version을 저장했다가 수정 요청에 함께 전송",
+          "solves": "어느 시점의 데이터를 보고 판단했는지 서버가 알 수 없는 문제",
+          "keywords": ["Optimistic Lock", "요청 데이터"]
+        },
+        {
+          "layer": "backend",
+          "layerLabel": "Backend Service",
+          "action": "WHERE 절에 version 조건을 포함해 한 번의 UPDATE로 확인과 수정을 동시에 수행",
+          "solves": "확인과 수정 사이에 다른 요청이 끼어드는 Race Condition",
+          "keywords": ["원자성", "Race Condition"]
+        },
+        {
+          "layer": "backend",
+          "layerLabel": "Backend Service",
+          "action": "수정된 행이 0건이면 충돌로 판단해 실패로 응답",
+          "solves": "저장되지 않았는데 성공으로 처리되는 문제",
+          "keywords": ["충돌 감지", "Business Logic"]
+        },
+        {
+          "layer": "operation",
+          "layerLabel": "Operation",
+          "action": "충돌 발생 건수를 기록하고, 특정 화면에서 급증하면 확인",
+          "solves": "동시 수정이 얼마나 자주 일어나는지 알 수 없는 상태",
+          "keywords": ["Logging", "Monitoring"]
+        }
+      ],
+      "summary": [
+        "동시 수정은 막는 것보다 감지하는 것이 현실적입니다.",
+        "사용자가 본 시점을 version으로 함께 보내고, 저장 시점에 그대로인지 한 번의 UPDATE로 확인합니다. 달라졌다면 덮어쓰지 않고 알린 뒤 최신 상태를 다시 보여줍니다."
+      ]
+    },
+    {
+      "id": "mapping",
+      "type": "mapping",
+      "label": "키워드 매핑",
+      "title": "조치와 기술 키워드 연결",
+      "description": "내가 선택한 조치가 실제로 어떤 개념을 사용한 것인지 확인합니다.",
+      "mappings": [
+        {
+          "action": "version 컬럼 추가",
+          "keywords": ["Version Column", "낙관적 락"],
+          "solves": "데이터가 그 사이 바뀌었는지 판단할 근거가 없는 문제",
+          "layer": "database",
+          "layerLabel": "Database",
+          "why": "값이 바뀔 때마다 숫자가 올라가므로 시점을 비교할 수 있게 됩니다."
+        },
+        {
+          "action": "읽은 version을 함께 전송",
+          "keywords": ["낙관적 락", "요청 데이터"],
+          "solves": "사용자가 어느 시점의 화면을 보고 판단했는지 모르는 문제",
+          "layer": "frontend",
+          "layerLabel": "Frontend",
+          "why": "서버가 '이 사람이 본 것은 3번 버전'이라는 사실을 알 수 있습니다."
+        },
+        {
+          "action": "WHERE version = 3 조건",
+          "keywords": ["Race Condition", "원자성"],
+          "solves": "확인한 뒤 저장하는 사이에 다른 요청이 끼어드는 문제",
+          "layer": "backend",
+          "layerLabel": "Backend",
+          "why": "확인과 수정이 한 문장 안에서 끝나 그 사이에 끼어들 틈이 없습니다."
+        },
+        {
+          "action": "수정 건수 0 확인",
+          "keywords": ["충돌 감지", "업무 로직"],
+          "solves": "저장에 실패했는데 성공으로 응답하는 문제",
+          "layer": "backend",
+          "layerLabel": "Backend",
+          "why": "0건은 '바꿀 게 없었다'가 아니라 '이미 누가 바꿨다'는 신호입니다."
+        },
+        {
+          "action": "최신 데이터 재조회 안내",
+          "keywords": ["일관성", "충돌 처리"],
+          "solves": "사용자가 낡은 정보를 보고 다시 같은 실수를 하는 문제",
+          "layer": "frontend",
+          "layerLabel": "Frontend",
+          "why": "바뀐 내용을 확인하고 나서 다시 판단할 기회를 줍니다."
+        }
+      ]
+    },
+    {
+      "id": "concepts",
+      "type": "concepts",
+      "label": "개념 복습",
+      "title": "이번 미션에서 사용한 개념",
+      "description": "문제를 풀며 등장한 개념을 정리합니다.",
+      "conceptRefs": [
+        { "id": "lost-update", "usedAt": "질문 1 — 먼저 저장한 내용이 사라진 이유" },
+        { "id": "optimistic-lock", "usedAt": "질문 2 — 선택한 방어 방식" },
+        { "id": "pessimistic-lock", "usedAt": "질문 2 — 비교 대상이 된 다른 방식" },
+        { "id": "race-condition", "usedAt": "질문 3 — 확인과 수정 사이의 틈" },
+        { "id": "data-integrity", "usedAt": "최종 해결안 — 충돌을 덮어쓰지 않는 이유" }
+      ]
+    },
+    {
+      "id": "transfer",
+      "type": "quiz",
+      "label": "응용 문제",
+      "situation": "재고가 1개 남은 상품에 두 건의 주문이 거의 동시에 들어왔습니다. 두 요청 모두 '재고 1개 있음'을 확인한 뒤 각각 재고를 0으로 차감했고, 결과적으로 재고 1개로 주문 두 건이 처리되었습니다.",
+      "question": "이 문제에 가장 직접적으로 적용할 수 있는 개념은 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "읽은 값이 그대로일 때만 차감되도록 조건을 걸고, 실패하면 품절로 처리한다" },
+        { "id": "B", "text": "재고 조회 화면을 더 자주 새로고침한다" },
+        { "id": "C", "text": "주문 처리 서버를 한 대로 줄인다" },
+        { "id": "D", "text": "재고 수량을 넉넉하게 미리 늘려둔다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "주문 수정에서 배운 것이 그대로 적용됩니다",
+        "description": "확인한 뒤 저장하는 사이에 다른 요청이 끼어들 수 있다면, 확인과 저장을 한 번에 처리해야 합니다. 재고 차감도 '내가 본 수량이 그대로일 때만' 실행되도록 조건을 걸면 됩니다.",
+        "keywords": ["낙관적 락", "Race Condition", "원자성"]
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "두 요청 모두 확인 시점에는 재고가 있었습니다. 확인과 차감 사이에 틈이 있다는 것이 문제입니다. 그 틈을 없애려면 어떻게 해야 할까요?"
+      }
+    },
+    {
+      "id": "complete",
+      "type": "complete",
+      "label": "미션 완료",
+      "title": "운영 케이스 03 완료",
+      "learnedConcepts": [
+        "갱신 손실",
+        "낙관적 락",
+        "비관적 락",
+        "Version Column",
+        "Race Condition",
+        "원자성",
+        "충돌 감지",
+        "일관성"
+      ],
+      "badge": "동시 수정 조정자"
+    }
+  ]
+}

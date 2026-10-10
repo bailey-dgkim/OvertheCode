@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 2,
+  "id": "dns-basics",
+  "partId": "network",
+  "order": 1,
+  "status": "draft",
+  "title": "도메인을 입력하면 어떻게 서버를 찾을까?",
+  "description": "도메인은 열리지만 이전 서버로 연결되는 DNS 변경 지연을 분석합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "사람이 읽는 주소는 어떻게 IP 주소가 되는가?",
+  "mission": "도메인은 열리지만 이전 서버로 연결되는 DNS 변경 지연을 분석합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "dns",
+      "table"
+    ],
+    "relatedNodeIds": [
+      "browser",
+      "cdn",
+      "tls",
+      "firewall",
+      "load-balancer",
+      "application-instance"
+    ],
+    "activeEdgeIds": [
+      "dns-to-cdn"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Domain",
+    "DNS",
+    "Record",
+    "Resolver",
+    "TTL"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

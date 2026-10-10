@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 2,
+  "id": "frontend-state-events",
+  "partId": "frontend",
+  "order": 2,
+  "status": "available",
+  "renderer": "frontend-browser",
+  "lessonCount": 9,
+  "title": "화면 코드는 어디에 있을까?",
+  "description": "HTML이 DOM이 되고, React Component와 JSX가 실제 Browser 화면으로 렌더링되는 흐름을 따라갑니다.",
+  "estimatedMinutes": 40,
+  "coreQuestion": "React 코드 한 조각은 어떻게 브라우저의 실제 화면이 될까?",
+  "mission": "현재 OTC 화면의 문구에서 시작해 Component 파일과 CSS 위치를 실제 코드에서 추적합니다.",
+  "incident": "화면의 버튼 하나를 없애고 싶지만 JSX, Component, DOM 중 어디를 수정해야 할지 알기 어렵습니다.",
+  "map": {
+    "primaryNodeIds": [
+      "frontend-state",
+      "dom",
+      "component"
+    ],
+    "relatedNodeIds": [
+      "user",
+      "browser",
+      "api-client",
+      "frontend"
+    ],
+    "activeEdgeIds": [
+      "frontend-to-component",
+      "component-to-dom",
+      "component-to-state",
+      "state-to-api-client"
+    ]
+  },
+  "learningObjectives": [
+    "HTML과 DOM의 차이를 설명한다.",
+    "React Component와 JSX가 화면으로 렌더링되는 순서를 설명한다.",
+    "화면의 문구에서 실제 JSX 파일과 CSS 위치를 추적한다."
+  ],
+  "outlineConcepts": [
+    "HTML · DOM",
+    "React · Component",
+    "JSX",
+    "Rendering",
+    "Code tracing"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": "현재 화면의 요소 하나를 골라 JSX 파일과 CSS 선택자까지 추적하는 경로를 설명해보세요."
+}

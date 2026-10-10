@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 2,
+  "id": "database-performance",
+  "partId": "scale",
+  "order": 3,
+  "status": "draft",
+  "title": "데이터베이스가 느려지면 무엇을 먼저 볼까?",
+  "description": "상품이 100만 건이 된 뒤 느려진 목록 조회의 SQL과 Index를 검토합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "데이터가 늘어날수록 같은 조회가 느려지는 이유는?",
+  "mission": "상품이 100만 건이 된 뒤 느려진 목록 조회의 SQL과 Index를 검토합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "database-index",
+      "database-primary",
+      "database-replica"
+    ],
+    "relatedNodeIds": [
+      "load-balancer",
+      "application-instance",
+      "redis",
+      "message-queue",
+      "worker"
+    ],
+    "activeEdgeIds": [
+      "database-to-replica"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Index",
+    "Query Plan",
+    "N+1",
+    "Connection Pool",
+    "Replica",
+    "Pagination"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

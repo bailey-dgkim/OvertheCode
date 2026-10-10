@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 2,
+  "id": "https-tls",
+  "partId": "network",
+  "order": 3,
+  "status": "draft",
+  "title": "HTTPS는 무엇을 보호할까?",
+  "description": "인증서 만료로 브라우저가 연결을 거부한 장애를 진단합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "브라우저가 인증서를 확인하는 이유는 무엇인가?",
+  "mission": "인증서 만료로 브라우저가 연결을 거부한 장애를 진단합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "http-api",
+      "tls"
+    ],
+    "relatedNodeIds": [
+      "browser",
+      "dns",
+      "cdn",
+      "firewall",
+      "load-balancer",
+      "application-instance"
+    ],
+    "activeEdgeIds": []
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "HTTP",
+    "HTTPS",
+    "TLS",
+    "Certificate",
+    "Encryption in Transit"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

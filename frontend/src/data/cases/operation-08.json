@@ -1,0 +1,248 @@
+{
+  "id": "operation-08",
+  "steps": [
+    {
+      "id": "intro",
+      "type": "mission",
+      "label": "Mission",
+      "mission": "운영 중인 주문 시스템에서 간헐적으로 500 오류가 발생한다는 제보가 들어왔습니다. 하루에 수십 건 정도이고, 특정 화면에 몰려 있지도 않습니다.",
+      "problem": "코드를 읽어봐도 의심스러운 곳을 찾지 못했고, 같은 조건으로 요청해도 재현되지 않습니다. 오후가 되면 빈도가 늘어나는 것 같기도 합니다.",
+      "question": "재현되지 않는 장애의 원인을 어떻게 찾을 수 있을까요?",
+      "actionLabel": "문제 해결 시작"
+    },
+    {
+      "id": "question-1",
+      "type": "quiz",
+      "label": "질문 1",
+      "situation": "아래 네 가지 모두 실제 장애 상황에서 자주 하는 행동입니다.",
+      "question": "가장 먼저 해야 할 일은 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "실패한 요청을 식별하고, 그 요청이 지나간 구간의 로그와 시스템 지표를 모은다" },
+        { "id": "B", "text": "코드를 처음부터 다시 읽으며 의심스러운 부분을 찾는다" },
+        { "id": "C", "text": "서버를 재시작해 증상이 사라지는지 확인한다" },
+        { "id": "D", "text": "최근 배포를 전부 되돌린다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "재현되지 않는 문제는 관측으로 좁힙니다",
+        "description": "재현이 안 된다는 것은 특정 입력이 아니라 특정 '상태'에서만 발생한다는 신호입니다. 그런 문제는 코드를 읽어서 찾기 어렵고, 실제로 실패한 순간의 기록에서 출발해야 합니다.",
+        "keywords": ["APM · 지표", "Logging", "관측"],
+        "note": "C는 특히 조심해야 합니다. 재시작하면 증상이 사라지는 경우가 많은데, 그건 문제가 해결된 것이 아니라 누적된 상태가 초기화된 것뿐입니다. 오히려 '시간이 지날수록 나빠지는 문제'라는 중요한 단서를 지워버립니다."
+      },
+      "incorrectFeedback": {
+        "title": "방향은 맞지만 지금은 아닙니다",
+        "description": "모두 실제로 하는 대응입니다. 다만 지금은 '재현이 안 되고 오후에 늘어나는 것 같다'는 상태입니다. 코드를 읽거나 되돌리기 전에, 실패한 순간에 무슨 일이 있었는지 알 방법부터 확보해야 하지 않을까요?"
+      }
+    },
+    {
+      "id": "question-2",
+      "type": "quiz",
+      "label": "질문 2",
+      "situation": "로그를 모았습니다. 그런데 프론트 로그, 백엔드 애플리케이션 로그, DB 슬로우 쿼리 로그가 각각 다른 곳에 시간순으로만 쌓여 있습니다. 초당 수십 건이 처리되다 보니, 실패한 그 요청이 어떤 쿼리를 실행했는지 이어 붙일 수가 없습니다.",
+      "question": "무엇이 필요할까요?",
+      "choices": [
+        { "id": "A", "text": "요청마다 고유 ID를 부여하고 모든 로그에 함께 남겨, 한 줄기로 묶어 조회할 수 있게 한다" },
+        { "id": "B", "text": "로그 레벨을 DEBUG로 낮춰 더 많은 내용을 남긴다" },
+        { "id": "C", "text": "모든 로그 파일을 하나로 합친다" },
+        { "id": "D", "text": "로그 수집 주기를 더 짧게 설정한다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "양이 아니라 연결이 문제입니다",
+        "description": "로그가 부족한 게 아니라, 흩어진 기록을 이어 붙일 열쇠가 없는 것입니다. 요청 진입 시점에 ID를 만들어 이후 모든 로그에 함께 남기면, 그 ID로 검색했을 때 프론트부터 DB까지 하나의 흐름이 나옵니다.",
+        "keywords": ["Correlation ID", "Distributed Tracing"],
+        "detail": {
+          "title": "B와 C가 오히려 나쁠 수 있는 이유",
+          "body": "로그를 더 많이 남기거나 한 파일에 합쳐도, 초당 수십 건이 섞여 있으면 어느 줄이 어느 요청의 것인지는 여전히 알 수 없습니다. 양만 늘어 찾기는 더 어려워지고, DEBUG 레벨은 운영 성능에도 부담을 줍니다.",
+          "example": "필요한 건 '더 많은 기록'이 아니라 '기록을 묶는 기준'입니다."
+        }
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "지금 로그가 없는 것이 아닙니다. 있는데 서로 연결되지 않는 상태입니다. 초당 수십 건이 섞여 있을 때 '이 요청의 기록만' 뽑아내려면 무엇이 있어야 할까요?"
+      }
+    },
+    {
+      "id": "question-3",
+      "type": "quiz",
+      "label": "질문 3",
+      "situation": "요청 ID로 추적해보니 실패한 요청들이 전부 같은 지점에서 멈춰 있었습니다. DB 커넥션을 얻지 못해 대기하다 타임아웃된 것입니다. 지표를 확인하니 Connection Pool 사용량이 오전부터 서서히 올라 오후에는 100%에 붙어 있었고, 재시작하면 다시 0부터 시작했습니다. 그런데 트래픽은 평소와 다르지 않습니다.",
+      "question": "가장 유력한 원인은 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "어떤 코드 경로가 커넥션을 반환하지 않고 있다" },
+        { "id": "B", "text": "트래픽이 늘었으므로 Connection Pool 크기를 늘려야 한다" },
+        { "id": "C", "text": "DB 서버 사양이 부족하므로 증설해야 한다" },
+        { "id": "D", "text": "커넥션 대기 타임아웃이 짧으므로 더 길게 설정해야 한다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "트래픽은 그대로인데 사용량만 오른다면 누수입니다",
+        "description": "정상이라면 커넥션은 빌려 쓰고 곧 돌아오므로 사용량이 트래픽에 따라 오르내립니다. 트래픽이 일정한데 사용량이 한 방향으로만 오르고 재시작하면 초기화된다는 것은, 돌아오지 않는 커넥션이 쌓이고 있다는 뜻입니다.",
+        "keywords": ["자원 반환 누락", "Connection Pool", "APM · 지표"],
+        "note": "B·C·D는 전부 '늘리기'입니다. 늘리면 100%에 도달하는 시각이 오후에서 밤으로 밀릴 뿐, 누수는 그대로라 반드시 다시 터집니다. 그리고 그때는 원인을 찾기가 더 어려워집니다.",
+        "detail": {
+          "title": "고치고 끝이 아닙니다",
+          "body": "누수 지점을 고쳤다면, 같은 일이 다시 생겼을 때 사용자 신고보다 먼저 알 수 있어야 합니다. 풀 사용량이 일정 수준을 넘으면 알람이 울리도록 해두는 것까지가 이 장애의 마무리입니다.",
+          "example": "재발 방지는 코드 수정 + 탐지 수단 + 회귀 테스트 세 가지가 함께 있을 때 성립합니다."
+        }
+      },
+      "incorrectFeedback": {
+        "title": "증상 완화이지 원인 규명이 아닙니다",
+        "description": "고른 조치들은 당장의 장애를 미룰 수 있습니다. 다만 트래픽이 평소와 같은데 사용량이 계속 오르기만 하고, 재시작하면 0으로 돌아간다는 점에 주목하세요. 이 패턴이 무엇을 말하고 있을까요?"
+      }
+    },
+    {
+      "id": "solution",
+      "type": "solution",
+      "label": "최종 해결안",
+      "title": "감이 아니라 기록과 지표로 구간을 좁힙니다",
+      "description": "세 질문에서 확인한 조치를 조사 순서대로 정리했습니다.",
+      "flow": [
+        {
+          "layer": "backend",
+          "layerLabel": "Logging",
+          "action": "요청 진입 시점에 Correlation ID를 발급해 모든 로그에 포함",
+          "solves": "흩어진 로그를 한 요청의 흐름으로 이을 수 없는 문제",
+          "keywords": ["Correlation ID", "Distributed Tracing"]
+        },
+        {
+          "layer": "operation",
+          "layerLabel": "Metric",
+          "action": "CPU·메모리·응답시간·Connection Pool 사용량 추이를 함께 확인",
+          "solves": "코드 밖에서 벌어지는 자원 고갈을 볼 수 없는 문제",
+          "keywords": ["APM · 지표", "Monitoring"]
+        },
+        {
+          "layer": "database",
+          "layerLabel": "Database",
+          "action": "커넥션을 반환하지 않는 코드 경로를 찾아 수정",
+          "solves": "시간이 지날수록 사용 가능한 커넥션이 사라지는 문제",
+          "keywords": ["자원 반환 누락", "Connection Pool"]
+        },
+        {
+          "layer": "backend",
+          "layerLabel": "Backend Service",
+          "action": "외부 호출에 타임아웃을 두고, 반복 실패 시 호출을 차단",
+          "solves": "한 구간의 지연이 전체 스레드를 묶어 장애가 번지는 문제",
+          "keywords": ["Timeout", "Circuit Breaker"]
+        },
+        {
+          "layer": "operation",
+          "layerLabel": "Operation",
+          "action": "풀 사용량 임계치 알람과 재발 방지 테스트 추가",
+          "solves": "같은 문제가 다시 생겨도 사용자 신고 전까지 모르는 상태",
+          "keywords": ["Monitoring", "재발 방지"]
+        }
+      ],
+      "summary": [
+        "재현되지 않는 장애는 코드를 노려본다고 찾아지지 않습니다.",
+        "실패한 요청을 식별하고, 그 요청의 기록을 잇고, 시스템 지표의 추이를 함께 봐야 구간이 좁혀집니다. 그리고 원인을 고친 뒤 탐지 수단을 남겨야 비로소 끝납니다."
+      ]
+    },
+    {
+      "id": "mapping",
+      "type": "mapping",
+      "label": "키워드 매핑",
+      "title": "조치와 기술 키워드 연결",
+      "description": "내가 선택한 조치가 실제로 어떤 개념을 사용한 것인지 확인합니다.",
+      "mappings": [
+        {
+          "action": "Correlation ID 부여",
+          "keywords": ["Correlation ID", "Distributed Tracing"],
+          "solves": "여러 시스템에 흩어진 로그를 하나의 요청으로 묶을 수 없는 문제",
+          "layer": "backend",
+          "layerLabel": "Backend",
+          "why": "기록이 많아도 묶는 기준이 없으면 원인을 좁힐 수 없습니다."
+        },
+        {
+          "action": "지표 추이 확인",
+          "keywords": ["APM · 지표", "Monitoring"],
+          "solves": "코드에는 없는 자원 고갈을 발견하지 못하는 문제",
+          "layer": "operation",
+          "layerLabel": "Operation",
+          "why": "값 하나가 아니라 시간에 따른 추이가 원인을 말해 줍니다."
+        },
+        {
+          "action": "커넥션 반환 누락 수정",
+          "keywords": ["자원 반환 누락", "Connection Pool"],
+          "solves": "시간이 지날수록 커넥션이 고갈되는 문제",
+          "layer": "database",
+          "layerLabel": "Database",
+          "why": "자원을 늘리는 것은 터지는 시각을 미룰 뿐입니다."
+        },
+        {
+          "action": "타임아웃과 호출 차단",
+          "keywords": ["Timeout", "Circuit Breaker"],
+          "solves": "한 구간의 지연이 시스템 전체로 번지는 문제",
+          "layer": "backend",
+          "layerLabel": "Backend",
+          "why": "실패를 빨리 인정해야 나머지 기능이 살아남습니다."
+        },
+        {
+          "action": "알람과 회귀 테스트 추가",
+          "keywords": ["Monitoring", "재발 방지"],
+          "solves": "같은 장애가 반복되어도 뒤늦게 아는 상태",
+          "layer": "operation",
+          "layerLabel": "Operation",
+          "why": "고친 것을 지키는 수단까지 있어야 장애 대응이 끝납니다."
+        }
+      ]
+    },
+    {
+      "id": "concepts",
+      "type": "concepts",
+      "label": "개념 복습",
+      "title": "이번 미션에서 사용한 개념",
+      "description": "문제를 풀며 등장한 개념을 정리합니다.",
+      "conceptRefs": [
+        { "id": "correlation-id", "usedAt": "질문 2 — 흩어진 로그를 잇는 열쇠" },
+        { "id": "apm", "usedAt": "질문 3 — 사용량 추이 확인" },
+        { "id": "connection-pool", "usedAt": "질문 3 — 고갈된 자원" },
+        { "id": "resource-leak", "usedAt": "질문 3 — 트래픽과 무관한 사용량 증가" },
+        { "id": "timeout", "usedAt": "최종 해결안 — 외부 호출 보호" },
+        { "id": "circuit-breaker", "usedAt": "최종 해결안 — 장애 전파 차단" }
+      ]
+    },
+    {
+      "id": "transfer",
+      "type": "quiz",
+      "label": "응용 문제",
+      "situation": "외부 결제사 API가 평소 0.2초에 응답하다가 어느 날 15초씩 걸리기 시작했습니다. 그러자 결제와 무관한 주문 조회, 통계 화면까지 모두 느려지고 일부는 응답하지 않았습니다.",
+      "question": "가장 핵심적으로 적용해야 하는 개념은 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "외부 호출에 타임아웃을 걸고, 반복 실패하면 한동안 호출을 끊어 다른 기능을 보호한다" },
+        { "id": "B", "text": "서버 스레드 개수를 크게 늘린다" },
+        { "id": "C", "text": "결제사에 빨리 복구해 달라고 요청하고 기다린다" },
+        { "id": "D", "text": "결제 기능을 완전히 제거한다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "남의 장애가 내 장애가 되지 않게 합니다",
+        "description": "타임아웃이 없으면 응답을 기다리는 동안 처리 스레드가 계속 묶입니다. 결제 요청 몇 건이 서버 전체 처리 능력을 잠식해, 결제와 상관없는 화면까지 멈추게 됩니다.",
+        "keywords": ["Timeout", "Circuit Breaker", "자원 반환 누락"],
+        "note": "케이스 05에서 메일 서버 때문에 주문 저장이 멈췄던 것과 같은 구조입니다. 그때는 비동기로 떼어냈고, 여기서는 결제처럼 즉시 응답이 필요한 작업이라 빨리 포기하고 차단하는 쪽을 택합니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "결제사 응답이 15초로 늘어난 순간부터 무관한 화면까지 느려졌습니다. 그 15초 동안 우리 서버의 무엇이 붙잡혀 있었을까요?"
+      }
+    },
+    {
+      "id": "complete",
+      "type": "complete",
+      "label": "미션 완료",
+      "title": "운영 케이스 08 완료",
+      "learnedConcepts": [
+        "Correlation ID",
+        "APM · 지표",
+        "Connection Pool",
+        "자원 반환 누락",
+        "Timeout",
+        "Circuit Breaker",
+        "Monitoring",
+        "재발 방지"
+      ],
+      "badge": "장애 추적자"
+    }
+  ]
+}

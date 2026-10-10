@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 2,
+  "id": "persistent-data",
+  "partId": "data",
+  "order": 1,
+  "status": "draft",
+  "title": "어떤 데이터가 계속 남아야 할까?",
+  "description": "주문 작성 중 임시 값과 주문 완료 후 반드시 남아야 할 데이터를 분류합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "화면 상태와 영속 데이터는 어떻게 구분하는가?",
+  "mission": "주문 작성 중 임시 값과 주문 완료 후 반드시 남아야 할 데이터를 분류합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "database-primary",
+      "table"
+    ],
+    "relatedNodeIds": [
+      "dto",
+      "entity",
+      "primary-key",
+      "foreign-key",
+      "database-index",
+      "database-replica",
+      "repository"
+    ],
+    "activeEdgeIds": [
+      "repository-to-database",
+      "entity-to-table",
+      "table-to-database",
+      "primary-key-to-table",
+      "foreign-key-to-table",
+      "index-to-table",
+      "database-to-replica"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Persistence",
+    "Database",
+    "Record",
+    "Data Lifecycle"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

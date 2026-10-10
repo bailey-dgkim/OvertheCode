@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 2,
+  "id": "idempotency",
+  "partId": "application",
+  "order": 5,
+  "status": "draft",
+  "title": "같은 요청이 두 번 오면 어떻게 해야 할까?",
+  "description": "프론트 방어, Service 멱등성, DB 제약조건을 결합해 중복 주문을 방지합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "버튼 중복 클릭과 동시에 도착한 요청은 어디에서 막는가?",
+  "mission": "프론트 방어, Service 멱등성, DB 제약조건을 결합해 중복 주문을 방지합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "service",
+      "process",
+      "database-index"
+    ],
+    "relatedNodeIds": [
+      "http-api",
+      "controller",
+      "repository",
+      "transaction",
+      "database-primary"
+    ],
+    "activeEdgeIds": [
+      "controller-to-service",
+      "service-to-transaction",
+      "service-to-repository"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Idempotency",
+    "Race Condition",
+    "Unique Constraint",
+    "Optimistic Lock"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

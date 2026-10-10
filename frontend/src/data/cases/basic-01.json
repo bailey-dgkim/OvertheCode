@@ -1,0 +1,171 @@
+{
+  "id": "basic-01",
+  "steps": [
+    {
+      "id": "intro",
+      "type": "mission",
+      "label": "왜 배우나",
+      "mission": "'되돌리기(Undo)'를 만들어야 합니다. 사용자가 방금 한 작업부터 하나씩 취소되어야 하죠. 3일 전 작업이 아니라, 가장 최근에 한 것부터요.",
+      "problem": "규칙은 하나입니다 — 항상 '가장 최근에 넣은 것'부터 꺼낸다. 이런 규칙을 가진 문제를, 컴퓨터에서는 'Stack(스택)'이라고 부릅니다.",
+      "question": "그런데 스택을 진짜로 배워야 하는 이유는 Undo 때문이 아닙니다. 스택은 컴퓨터가 여러분의 코드를 '실행하는 방식' 그 자체이기 때문입니다. 하나씩 볼까요?",
+      "actionLabel": "스택이 뭔지부터 보기"
+    },
+    {
+      "id": "structure",
+      "type": "structure",
+      "label": "무엇인가",
+      "name": "스택 (Stack)",
+      "tagline": "마지막에 넣은 것이 먼저 나온다",
+      "shape": "한쪽 끝에서만 넣고 뺍니다. 접시를 쌓듯 위에만 올리고, 뺄 때도 맨 위부터 꺼냅니다. 이 성질을 LIFO(Last In, First Out)라고 부릅니다. 지금은 이 이름과 성질만 알아두세요 — 진짜 중요한 건 다음입니다.",
+      "whenToUse": [
+        "되돌리기(Undo) — 가장 최근 작업부터 취소",
+        "함수 호출 추적 — 컴퓨터가 코드를 실행하는 방식 (곧 볼 핵심)",
+        "괄호 짝 검사 — 열린 괄호를 쌓아두고 닫힐 때 맨 위와 비교",
+        "DFS(깊이 우선 탐색)"
+      ],
+      "complexity": [
+        { "op": "push (맨 위에 넣기)", "time": "O(1)", "note": "위치가 항상 맨 위로 정해져 있어 즉시" },
+        { "op": "pop (맨 위 빼기)", "time": "O(1)", "note": "맨 위만 건드리므로 즉시" },
+        { "op": "peek (맨 위 확인)", "time": "O(1)", "note": "꺼내지 않고 보기만" },
+        { "op": "search (특정 값 찾기)", "time": "O(n)", "note": "중간을 보려면 결국 다 뒤져야 함" }
+      ],
+      "note": "넣기·빼기가 모두 O(1)로 빠릅니다. 맨 위만 건드리기 때문입니다."
+    },
+    {
+      "id": "quiz-behavior",
+      "type": "quiz",
+      "label": "동작 확인",
+      "question": "빈 스택에 1, 2, 3을 순서대로 push했습니다. pop을 한 번 하면 무엇이 나올까요?",
+      "choices": [
+        { "id": "A", "text": "3 — 마지막에 넣은 것이 먼저 나온다" },
+        { "id": "B", "text": "1 — 처음에 넣은 것이 먼저 나온다" },
+        { "id": "C", "text": "2 — 가운데 값이 나온다" },
+        { "id": "D", "text": "알 수 없다 — 순서가 정해져 있지 않다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "LIFO — 마지막에 넣은 3이 먼저 나옵니다",
+        "description": "스택은 맨 위에서만 넣고 뺍니다. 1, 2, 3 순으로 쌓으면 맨 위는 3이고, pop은 항상 맨 위를 꺼냅니다.",
+        "keywords": ["LIFO", "pop", "스택"],
+        "note": "이 단순한 규칙 하나가, 바로 다음에 볼 '컴퓨터가 코드를 실행하는 방식'의 핵심입니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "스택은 접시 쌓기와 같습니다. 맨 위에 올리고 맨 위부터 꺼냅니다. 1, 2, 3을 쌓으면 맨 위에 있는 것은 무엇일까요?"
+      }
+    },
+    {
+      "id": "call-stack",
+      "type": "call-stack-viz",
+      "label": "컴퓨터가 매일 쓰는 스택",
+      "mode": "run",
+      "title": "여러분의 코드는 이렇게 실행됩니다",
+      "intro": "운영 케이스에서 본 Controller → Service → Repository. 요청이 오면 이 함수들이 서로를 차례로 부릅니다. 아래 '호출'과 '반환'을 직접 눌러, 호출이 어떻게 쌓였다가 풀리는지 보세요.",
+      "frames": [
+        { "label": "OrderController.post()" },
+        { "label": "OrderService.create()" },
+        { "label": "OrderRepository.save()" }
+      ],
+      "pushLabel": "호출 ↓",
+      "popLabel": "반환 ↑",
+      "caption": "반환은 항상 맨 위부터입니다. Repository가 끝나면 Service로, Service가 끝나면 Controller로 돌아가죠. 컴퓨터는 '끝나면 어디로 돌아갈지'를 이렇게 스택에 쌓아 기억합니다. 이 스택을 '콜 스택(call stack)'이라고 부릅니다.",
+      "nextLabel": "이렇게 쌓이는군요, 다음"
+    },
+    {
+      "id": "stack-trace",
+      "type": "call-stack-viz",
+      "label": "매일 보던 그 에러 로그",
+      "mode": "trace",
+      "title": "Stack Trace의 정체",
+      "intro": "에러가 나면 이런 로그를 본 적 있을 겁니다. 낯설고 무섭게 느껴지지만, 사실 이건 방금 그 콜 스택을 '에러가 난 순간에' 그대로 찍어낸 것입니다.",
+      "frames": [
+        { "label": "OrderController.post()", "detail": "OrderController.java:18" },
+        { "label": "OrderService.create()", "detail": "OrderService.java:31" },
+        { "label": "OrderRepository.save()", "detail": "OrderRepository.java:42" }
+      ],
+      "topLabel": "← 에러가 실제로 터진 곳",
+      "caption": "맨 위 = 가장 최근 호출 = 에러가 실제로 난 곳(Repository.save, 42번째 줄). 아래로 갈수록 먼저 불린 함수입니다. 그래서 에러 로그는 '맨 위부터' 읽습니다. 컴퓨터는 어디로 돌아가야 하는지를 스택으로 기억하고, 문제가 생기면 그 스택을 그대로 보여줍니다 — 그게 바로 Stack Trace입니다.",
+      "nextLabel": "에러 로그가 읽히네요, 다음"
+    },
+    {
+      "id": "code-recursion",
+      "type": "translate",
+      "label": "재귀도 콜 스택",
+      "title": "폴더 안 파일 개수 세기",
+      "intro": "함수가 함수를 부르면 콜 스택이 쌓인다고 했죠. '자기가 자기를 부르는' 경우엔 특히 그렇습니다. 앞서 트리에서 본 '폴더 안의 폴더'를 세는 코드입니다.",
+      "lines": [
+        { "code": "int countFiles(Folder folder) {\n  int count = 0;\n  for (Item item : folder.items()) {\n    if (item.isFile()) count += 1;\n    if (item.isFolder()) count += countFiles(item);\n  }\n  return count;\n}", "ko": "폴더 안을 하나씩 본다. 파일이면 1개로 센다. 그런데 폴더가 나오면 → 그 폴더를 '똑같은 함수(countFiles)'로 다시 센다. 이렇게 함수가 자기 자신을 다시 부르는 것을 '재귀'라고 합니다." },
+        { "code": "count += countFiles(item);", "ko": "바로 이 한 줄이 재귀입니다. countFiles 안에서 다시 countFiles를 부릅니다. 부를 때마다 콜 스택에 쌓이고, 하위 폴더가 3겹이든 10겹이든 같은 방법이 그 안에서 계속 반복됩니다." }
+      ]
+    },
+    {
+      "id": "quiz-recursion",
+      "type": "quiz",
+      "label": "재귀와 콜 스택",
+      "situation": "폴더 안으로 한 겹씩 들어갈 때마다 countFiles 호출이 콜 스택에 쌓입니다. 방금 Controller → Service → Repository가 쌓였던 것과 똑같습니다.",
+      "question": "가장 깊은 하위 폴더까지 들어갔다가 나올 때, 폴더들은 어떤 순서로 세기를 마칠까요?",
+      "choices": [
+        { "id": "A", "text": "가장 깊이(마지막에) 들어간 폴더부터 세기를 마치고, 들어간 반대 순서로 빠져나온다" },
+        { "id": "B", "text": "가장 바깥 폴더가 먼저 세기를 마친다" },
+        { "id": "C", "text": "모든 폴더가 동시에 끝난다" },
+        { "id": "D", "text": "순서는 정해져 있지 않다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "들어간 반대 순서로 나온다 — 콜 스택도 LIFO",
+        "description": "가장 안쪽 폴더를 다 세야 바깥 폴더의 합이 완성됩니다. 마지막에 쌓인 것부터 끝나고 거꾸로 빠져나오죠. Repository가 먼저 끝나고 Controller로 돌아갔던 것과 똑같습니다.",
+        "keywords": ["콜 스택", "재귀", "LIFO"],
+        "note": "핵심: 우리가 스택 자료구조를 직접 안 써도, 함수를 부르기만 하면 컴퓨터가 알아서 콜 스택을 씁니다. (만약 '더 이상 하위 폴더가 없으면 멈춘다'는 조건이 없어 끝없이 들어가면, 콜 스택이 넘쳐 'StackOverflow' 오류가 납니다 — 이름에 '스택'이 들어있죠.)"
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "바깥 폴더의 개수는 그 안 하위 폴더들을 다 세야 완성됩니다. 그러니 안쪽부터 끝나야겠죠. 가장 깊이 들어간 것과 가장 먼저 끝나는 것의 관계를 생각해보세요."
+      }
+    },
+    {
+      "id": "code-usage",
+      "type": "translate",
+      "label": "직접 쓸 땐",
+      "title": "직접 쓸 땐, 만들지 않고 꺼내 씁니다",
+      "intro": "지금까지 본 콜 스택은 컴퓨터가 알아서 씁니다. 그럼 개발자가 스택을 '직접' 쓸 땐 어떻게 할까요? 밑바닥부터 만들지 않고, Java가 준 것을 꺼내 씁니다.",
+      "lines": [
+        { "code": "Deque<String> stack = new ArrayDeque<>();", "ko": "문자열을 담는 스택을 하나 만든다. (직접 구현이 아니라 Java가 제공하는 ArrayDeque를 꺼내 쓴다)" },
+        { "code": "stack.push(\"첫 작업\");", "ko": "스택 맨 위에 \"첫 작업\"을 올린다." },
+        { "code": "stack.push(\"둘째 작업\");", "ko": "그 위에 \"둘째 작업\"을 올린다. 이제 맨 위는 \"둘째 작업\"." },
+        { "code": "String last = stack.pop();", "ko": "맨 위(\"둘째 작업\")를 꺼내 last에 담는다. 마지막에 넣은 것이 먼저 나온다(LIFO)." }
+      ]
+    },
+    {
+      "id": "quiz-when",
+      "type": "quiz",
+      "label": "언제 직접 쓰나",
+      "question": "그렇다면 개발자가 스택(Deque)을 '직접 꺼내 쓰는' 경우는 언제일까요?",
+      "choices": [
+        { "id": "A", "text": "수식의 괄호 짝을 검사할 때 — 열린 괄호를 쌓고 닫힐 때 맨 위와 비교" },
+        { "id": "B", "text": "주문 목록을 화면에 순서대로 보여줄 때" },
+        { "id": "C", "text": "학번으로 학생 정보를 찾을 때" },
+        { "id": "D", "text": "대부분의 일반적인 화면 개발에서 항상" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "드물지만, 이런 순간엔 정확히 스택입니다",
+        "description": "괄호 짝 검사, 실행 취소 기능, DFS를 반복문으로 구현할 때 — 이런 특정 상황에서 스택을 직접 꺼내 씁니다. 흔하진 않지만, 필요한 순간을 알아보는 것이 실력입니다.",
+        "keywords": ["Deque", "괄호 검사", "실무 사용"],
+        "note": "B는 List, C는 Map이면 충분합니다. 스택을 직접 쓸 일은 드뭅니다. 하지만 방금 봤듯, 컴퓨터는 여러분의 모든 코드를 콜 스택 위에서 실행하고 있습니다 — 그게 스택을 배우는 진짜 이유입니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "스택을 직접 쓰는 건 '마지막에 쌓은 것부터 꺼내야 하는' 특정 상황입니다. 네 가지 중 그런 성질이 필요한 것은 어느 것일까요?"
+      }
+    },
+    {
+      "id": "complete",
+      "type": "complete",
+      "label": "완료",
+      "title": "스택으로 '실행 방식'을 봤습니다",
+      "message": "LIFO를 외운 게 아닙니다. 여러분의 코드가 콜 스택 위에서 어떻게 쌓였다 풀리는지, 매일 보던 에러 로그(Stack Trace)가 왜 그렇게 생겼는지, 재귀가 왜 스택을 쓰는지를 봤습니다. 컴퓨터는 '어디로 돌아가야 하는지'를 스택으로 기억합니다. 스택을 직접 쓸 일은 드물지만, 컴퓨터는 매 순간 쓰고 있습니다.",
+      "learnedConcepts": ["스택", "LIFO", "콜 스택", "Stack Trace", "재귀", "실행 방식"],
+      "badge": "스택 · 실행의 이해"
+    }
+  ]
+}

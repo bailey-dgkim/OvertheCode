@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 2,
+  "id": "reverse-proxy-load-balancer",
+  "partId": "network",
+  "order": 4,
+  "status": "draft",
+  "title": "사용자 요청을 누가 서버로 나눠줄까?",
+  "description": "정상 서버가 있는데도 일부 요청만 실패하는 Load Balancer 상태를 해석합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "Reverse Proxy와 Load Balancer는 어떤 역할을 하는가?",
+  "mission": "정상 서버가 있는데도 일부 요청만 실패하는 Load Balancer 상태를 해석합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "load-balancer",
+      "health-check",
+      "cdn"
+    ],
+    "relatedNodeIds": [
+      "browser",
+      "dns",
+      "tls",
+      "firewall",
+      "application-instance"
+    ],
+    "activeEdgeIds": [
+      "dns-to-cdn",
+      "cdn-to-load-balancer",
+      "firewall-to-load-balancer",
+      "load-balancer-to-application"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Reverse Proxy",
+    "Load Balancer",
+    "Health Check",
+    "Routing",
+    "CDN"
+  ],
+  "conceptRefs": [
+    "health-check"
+  ],
+  "steps": [],
+  "completionPrompt": null
+}

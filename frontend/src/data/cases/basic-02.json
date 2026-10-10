@@ -1,0 +1,90 @@
+{
+  "id": "basic-02",
+  "steps": [
+    {
+      "id": "intro",
+      "type": "mission",
+      "label": "상황",
+      "mission": "고객 상담 요청이 몰리는 시스템을 만듭니다. 요청이 들어온 순서대로 상담원에게 배정해야 합니다.",
+      "problem": "먼저 문의한 고객이 먼저 응대받아야 공정합니다. 나중에 온 사람이 새치기하면 안 됩니다.",
+      "question": "'먼저 들어온 것을 먼저 꺼내는' 동작에 맞는 자료구조는 무엇일까요? (스택과는 반대입니다)",
+      "actionLabel": "자료구조 살펴보기"
+    },
+    {
+      "id": "structure",
+      "type": "structure",
+      "label": "자료구조 · 큐",
+      "name": "큐 (Queue)",
+      "tagline": "먼저 넣은 것이 먼저 나온다",
+      "shape": "한쪽 끝(뒤)으로 넣고, 반대쪽 끝(앞)에서 뺍니다. 줄 서기와 같습니다. 먼저 줄 선 사람이 먼저 나갑니다. 이 성질을 FIFO(First In, First Out)라고 부릅니다. 스택(LIFO)과 정확히 반대입니다.",
+      "whenToUse": [
+        "대기열 — 먼저 온 요청부터 순서대로 처리",
+        "프린터 인쇄 대기, 작업 큐",
+        "메시지 큐 — 들어온 순서대로 소비",
+        "BFS(너비 우선 탐색)"
+      ],
+      "complexity": [
+        { "op": "enqueue (뒤에 넣기)", "time": "O(1)", "note": "넣는 위치가 뒤로 정해져 즉시" },
+        { "op": "dequeue (앞에서 빼기)", "time": "O(1)", "note": "빼는 위치가 앞으로 정해져 즉시" },
+        { "op": "peek (맨 앞 확인)", "time": "O(1)", "note": "꺼내지 않고 보기만" },
+        { "op": "search (특정 값 찾기)", "time": "O(n)", "note": "중간을 보려면 다 훑어야 함" }
+      ],
+      "note": "Java에서는 Queue 인터페이스를 ArrayDeque로 구현해 쓰는 것이 일반적입니다."
+    },
+    {
+      "id": "quiz-behavior",
+      "type": "quiz",
+      "label": "동작 확인",
+      "question": "빈 큐에 1, 2, 3을 순서대로 enqueue했습니다. dequeue를 한 번 하면 무엇이 나올까요?",
+      "choices": [
+        { "id": "A", "text": "1 — 먼저 넣은 것이 먼저 나온다" },
+        { "id": "B", "text": "3 — 마지막에 넣은 것이 먼저 나온다" },
+        { "id": "C", "text": "2 — 가운데 값이 나온다" },
+        { "id": "D", "text": "알 수 없다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "FIFO — 먼저 넣은 1이 먼저 나옵니다",
+        "description": "큐는 줄 서기입니다. 맨 앞(가장 먼저 들어온 1)부터 빠져나갑니다.",
+        "keywords": ["FIFO", "dequeue", "큐"],
+        "note": "만약 마지막에 넣은 3이 먼저 나온다고 답했다면, 그건 앞 케이스의 스택(LIFO)입니다. 큐와 스택의 차이가 바로 이 방향입니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "큐는 줄 서기와 같습니다. 먼저 줄 선 사람이 먼저 나갑니다. 1, 2, 3 순으로 줄 섰다면 맨 앞은 누구일까요?"
+      }
+    },
+    {
+      "id": "quiz-usage",
+      "type": "quiz",
+      "label": "스택과 비교",
+      "question": "스택과 큐 중, 다음 상황에 큐가 어울리는 것은 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "은행 번호표 — 뽑은 순서대로 호출" },
+        { "id": "B", "text": "실행 취소(Undo) — 방금 한 작업부터 되돌리기" },
+        { "id": "C", "text": "수식의 괄호 짝 검사" },
+        { "id": "D", "text": "브라우저 뒤로 가기" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "번호표 = 먼저 뽑은 사람부터 = FIFO = 큐",
+        "description": "먼저 온 순서를 지켜야 하는 것은 큐입니다.",
+        "keywords": ["FIFO", "큐", "대기열"],
+        "note": "B·C·D는 모두 '가장 최근 것부터'라 스택(LIFO)입니다. '순서를 지킨다'면 큐, '최근 것부터'라면 스택으로 구분하세요."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "큐는 '먼저 온 순서를 지키는' 것입니다. 네 상황 중 순서대로 공정하게 처리해야 하는 것은 어느 것일까요?"
+      }
+    },
+    {
+      "id": "complete",
+      "type": "complete",
+      "label": "완료",
+      "title": "큐를 익혔습니다",
+      "message": "스택은 '최근 것부터(LIFO)', 큐는 '먼저 온 것부터(FIFO)'. 반대 방향의 짝을 함께 익혔습니다. 둘 다 넣기·빼기가 O(1)로 빠릅니다.",
+      "learnedConcepts": ["큐", "FIFO", "enqueue / dequeue", "스택 vs 큐"],
+      "badge": "큐 입문"
+    }
+  ]
+}

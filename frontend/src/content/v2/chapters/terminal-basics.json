@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 2,
+  "id": "terminal-basics",
+  "partId": "workspace",
+  "order": 4,
+  "status": "draft",
+  "title": "터미널은 현재 폴더에서 명령을 실행한다",
+  "description": "프로젝트 밖에서 실행해 package.json을 찾지 못하는 상황을 설명만으로 소개합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "왜 같은 명령도 어느 폴더에서 실행하느냐에 따라 결과가 다른가?",
+  "mission": "프로젝트 밖에서 실행해 package.json을 찾지 못하는 상황을 설명만으로 소개합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "terminal"
+    ],
+    "relatedNodeIds": [
+      "current-path",
+      "project-folder"
+    ],
+    "activeEdgeIds": [
+      "current-path-to-terminal"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Terminal",
+    "Shell",
+    "Command",
+    "Current Directory"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

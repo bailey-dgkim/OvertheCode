@@ -1,0 +1,242 @@
+{
+  "id": "operation-02",
+  "steps": [
+    {
+      "id": "intro",
+      "type": "mission",
+      "label": "Mission",
+      "mission": "딜러 사용자가 아이디와 비밀번호로 로그인하는 기능을 구현했습니다. 로그인 화면에서 인증에 성공하면 주문 목록으로 이동합니다.",
+      "problem": "로그인에는 성공했는데, 주문 목록으로 이동하자 다시 로그인 화면으로 튕겨 나옵니다.",
+      "question": "왜 로그인 상태가 유지되지 않을까요?",
+      "actionLabel": "문제 해결 시작"
+    },
+    {
+      "id": "question-1",
+      "type": "quiz",
+      "label": "질문 1",
+      "question": "로그인에 성공했는데도 다음 요청에서 서버가 사용자를 알아보지 못하는 근본 원인은 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "HTTP는 각 요청을 독립적으로 처리하며 이전 요청을 기억하지 않는다" },
+        { "id": "B", "text": "비밀번호가 틀렸기 때문에 로그인이 실제로는 실패했다" },
+        { "id": "C", "text": "브라우저 버전이 오래되어 화면 이동을 지원하지 않는다" },
+        { "id": "D", "text": "DB 서버의 저장 공간이 부족해 로그인 기록이 지워졌다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "HTTP는 상태를 기억하지 않습니다",
+        "description": "로그인 요청과 주문 목록 요청은 서버 입장에서 아무 관계가 없는 별개의 요청입니다. 방금 누가 로그인했는지는 다음 요청에 담겨 있지 않습니다.",
+        "keywords": ["HTTP Stateless", "상태와 무상태"],
+        "note": "그래서 로그인은 '성공했다'로 끝나면 안 되고, 이후 요청에서 사용자를 알아볼 수단을 만들어 주는 것까지가 한 세트입니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "로그인 자체는 성공했고 브라우저나 저장 공간의 문제도 아닙니다. 로그인 요청과 그다음 요청이 서버에서 어떤 관계인지 생각해보세요."
+      }
+    },
+    {
+      "id": "question-2",
+      "type": "quiz",
+      "label": "질문 2",
+      "situation": "로그인에 성공하면 서버가 사용자를 식별할 수 있는 값을 발급하도록 바꿨습니다. 그런데 여전히 다음 화면에서 로그아웃됩니다.",
+      "question": "발급한 인증 정보를 어떻게 다뤄야 로그인이 유지될까요?",
+      "choices": [
+        { "id": "A", "text": "쿠키나 헤더에 담아 이후 모든 요청마다 함께 보낸다" },
+        { "id": "B", "text": "로그인할 때 한 번만 보내면 서버가 알아서 계속 기억한다" },
+        { "id": "C", "text": "서버 로그 파일에 기록해두고 필요할 때 찾아본다" },
+        { "id": "D", "text": "화면 제목에 표시해 사용자가 확인할 수 있게 한다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "매 요청마다 함께 보내야 합니다",
+        "description": "서버가 값을 발급하는 것만으로는 부족합니다. 클라이언트가 그 값을 보관했다가 요청할 때마다 실어 보내야 서버가 매번 '아, 이 사용자구나'를 알 수 있습니다.",
+        "keywords": ["Cookie", "세션", "JWT", "인증"],
+        "detail": {
+          "title": "세션과 JWT의 차이",
+          "body": "세션은 서버가 로그인 상태를 보관하고 클라이언트는 그 보관함을 가리키는 식별자만 들고 다닙니다. JWT는 서버가 보관하지 않고, 서명된 토큰 자체를 검증해 신원을 확인합니다.",
+          "example": "세션은 '서버에 기록이 있다', JWT는 '토큰이 위조되지 않았다'로 사용자를 인정합니다."
+        }
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "HTTP가 이전 요청을 기억하지 않는다면, 기억하게 만드는 일은 누가 해야 할까요? 서버가 아니라 요청을 보내는 쪽에서 할 일이 있습니다."
+      }
+    },
+    {
+      "id": "question-3",
+      "type": "quiz",
+      "label": "질문 3",
+      "situation": "세션 방식으로 로그인이 잘 동작했습니다. 이후 트래픽이 늘어 서버를 두 대로 늘리고 앞에 로드밸런서를 두었습니다. 그러자 어떤 요청은 정상인데 어떤 요청은 다시 로그아웃됩니다.",
+      "question": "원인과 해결로 가장 적절한 것은 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "세션이 로그인을 처리한 서버의 메모리에만 있어서다. Redis 같은 공용 저장소에 저장하거나 토큰 기반 인증으로 바꾼다" },
+        { "id": "B", "text": "로드밸런서를 제거하고 서버를 다시 한 대로 되돌린다" },
+        { "id": "C", "text": "사용자에게 로그인을 두 번 하도록 안내한다" },
+        { "id": "D", "text": "사용자에게 브라우저 캐시를 지우도록 안내한다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "상태를 서버 밖으로 꺼내야 합니다",
+        "description": "1번 서버에서 로그인했는데 다음 요청이 2번 서버로 가면, 2번 서버 메모리에는 그 세션이 없습니다. 로그인 상태를 특정 서버가 아니라 모두가 공유하는 곳에 두어야 합니다.",
+        "keywords": ["Load Balancer", "공유 세션 저장소", "Redis", "Stateless"],
+        "note": "B는 문제를 없애는 대신 확장을 포기하는 선택입니다. 서버를 늘리면서도 동작하게 만드는 것이 목표입니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "서버를 늘린 직후부터 발생했고, 어떤 요청은 되고 어떤 요청은 안 됩니다. 로그인 정보가 지금 어디에 저장되어 있는지 떠올려보세요."
+      }
+    },
+    {
+      "id": "solution",
+      "type": "solution",
+      "label": "최종 해결안",
+      "title": "로그인 유지는 발급 · 전달 · 공유 세 단계로 완성됩니다",
+      "description": "세 질문에서 확인한 조치를 요청이 흐르는 순서대로 정리했습니다.",
+      "flow": [
+        {
+          "layer": "backend",
+          "layerLabel": "Backend Service",
+          "action": "아이디와 비밀번호를 검증하고, 저장된 해시와 비교해 본인 확인",
+          "solves": "비밀번호를 평문으로 저장하거나 비교하는 위험",
+          "keywords": ["Authentication", "Hash"]
+        },
+        {
+          "layer": "backend",
+          "layerLabel": "Backend Service",
+          "action": "인증 성공 시 세션 ID 또는 JWT를 발급",
+          "solves": "이후 요청에서 사용자를 식별할 수단이 없는 문제",
+          "keywords": ["Session", "JWT"]
+        },
+        {
+          "layer": "frontend",
+          "layerLabel": "Client",
+          "action": "발급받은 값을 쿠키나 헤더에 담아 모든 요청에 함께 전송",
+          "solves": "HTTP가 이전 요청을 기억하지 않는 성질",
+          "keywords": ["HTTP Stateless", "Cookie"]
+        },
+        {
+          "layer": "database",
+          "layerLabel": "Storage",
+          "action": "세션을 서버 메모리가 아닌 Redis 등 공용 저장소에 보관",
+          "solves": "서버가 여러 대일 때 로그인한 서버에서만 인식되는 문제",
+          "keywords": ["Shared Session", "Redis"]
+        },
+        {
+          "layer": "operation",
+          "layerLabel": "Operation",
+          "action": "인증 실패율과 세션 저장소 응답 시간을 모니터링",
+          "solves": "로그인 장애를 사용자 신고 전에 감지하지 못하는 상태",
+          "keywords": ["Monitoring", "Audit"]
+        }
+      ],
+      "summary": [
+        "로그인은 '인증에 성공했다'로 끝나지 않습니다.",
+        "서버는 식별 수단을 발급하고, 클라이언트는 매 요청마다 그것을 전달하며, 서버가 여러 대라면 그 상태를 모두가 볼 수 있는 곳에 두어야 비로소 로그인이 유지됩니다."
+      ]
+    },
+    {
+      "id": "mapping",
+      "type": "mapping",
+      "label": "키워드 매핑",
+      "title": "조치와 기술 키워드 연결",
+      "description": "내가 선택한 조치가 실제로 어떤 개념을 사용한 것인지 확인합니다.",
+      "mappings": [
+        {
+          "action": "비밀번호 해시 비교",
+          "keywords": ["Hash", "Security"],
+          "solves": "비밀번호를 원문 그대로 저장하거나 비교하는 위험",
+          "layer": "backend",
+          "layerLabel": "Backend",
+          "why": "저장된 값이 유출되어도 원래 비밀번호를 되돌릴 수 없게 합니다."
+        },
+        {
+          "action": "인증 정보 발급",
+          "keywords": ["Authentication", "세션", "JWT"],
+          "solves": "다음 요청에서 사용자를 알아볼 방법이 없는 문제",
+          "layer": "backend",
+          "layerLabel": "Backend",
+          "why": "누구인지 확인한 사실을 이후 요청에서도 쓸 수 있는 형태로 남깁니다."
+        },
+        {
+          "action": "쿠키·헤더로 매 요청 전송",
+          "keywords": ["HTTP Stateless", "Cookie"],
+          "solves": "요청끼리 아무 연결이 없는 HTTP의 성질",
+          "layer": "frontend",
+          "layerLabel": "Frontend",
+          "why": "서버가 기억하지 않으니 클라이언트가 매번 알려주어야 합니다."
+        },
+        {
+          "action": "Redis 세션 저장",
+          "keywords": ["Load Balancer", "공유 세션 저장소"],
+          "solves": "요청이 다른 서버로 갔을 때 로그인 정보가 없는 문제",
+          "layer": "database",
+          "layerLabel": "Database",
+          "why": "상태를 특정 서버가 아니라 모든 서버가 함께 보는 곳에 둡니다."
+        },
+        {
+          "action": "인증 지표 모니터링",
+          "keywords": ["Monitoring", "Audit"],
+          "solves": "로그인 장애를 뒤늦게 아는 상태",
+          "layer": "operation",
+          "layerLabel": "Operation",
+          "why": "인증 실패율이 튀는 순간을 사용자 신고보다 먼저 감지합니다."
+        }
+      ]
+    },
+    {
+      "id": "concepts",
+      "type": "concepts",
+      "label": "개념 복습",
+      "title": "이번 미션에서 사용한 개념",
+      "description": "문제를 풀며 등장한 개념을 정리합니다.",
+      "conceptRefs": [
+        { "id": "http-stateless", "usedAt": "질문 1 — 로그인이 유지되지 않는 근본 원인" },
+        { "id": "authentication", "usedAt": "질문 2 — 인증 수단 발급" },
+        { "id": "session", "usedAt": "질문 2 — 서버가 상태를 보관하는 방식" },
+        { "id": "jwt", "usedAt": "질문 2 — 서버가 상태를 보관하지 않는 방식" },
+        { "id": "password-hash", "usedAt": "최종 해결안 — 본인 확인 단계" },
+        { "id": "load-balancer", "usedAt": "질문 3 — 서버를 두 대로 늘린 상황" },
+        { "id": "shared-session-store", "usedAt": "질문 3 — 로그인 상태를 공용 저장소로" }
+      ]
+    },
+    {
+      "id": "transfer",
+      "type": "quiz",
+      "label": "응용 문제",
+      "situation": "로그인과 무관한 기능에서 비슷한 일이 생겼습니다. 장바구니 담긴 상품을 서버 메모리에 보관했는데, 서버를 두 대로 늘리자 새로고침할 때마다 장바구니가 비었다가 다시 나타납니다.",
+      "question": "가장 핵심적으로 적용해야 하는 개념은 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "서버 메모리가 아니라 모든 서버가 공유하는 저장소에 장바구니를 보관한다" },
+        { "id": "B", "text": "장바구니 화면의 새로고침 버튼을 없앤다" },
+        { "id": "C", "text": "사용자에게 상품을 다시 담으라고 안내한다" },
+        { "id": "D", "text": "서버 메모리 용량을 두 배로 늘린다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "같은 문제, 같은 해법입니다",
+        "description": "로그인 세션에서 배운 것이 그대로 적용됩니다. 여러 서버가 함께 보아야 하는 상태를 한 서버의 메모리에 두면, 요청이 다른 서버로 가는 순간 그 상태는 존재하지 않는 것이 됩니다.",
+        "keywords": ["공유 세션 저장소", "Load Balancer", "분산 환경"]
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "서버를 늘린 직후부터 발생했고 증상이 오락가락합니다. 장바구니 정보가 지금 어디에 저장되어 있는지 떠올려보세요."
+      }
+    },
+    {
+      "id": "complete",
+      "type": "complete",
+      "label": "미션 완료",
+      "title": "운영 케이스 02 완료",
+      "learnedConcepts": [
+        "HTTP 무상태",
+        "인증",
+        "세션",
+        "JWT",
+        "Cookie",
+        "비밀번호 해시",
+        "로드밸런서",
+        "공유 세션 저장소"
+      ],
+      "badge": "로그인 상태 지킴이"
+    }
+  ]
+}

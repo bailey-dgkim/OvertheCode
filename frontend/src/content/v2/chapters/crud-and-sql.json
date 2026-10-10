@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 2,
+  "id": "crud-and-sql",
+  "partId": "data",
+  "order": 4,
+  "status": "draft",
+  "title": "저장하고 찾고 바꾸는 일은 어떻게 일어날까?",
+  "description": "애플리케이션의 저장·조회 동작을 실제 SQL과 연결합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "Repository 호출 뒤 DB에서는 어떤 일이 일어나는가?",
+  "mission": "애플리케이션의 저장·조회 동작을 실제 SQL과 연결합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "database-primary"
+    ],
+    "relatedNodeIds": [
+      "dto",
+      "entity",
+      "table",
+      "primary-key",
+      "foreign-key",
+      "database-index",
+      "database-replica"
+    ],
+    "activeEdgeIds": [
+      "table-to-database",
+      "database-to-replica"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "CRUD",
+    "SQL",
+    "SELECT",
+    "INSERT",
+    "UPDATE",
+    "DELETE"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

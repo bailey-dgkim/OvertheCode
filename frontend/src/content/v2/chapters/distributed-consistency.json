@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 2,
+  "id": "distributed-consistency",
+  "partId": "scale",
+  "order": 6,
+  "status": "draft",
+  "title": "여러 곳에서 동시에 바꾸면 무엇을 믿어야 할까?",
+  "description": "재고·주문·결제가 서로 다른 시점에 반영되는 상황에서 사용자에게 보여줄 상태를 결정합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "분산된 시스템에서 하나의 정답을 즉시 유지할 수 있는가?",
+  "mission": "재고·주문·결제가 서로 다른 시점에 반영되는 상황에서 사용자에게 보여줄 상태를 결정합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "service"
+    ],
+    "relatedNodeIds": [
+      "load-balancer",
+      "application-instance",
+      "redis",
+      "message-queue",
+      "worker",
+      "database-primary",
+      "database-replica"
+    ],
+    "activeEdgeIds": [
+      "service-to-redis",
+      "service-to-queue"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Concurrency",
+    "Consistency",
+    "Replication Lag",
+    "Eventual Consistency",
+    "Idempotency"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

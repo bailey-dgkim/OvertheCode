@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 2,
+  "id": "ec2-runtime",
+  "partId": "runtime",
+  "order": 4,
+  "status": "draft",
+  "title": "EC2 위에 코드를 올린다는 것은 무슨 뜻일까?",
+  "description": "로컬과 EC2의 Java 버전·권한·경로 차이로 발생한 실행 실패를 해결합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "서버에서 프로그램이 실행되기 위해 무엇이 설치되고 설정되어야 하는가?",
+  "mission": "로컬과 EC2의 Java 버전·권한·경로 차이로 발생한 실행 실패를 해결합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "ec2",
+      "runtime"
+    ],
+    "relatedNodeIds": [
+      "environment-variable"
+    ],
+    "activeEdgeIds": [
+      "ec2-to-runtime",
+      "environment-to-runtime"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Virtual Machine",
+    "OS",
+    "Runtime Version",
+    "Dependency",
+    "Permission"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 2,
+  "parts": [
+    {
+      "id": "workspace",
+      "order": 0,
+      "kind": "orientation",
+      "title": "개발 작업 공간",
+      "goal": "“프로젝트 루트에서 터미널을 열고 명령을 실행하세요”라는 안내가 무엇을 의미하는지 이해합니다.",
+      "question": "소스코드는 어디에 있고, 터미널은 무엇을 하는 걸까?",
+      "realization": "소스코드는 특별한 공간에 있는 것이 아니라 컴퓨터의 폴더 안에 저장된 파일이며, 터미널은 현재 폴더를 기준으로 프로그램을 실행하는 방법이라는 최소한의 출발점을 만듭니다.",
+      "scope": [
+        "파일·폴더",
+        "프로젝트",
+        "경로",
+        "터미널",
+        "소스와 실행"
+      ],
+      "representativeNodeIds": [
+        "project-folder",
+        "source-code",
+        "terminal"
+      ],
+      "existingCompetency": "별도의 평가 없이 이후 실습에서 반복해서 보게 될 작업 공간과 용어를 짧게 설명합니다.",
+      "outcome": "“프로젝트 루트에서 터미널을 열고 명령을 실행하세요”라는 안내가 무엇을 의미하는지 이해합니다.",
+      "unitLabel": "설명",
+      "secondaryLabel": "설명 장면",
+      "memory": {
+        "kind": "orientation",
+        "title": "설명만 제공",
+        "copy": "Part 0는 이후 실습을 이해하기 위한 짧은 오리엔테이션입니다.",
+        "rule": "깜빡이 학습, 배열 문제, 통과 기준을 적용하지 않습니다.",
+        "items": [
+          "파일·폴더·터미널을 처음 접하는 사용자가 이후 Part의 안내를 따라갈 정도까지만 설명합니다."
+        ]
+      }
+    },
+    {
+      "id": "frontend",
+      "order": 1,
+      "kind": "curriculum",
+      "title": "프론트엔드",
+      "goal": "화면에 보이는 요소, 브라우저가 기억하는 상태, 서버에 저장된 데이터를 구분하고 사용자 행동이 코드 어디에서 시작되는지 찾을 수 있습니다.",
+      "question": "내가 구상한 화면은 코드로 어떻게 만들어지는 걸까?",
+      "realization": "\"나 이런 화면 하나 만들어줘\" 뒤에서 벌어지고 있는 수많은 일들",
+      "scope": [
+        "사용자·클라이언트",
+        "Browser",
+        "화면과 상태",
+        "사용자 입력",
+        "API 호출의 시작"
+      ],
+      "representativeNodeIds": [
+        "browser",
+        "frontend"
+      ],
+      "existingCompetency": "도메인 지식으로 필요한 화면과 업무 흐름을 설명하고, 커뮤니케이션 역량으로 사용자의 행동을 구체적인 UI 상태로 정의합니다.",
+      "outcome": "화면에 보이는 요소, 브라우저가 기억하는 상태, 서버에 저장된 데이터를 구분하고 사용자 행동이 코드 어디에서 시작되는지 찾을 수 있습니다.",
+      "unitLabel": "Chapter",
+      "memory": {
+        "kind": "blink",
+        "title": "깜빡이 학습 · 동일 개념 3회 연속",
+        "copy": "반드시 기억해야 하는 동일한 순서와 역할을 바꾸지 않고 반복합니다.",
+        "rule": "같은 문제와 같은 답안으로 3회 연속 정답이면 암기 완료입니다. 답안의 최초 배치만 섞으며, 오답이면 연속 횟수는 다시 0부터 시작합니다. 실제 상황에 적용하는 이해 미션은 별도로 진행합니다.",
+        "items": [
+          "사용자 입력 → Event → Event Handler → State 변경 → Component 재렌더링 → 화면 표시",
+          "저장 클릭 → submit Event → Handler → 입력 검증 → Loading → API 호출 → Response → Success·Error → 재렌더링",
+          "페이지 진입 → 최초 렌더링 → Loading → 조회 API → Response → State 저장 → 재렌더링 → 데이터 표시",
+          "Component · State · Event Handler · API Client · Types · Styles의 역할 연결",
+          "Idle · Loading · Success · Empty · Error 상태와 의미 연결",
+          "OrderForm · useOrderForm · orderApi · types · styles 파일 역할 연결",
+          "브라우저가 책임지는 상태와 서버가 책임지는 데이터 구분"
+        ]
+      }
+    },
+    {
+      "id": "data",
+      "order": 2,
+      "kind": "curriculum",
+      "title": "데이터",
+      "goal": "업무 개념을 데이터 모델로 표현하고, 데이터가 어떤 테이블에 어떤 규칙으로 저장되어야 하는지 설명할 수 있습니다.",
+      "question": "화면에서 입력한 데이터는 어디에 남아야 할까?",
+      "realization": "화면의 임시 상태와 서비스가 기억해야 하는 데이터는 다르며, 업무의 규칙을 데이터 구조로 표현해야 한다는 것을 이해합니다.",
+      "scope": [
+        "데이터 저장",
+        "업무 데이터 모델",
+        "관계형 DB",
+        "SQL",
+        "스키마 변경"
+      ],
+      "representativeNodeIds": [
+        "database-primary",
+        "database-replica",
+        "repository"
+      ],
+      "existingCompetency": "이미 알고 있는 업무 용어와 규칙을 Entity, 관계, 제약조건으로 번역합니다. 도메인 지식이 데이터 설계의 출발점이 됩니다.",
+      "outcome": "업무 개념을 데이터 모델로 표현하고, 데이터가 어떤 테이블에 어떤 규칙으로 저장되어야 하는지 설명할 수 있습니다.",
+      "unitLabel": "Chapter"
+    },
+    {
+      "id": "application",
+      "order": 3,
+      "kind": "curriculum",
+      "title": "중간계층 애플리케이션",
+      "goal": "사용자 요청이 애플리케이션 계층을 통과하는 경로를 추적하고, 업무 판단과 데이터 접근의 책임 위치를 구분할 수 있습니다.",
+      "question": "프론트엔드와 데이터베이스는 무엇이 연결해주는 걸까?",
+      "realization": "브라우저가 DB에 직접 접근하는 것이 아니라, 애플리케이션이 요청을 받아 업무 규칙을 판단하고 데이터를 안전하게 변경한다는 연결을 만듭니다.",
+      "scope": [
+        "API",
+        "Controller",
+        "Service",
+        "Repository",
+        "업무 규칙",
+        "트랜잭션"
+      ],
+      "representativeNodeIds": [
+        "controller",
+        "service",
+        "repository"
+      ],
+      "existingCompetency": "현업 요구사항과 정책을 Service의 업무 규칙으로 번역하고, 개발자와 API 계약 및 예외 조건을 합의하는 데 기존 커뮤니케이션 역량을 사용합니다.",
+      "outcome": "사용자 요청이 애플리케이션 계층을 통과하는 경로를 추적하고, 업무 판단과 데이터 접근의 책임 위치를 구분할 수 있습니다.",
+      "unitLabel": "Chapter"
+    },
+    {
+      "id": "runtime",
+      "order": 4,
+      "kind": "curriculum",
+      "title": "서버·실행 환경",
+      "goal": "코드, 빌드 결과물, 프로세스, 서버를 구분하고 서비스가 실행되기 위해 필요한 환경을 설명할 수 있습니다.",
+      "question": "내 컴퓨터에서 실행되는 프로그램을 다른 사람도 쓰게 하려면?",
+      "realization": "코드는 파일이고 서비스는 특정 서버에서 계속 실행되며 네트워크 요청을 기다리는 프로세스라는 아하 모먼트를 만듭니다.",
+      "scope": [
+        "Runtime",
+        "Process",
+        "Memory",
+        "Port",
+        "EC2",
+        "환경설정"
+      ],
+      "representativeNodeIds": [
+        "runtime",
+        "process",
+        "port"
+      ],
+      "existingCompetency": "프로젝트 운영 관점으로 실행 조건과 담당 범위를 명확히 하고, 개발 환경에서만 암묵적으로 충족되던 조건을 문서화합니다.",
+      "outcome": "코드, 빌드 결과물, 프로세스, 서버를 구분하고 서비스가 실행되기 위해 필요한 환경을 설명할 수 있습니다.",
+      "unitLabel": "Chapter"
+    },
+    {
+      "id": "delivery",
+      "order": 5,
+      "kind": "curriculum",
+      "title": "빌드·배포",
+      "goal": "코드 변경이 Git, Build, Test, Artifact, Deployment를 거쳐 운영에 도달하는 흐름을 설명하고 안전한 배포 조건을 판단할 수 있습니다.",
+      "question": "로컬에서 바꾼 코드는 어떻게 서버에 반영되는 걸까?",
+      "realization": "개발자의 컴퓨터에 있는 변경이 검증된 실행 결과물이 되어 운영 환경까지 이동하는 별도의 전달 과정을 이해합니다.",
+      "scope": [
+        "Git",
+        "Build",
+        "Artifact",
+        "CI",
+        "Deployment",
+        "Rollback"
+      ],
+      "representativeNodeIds": [
+        "source-code",
+        "build",
+        "deployment"
+      ],
+      "existingCompetency": "프로젝트 관리 역량으로 변경 단위, 승인, 배포 시점과 위험을 조율하고 커뮤니케이션 역량으로 변경 이유와 영향 범위를 남깁니다.",
+      "outcome": "코드 변경이 Git, Build, Test, Artifact, Deployment를 거쳐 운영에 도달하는 흐름을 설명하고 안전한 배포 조건을 판단할 수 있습니다.",
+      "unitLabel": "Chapter"
+    },
+    {
+      "id": "network",
+      "order": 6,
+      "kind": "curriculum",
+      "title": "네트워크",
+      "goal": "도메인 입력부터 애플리케이션 도착까지 요청 경로를 추적하고 연결 실패가 발생한 구간을 증거로 좁힐 수 있습니다.",
+      "question": "사용자는 어떻게 우리 회사의 소프트웨어에 접속하는 걸까?",
+      "realization": "서버 프로세스가 실행 중이라는 사실과 사용자의 요청이 그 프로세스까지 도달할 수 있다는 사실은 다르다는 것을 이해합니다.",
+      "scope": [
+        "Domain",
+        "DNS",
+        "IP·Port",
+        "HTTPS",
+        "Reverse Proxy",
+        "Load Balancer"
+      ],
+      "representativeNodeIds": [
+        "browser",
+        "dns",
+        "load-balancer"
+      ],
+      "existingCompetency": "사용자 여정과 서비스 영향 범위를 설명하는 능력을 실제 요청 경로와 결합하고, 여러 팀 사이의 네트워크 책임 경계를 질문할 수 있게 됩니다.",
+      "outcome": "도메인 입력부터 애플리케이션 도착까지 요청 경로를 추적하고 연결 실패가 발생한 구간을 증거로 좁힐 수 있습니다.",
+      "unitLabel": "Chapter"
+    },
+    {
+      "id": "scale",
+      "order": 7,
+      "kind": "curriculum",
+      "title": "규모 확장",
+      "goal": "사용량 증가 시 병목 위치를 찾고 서버, 캐시, 큐, DB 확장 방법이 각각 해결하는 문제와 새로 만드는 문제를 설명할 수 있습니다.",
+      "question": "내 서버는 5~10명이 쓰는데, 큰 서비스는 어떻게 많은 사용자를 감당할까?",
+      "realization": "서버를 단순히 크게 만드는 문제를 넘어 요청, 상태, 데이터, 작업을 여러 자원에 나누면서 새로운 일관성 문제가 생긴다는 것을 배웁니다.",
+      "scope": [
+        "성능",
+        "다중 서버",
+        "공유 상태",
+        "Cache",
+        "Queue·Worker",
+        "DB 확장"
+      ],
+      "representativeNodeIds": [
+        "load-balancer",
+        "redis",
+        "database-replica"
+      ],
+      "existingCompetency": "도메인 중요도와 프로젝트 우선순위를 바탕으로 모든 병목을 제거하기보다 사용자 영향이 큰 지점을 선택하고 기술적 트레이드오프를 조율합니다.",
+      "outcome": "사용량 증가 시 병목 위치를 찾고 서버, 캐시, 큐, DB 확장 방법이 각각 해결하는 문제와 새로 만드는 문제를 설명할 수 있습니다.",
+      "unitLabel": "Chapter"
+    },
+    {
+      "id": "operations",
+      "order": 8,
+      "kind": "curriculum",
+      "title": "운영과 장애",
+      "goal": "장애의 증상과 원인을 구분하고 로그·지표·트레이스로 범위를 좁혀 완화, 복구, 재발 방지까지 연결할 수 있습니다.",
+      "question": "실제로 서비스를 운영하면 어떤 문제가 생기고 어떻게 대응해야 할까?",
+      "realization": "소프트웨어를 책임진다는 것은 장애를 모두 예방하는 것이 아니라 빠르게 발견하고, 영향을 줄이고, 복구하고, 같은 실패를 반복하지 않는 것임을 배웁니다.",
+      "scope": [
+        "관측",
+        "장애 대응",
+        "부분 실패",
+        "자원 고갈",
+        "보안",
+        "복구"
+      ],
+      "representativeNodeIds": [
+        "logs",
+        "metrics",
+        "backup"
+      ],
+      "existingCompetency": "커뮤니케이션으로 장애 상황과 불확실성을 공유하고, 프로젝트 관리로 우선순위와 복구 순서를 조율하며, 도메인 지식으로 실제 사용자 영향을 판단합니다.",
+      "outcome": "장애의 증상과 원인을 구분하고 로그·지표·트레이스로 범위를 좁혀 완화, 복구, 재발 방지까지 연결할 수 있습니다.",
+      "unitLabel": "Chapter"
+    }
+  ]
+}

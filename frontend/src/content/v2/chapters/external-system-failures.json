@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 2,
+  "id": "external-system-failures",
+  "partId": "operations",
+  "order": 3,
+  "status": "draft",
+  "title": "외부 시스템의 실패가 왜 우리 장애가 될까?",
+  "description": "결제 응답 유실과 반복 재시도로 발생한 중복 결제를 진단하고 복구합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "Timeout과 Retry는 언제 장애를 더 크게 만드는가?",
+  "mission": "결제 응답 유실과 반복 재시도로 발생한 중복 결제를 진단하고 복구합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "logs",
+      "metrics",
+      "backup"
+    ],
+    "relatedNodeIds": [
+      "traces",
+      "alert",
+      "external-api",
+      "runbook"
+    ],
+    "activeEdgeIds": [
+      "logs-to-alert",
+      "metrics-to-alert"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Partial Failure",
+    "Timeout",
+    "Retry",
+    "Circuit Breaker",
+    "Fallback",
+    "Reconciliation"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 2,
+  "id": "observability",
+  "partId": "operations",
+  "order": 1,
+  "status": "draft",
+  "title": "사용자 신고 전에 문제를 알 수 있을까?",
+  "description": "여러 서버에 흩어진 한 요청의 로그를 Correlation ID로 연결해 최초 실패 지점을 찾습니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "보이지 않는 시스템 상태를 어떤 증거로 관찰하는가?",
+  "mission": "여러 서버에 흩어진 한 요청의 로그를 Correlation ID로 연결해 최초 실패 지점을 찾습니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "logs",
+      "metrics",
+      "traces",
+      "alert"
+    ],
+    "relatedNodeIds": [
+      "external-api",
+      "backup",
+      "runbook"
+    ],
+    "activeEdgeIds": [
+      "logs-to-alert",
+      "metrics-to-alert",
+      "traces-to-alert",
+      "alert-to-runbook"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Structured Log",
+    "Metric",
+    "Trace",
+    "Correlation ID",
+    "Alert",
+    "SLO"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

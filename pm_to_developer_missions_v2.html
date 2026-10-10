@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PM에서 개발자로 — 실무형 개발 학습 미션</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --surface: #ffffff;
+      --surface-2: #f0f3f8;
+      --text: #1c2430;
+      --muted: #667085;
+      --line: #e5e9f0;
+      --primary: #3157d5;
+      --primary-soft: #eaf0ff;
+      --success: #16835f;
+      --success-soft: #e8f7f1;
+      --warning: #a85b00;
+      --warning-soft: #fff4df;
+      --danger: #b42318;
+      --danger-soft: #feeceb;
+      --radius: 18px;
+      --shadow: 0 12px 32px rgba(25, 35, 60, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 28px 20px;
+      background: #111827;
+      color: white;
+      overflow-y: auto;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .brand-sub {
+      font-size: 13px;
+      color: #aeb8c8;
+      margin-bottom: 28px;
+    }
+
+    .nav-title {
+      margin: 22px 10px 8px;
+      color: #7f8ca2;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    nav a {
+      display: block;
+      padding: 10px 12px;
+      margin: 3px 0;
+      border-radius: 10px;
+      color: #dbe3ef;
+      font-size: 14px;
+      transition: .2s ease;
+    }
+
+    nav a:hover, nav a.active {
+      background: rgba(255,255,255,.1);
+      color: white;
+    }
+
+    main {
+      min-width: 0;
+      padding: 48px clamp(24px, 5vw, 72px) 80px;
+    }
+
+    .hero {
+      max-width: 1080px;
+      padding: 42px;
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,.42), transparent 35%),
+        linear-gradient(135deg, #2f54d2, #6b42d8);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.16);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.12;
+      letter-spacing: -0.05em;
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: 20px 0 0;
+      color: rgba(255,255,255,.86);
+      font-size: 17px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .hero-stat {
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.11);
+      backdrop-filter: blur(6px);
+    }
+
+    .hero-stat strong {
+      display: block;
+      font-size: 22px;
+    }
+
+    .hero-stat span {
+      color: rgba(255,255,255,.74);
+      font-size: 13px;
+    }
+
+    section {
+      max-width: 1080px;
+      margin-top: 56px;
+    }
+
+    .section-title {
+      margin-bottom: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      letter-spacing: -0.035em;
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .flow-step {
+      padding: 18px 12px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: 14px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 6px 18px rgba(30, 40, 70, .04);
+    }
+
+    .flow-step.highlight {
+      color: var(--primary);
+      border-color: #cbd8ff;
+      background: var(--primary-soft);
+    }
+
+    .mission {
+      margin-top: 24px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .mission-head {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 24px 28px;
+      cursor: pointer;
+    }
+
+    .mission-no {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-weight: 800;
+    }
+
+    .mission-head h3 {
+      margin: 0 0 4px;
+      font-size: 21px;
+      letter-spacing: -0.025em;
+    }
+
+    .mission-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .toggle {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: 20px;
+      transition: transform .2s ease;
+    }
+
+    .mission.open .toggle { transform: rotate(45deg); }
+
+    .mission-body {
+      display: none;
+      border-top: 1px solid var(--line);
+      padding: 28px;
+    }
+
+    .mission.open .mission-body { display: block; }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .label.mission-label { background: var(--primary-soft); color: var(--primary); }
+    .label.problem-label { background: var(--danger-soft); color: var(--danger); }
+    .label.answer-label { background: var(--success-soft); color: var(--success); }
+
+    .box {
+      padding: 18px 20px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+      margin-bottom: 20px;
+    }
+
+    .box p:last-child { margin-bottom: 0; }
+
+    .knowledge-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin: 16px 0 22px;
+    }
+
+    .knowledge {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: white;
+    }
+
+    .knowledge strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .knowledge ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .answer {
+      border-left: 4px solid var(--success);
+      background: var(--success-soft);
+      padding: 18px 20px;
+      border-radius: 0 14px 14px 0;
+      margin-top: 18px;
+    }
+
+    .answer h4 {
+      margin: 0 0 8px;
+      color: var(--success);
+    }
+
+    pre {
+      overflow-x: auto;
+      padding: 18px;
+      border-radius: 14px;
+      background: #0f172a;
+      color: #e5edf8;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .roadmap-card {
+      padding: 20px;
+      border-radius: 16px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+    }
+
+    .roadmap-card strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .roadmap-card span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+
+    .mapping {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--line);
+    }
+
+    .mapping h4 {
+      margin: 0 0 6px;
+      font-size: 16px;
+    }
+
+    .mapping > p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .mapping-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: white;
+      font-size: 14px;
+    }
+
+    .mapping-table th,
+    .mapping-table td {
+      padding: 13px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .mapping-table th {
+      width: 20%;
+      background: var(--surface-2);
+      color: #344054;
+      font-size: 13px;
+    }
+
+    .mapping-table tr:last-child th,
+    .mapping-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .keyword {
+      display: inline-block;
+      padding: 3px 8px;
+      margin: 2px 4px 2px 0;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .mapping-point {
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    @media (max-width: 620px) {
+      .mapping-table,
+      .mapping-table tbody,
+      .mapping-table tr,
+      .mapping-table th,
+      .mapping-table td {
+        display: block;
+        width: 100%;
+      }
+
+      .mapping-table tr {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .mapping-table tr:last-child {
+        border-bottom: 0;
+      }
+
+      .mapping-table th,
+      .mapping-table td {
+        border-bottom: 0;
+      }
+
+      .mapping-table th {
+        padding-bottom: 6px;
+      }
+
+      .mapping-table td {
+        padding-top: 4px;
+      }
+    }
+
+    .footer {
+      max-width: 1080px;
+      margin-top: 64px;
+      padding: 28px;
+      border-radius: var(--radius);
+      background: #111827;
+      color: white;
+    }
+
+    .footer p {
+      color: #b7c0cf;
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+      aside {
+        position: relative;
+        height: auto;
+      }
+      nav {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+      }
+      nav a { white-space: nowrap; }
+      .nav-title { display: none; }
+      .hero-grid, .roadmap { grid-template-columns: repeat(2, 1fr); }
+      .flow { grid-template-columns: repeat(2, 1fr); }
+      .knowledge-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 620px) {
+      main { padding: 26px 16px 60px; }
+      .hero { padding: 28px 22px; }
+      .hero-grid, .roadmap, .knowledge-grid { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: 1fr; }
+      .mission-head { grid-template-columns: auto 1fr; padding: 20px; }
+      .toggle { display: none; }
+      .mission-body { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <div class="brand">PM → Developer</div>
+      <div class="brand-sub">실무 미션으로 배우는 개발·CS·인프라</div>
+
+      <div class="nav-title">Overview</div>
+      <nav>
+        <a href="#intro">교육 구조</a>
+        <a href="#mission1">01 주문 저장</a>
+        <a href="#mission2">02 로그인</a>
+        <a href="#mission3">03 주문 수정</a>
+        <a href="#mission4">04 파일 업로드</a>
+        <a href="#mission5">05 알림 발송</a>
+        <a href="#mission6">06 권한</a>
+        <a href="#mission7">07 배포</a>
+        <a href="#mission8">08 장애 대응</a>
+        <a href="#mission9">09 캐시</a>
+        <a href="#mission10">10 배치</a>
+      </nav>
+    </aside>
+
+    <main>
+      <header class="hero">
+        <span class="eyebrow">ENTERPRISE DEVELOPER LEARNING</span>
+        <h1>기능을 만들고,<br>원리를 이해하고,<br>운영까지 책임진다.</h1>
+        <p>
+          단순한 CRUD 강의가 아니라, 실제 업무 미션을 해결하면서 Java·Spring·DB·CS·네트워크·아키텍처·인프라를 함께 배우는 교육 콘텐츠입니다.
+        </p>
+        <div class="hero-grid">
+          <div class="hero-stat"><strong>10</strong><span>실무형 미션</span></div>
+          <div class="hero-stat"><strong>5</strong><span>지식 축: CS·DB·Network·Architecture·Infra</span></div>
+          <div class="hero-stat"><strong>1</strong><span>목표: PM에서 개발자로</span></div>
+        </div>
+      </header>
+
+      <section id="intro">
+        <div class="section-title">
+          <h2>교육 구조</h2>
+          <p>문제가 생겼을 때 필요한 개념을 배우고, 실제 코드와 설계를 수정해 미션을 완료합니다.</p>
+        </div>
+        <div class="flow">
+          <div class="flow-step">Mission</div>
+          <div class="flow-step">Problem</div>
+          <div class="flow-step highlight">왜?</div>
+          <div class="flow-step">CS·DB</div>
+          <div class="flow-step">Network·Infra</div>
+          <div class="flow-step">코드 수정</div>
+          <div class="flow-step highlight">미션 완료</div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <h2>실무 미션 예시</h2>
+          <p>각 카드를 눌러 문제, 학습 개념, 정답과 설명을 확인하세요.</p>
+        </div>
+
+        <!-- Mission 1 -->
+        <article class="mission open" id="mission1">
+          <div class="mission-head">
+            <div class="mission-no">01</div>
+            <div><h3>주문 저장 기능</h3><p>중복 저장과 트랜잭션을 이해한다.</p></div>
+            <div class="toggle">+</div>
+          </div>
+          <div class="mission-body">
+            <span class="label mission-label">MISSION</span>
+            <div class="box">딜러가 입력한 차량 모델, 고객 정보, 딜러 코드, 계약 금액을 주문으로 저장하세요.</div>
+
+            <span class="label problem-label">PROBLEM</span>
+            <div class="box">저장 버튼을 두 번 눌렀더니 같은 주문이 두 건 생성되었습니다.</div>
+
+            <div class="knowledge-grid">
+              <div class="knowledge"><strong>CS</strong><ul><li>상태</li><li>동시성</li><li>멱등성</li></ul></div>
+              <div class="knowledge"><strong>DB</strong><ul><li>Primary Key</li><li>Unique Constraint</li><li>Transaction</li></ul></div>
+              <div class="knowledge"><strong>Network</strong><ul><li>중복 요청</li><li>재시도</li><li>응답 지연</li></ul></div>
+              <div class="knowledge"><strong>Architecture</strong><ul><li>다중 방어</li><li>Service 검증</li><li>DB 제약</li></ul></div>
+              <div class="knowledge"><strong>Infra</strong><ul><li>다중 서버</li><li>분산 락</li><li>Redis</li></ul></div>
+            </div>
+
+            <span class="label answer-label">ANSWER</span>
+            <div class="answer">
+              <h4>프론트·백엔드·DB에서 각각 중복을 방지한다.</h4>
+              <p>프론트에서는 저장 중 버튼을 비활성화하고, 백엔드에서는 요청 ID 또는 주문번호를 검증합니다. DB에는 Unique Constraint를 두어 마지막 방어선을 만듭니다. 서버가 여러 대라면 한 서버의 메모리만으로는 중복을 막을 수 없으므로 DB나 Redis 같은 공유 저장소가 필요합니다.</p>
+            </div>
+
+            <div class="mapping">
+              <h4>키워드 → 답변 매핑</h4>
+              <p>답변의 각 조치가 어떤 개념을 실제로 사용한 것인지 연결합니다.</p>
+              <table class="mapping-table">
+                <tr><th>프론트 버튼 비활성화</th><td><span class="keyword">중복 요청</span><span class="keyword">상태</span> 사용자의 연속 클릭으로 같은 HTTP 요청이 여러 번 발생하는 것을 1차로 줄입니다.</td></tr>
+                <tr><th>요청 ID 검증</th><td><span class="keyword">멱등성</span><span class="keyword">재시도</span> 같은 요청이 다시 도착해도 결과가 한 번만 반영되도록 합니다.</td></tr>
+                <tr><th>Service 중복 검사</th><td><span class="keyword">Architecture</span><span class="keyword">업무 규칙</span> 주문 중복 여부를 화면이 아니라 서버의 업무 로직에서 판단합니다.</td></tr>
+                <tr><th>Unique Constraint</th><td><span class="keyword">DB</span><span class="keyword">동시성</span> 두 요청이 거의 동시에 통과하더라도 DB가 중복 저장을 최종 차단합니다.</td></tr>
+                <tr><th>Redis·DB 공유 저장소</th><td><span class="keyword">분산 환경</span><span class="keyword">다중 서버</span> 서버별 메모리가 아닌 공용 상태를 사용해 여러 서버에서도 동일하게 중복을 막습니다.</td></tr>
+              </table>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Mission 2 -->
+        <article class="mission" id="mission2">
+          <div class="mission-head">
+            <div class="mission-no">02</div>
+            <div><h3>로그인 상태 유지</h3><p>HTTP, 세션, JWT, 로드밸런싱을 이해한다.</p></div>
+            <div class="toggle">+</div>
+          </div>
+          <div class="mission-body">
+            <span class="label mission-label">MISSION</span>
+            <div class="box">딜러 사용자가 아이디와 비밀번호로 로그인하도록 구현하세요.</div>
+            <span class="label problem-label">PROBLEM</span>
+            <div class="box">로그인에는 성공했지만 다음 화면으로 이동하자 다시 로그아웃되었습니다.</div>
+
+            <div class="knowledge-grid">
+              <div class="knowledge"><strong>CS</strong><ul><li>상태와 무상태</li><li>해시</li><li>메모리</li></ul></div>
+              <div class="knowledge"><strong>DB</strong><ul><li>사용자 테이블</li><li>비밀번호 해시</li><li>계정 상태</li></ul></div>
+              <div class="knowledge"><strong>Network</strong><ul><li>HTTP Stateless</li><li>Cookie</li><li>Session/JWT</li></ul></div>
+              <div class="knowledge"><strong>Architecture</strong><ul><li>인증</li><li>인가</li><li>Filter</li></ul></div>
+              <div class="knowledge"><strong>Infra</strong><ul><li>Load Balancer</li><li>Sticky Session</li><li>Redis Session</li></ul></div>
+            </div>
+
+            <div class="answer">
+              <h4>로그인 성공 뒤 인증 정보를 발급하고 이후 요청마다 함께 보낸다.</h4>
+              <p>HTTP는 기본적으로 이전 요청을 기억하지 않습니다. 따라서 서버가 세션 ID를 쿠키로 발급하거나 JWT를 발급해야 합니다. 서버가 여러 대라면 세션을 Redis처럼 공용 저장소에 두거나 토큰 기반 인증을 사용해야 합니다.</p>
+            </div>
+
+            <div class="mapping">
+              <h4>키워드 → 답변 매핑</h4>
+              <p>로그인 유지 답변이 어떤 기술 개념을 해결하는지 확인합니다.</p>
+              <table class="mapping-table">
+                <tr><th>인증 정보 발급</th><td><span class="keyword">Authentication</span> 아이디와 비밀번호 확인 후 사용자가 누구인지 증명하는 세션 또는 토큰을 만듭니다.</td></tr>
+                <tr><th>쿠키로 세션 ID 전송</th><td><span class="keyword">HTTP Stateless</span><span class="keyword">Cookie</span> HTTP가 이전 요청을 기억하지 못하므로 브라우저가 식별자를 반복해서 보냅니다.</td></tr>
+                <tr><th>JWT 전송</th><td><span class="keyword">Token</span><span class="keyword">Stateless</span> 서버가 로그인 상태를 직접 저장하지 않고 토큰 검증으로 사용자를 확인할 수 있습니다.</td></tr>
+                <tr><th>Redis 세션 저장</th><td><span class="keyword">Load Balancer</span><span class="keyword">Shared Session</span> 어느 서버가 요청을 받아도 같은 로그인 정보를 조회할 수 있게 합니다.</td></tr>
+                <tr><th>비밀번호 해시 비교</th><td><span class="keyword">Hash</span><span class="keyword">Security</span> 원래 비밀번호를 복원하거나 평문으로 저장하지 않고 검증합니다.</td></tr>
+              </table>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Mission 3 -->
+        <article class="mission" id="mission3">
+          <div class="mission-head">
+            <div class="mission-no">03</div>
+            <div><h3>주문 상태 수정</h3><p>동시 수정과 낙관적 락을 이해한다.</p></div>
+            <div class="toggle">+</div>
+          </div>
+          <div class="mission-body">
+            <span class="label mission-label">MISSION</span>
+            <div class="box">주문 상태를 접수 → 계약 완료 → 출고 준비 → 출고 완료로 변경할 수 있게 하세요.</div>
+            <span class="label problem-label">PROBLEM</span>
+            <div class="box">두 사용자가 같은 주문을 수정하자 나중에 저장한 사람이 먼저 저장한 내용을 덮어썼습니다.</div>
+
+            <div class="knowledge-grid">
+              <div class="knowledge"><strong>CS</strong><ul><li>Race Condition</li><li>공유 자원</li><li>원자성</li></ul></div>
+              <div class="knowledge"><strong>DB</strong><ul><li>Lock</li><li>Optimistic Lock</li><li>Version Column</li></ul></div>
+              <div class="knowledge"><strong>Network</strong><ul><li>요청 순서</li><li>처리 순서</li><li>지연</li></ul></div>
+              <div class="knowledge"><strong>Architecture</strong><ul><li>상태 전이</li><li>도메인 규칙</li><li>충돌 처리</li></ul></div>
+              <div class="knowledge"><strong>Infra</strong><ul><li>멀티 인스턴스</li><li>공유 DB</li><li>락 범위</li></ul></div>
+            </div>
+
+            <pre>UPDATE orders
+SET status = 'READY_FOR_DELIVERY',
+    version = version + 1
+WHERE order_no = 'O1001'
+  AND version = 3;</pre>
+
+            <div class="answer">
+              <h4>수정 요청에 version 값을 함께 보내고 현재 버전과 일치할 때만 수정한다.</h4>
+              <p>UPDATE 건수가 0이면 누군가 먼저 수정한 것입니다. 이 경우 “다른 사용자가 먼저 수정했습니다”라고 안내하고 최신 데이터를 다시 불러옵니다. 이것이 대표적인 낙관적 락 방식입니다.</p>
+            </div>
+
+            <div class="mapping">
+              <h4>키워드 → 답변 매핑</h4>
+              <p>버전 비교 방식이 동시성 문제와 어떻게 연결되는지 보여줍니다.</p>
+              <table class="mapping-table">
+                <tr><th>version 전달</th><td><span class="keyword">Optimistic Lock</span> 사용자가 처음 읽은 데이터의 시점을 숫자로 함께 전달합니다.</td></tr>
+                <tr><th>WHERE version = 3</th><td><span class="keyword">Race Condition</span><span class="keyword">원자성</span> 읽은 뒤 다른 수정이 없었을 때만 단일 UPDATE로 반영합니다.</td></tr>
+                <tr><th>version + 1</th><td><span class="keyword">상태 변경</span> 수정이 성공할 때마다 새 버전을 만들어 다음 충돌을 감지합니다.</td></tr>
+                <tr><th>수정 건수 0 확인</th><td><span class="keyword">충돌 감지</span> 현재 DB 버전이 달라졌다는 뜻이므로 덮어쓰지 않고 실패로 처리합니다.</td></tr>
+                <tr><th>최신 정보 재조회</th><td><span class="keyword">Consistency</span> 사용자가 변경된 최신 상태를 확인하고 다시 판단하도록 합니다.</td></tr>
+              </table>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Mission 4 -->
+        <article class="mission" id="mission4">
+          <div class="mission-head">
+            <div class="mission-no">04</div>
+            <div><h3>대용량 파일 업로드</h3><p>Heap, Stream, Batch, 비동기를 이해한다.</p></div>
+            <div class="toggle">+</div>
+          </div>
+          <div class="mission-body">
+            <span class="label mission-label">MISSION</span>
+            <div class="box">주문 10만 건이 담긴 엑셀 파일을 업로드해 일괄 등록하세요.</div>
+            <span class="label problem-label">PROBLEM</span>
+            <div class="box">파일을 올리자 서버 메모리가 급격히 증가하고 서비스가 멈췄습니다.</div>
+
+            <div class="knowledge-grid">
+              <div class="knowledge"><strong>CS</strong><ul><li>Heap</li><li>GC</li><li>Streaming</li></ul></div>
+              <div class="knowledge"><strong>DB</strong><ul><li>Batch Insert</li><li>Transaction 범위</li><li>Index 비용</li></ul></div>
+              <div class="knowledge"><strong>Network</strong><ul><li>Multipart</li><li>Timeout</li><li>업로드 제한</li></ul></div>
+              <div class="knowledge"><strong>Architecture</strong><ul><li>비동기 처리</li><li>작업 상태</li><li>재처리</li></ul></div>
+              <div class="knowledge"><strong>Infra</strong><ul><li>S3</li><li>Queue</li><li>Worker</li></ul></div>
+            </div>
+
+            <div class="answer">
+              <h4>파일을 통째로 메모리에 올리지 말고 스트리밍으로 읽으며, 실제 등록은 비동기 Worker가 처리한다.</h4>
+              <p>업로드 요청은 파일 저장과 작업 생성까지만 수행하고 빠르게 응답합니다. Worker는 파일을 일정 단위로 읽고 Batch Insert를 수행합니다. 실패 건은 별도로 기록해 재처리할 수 있어야 합니다.</p>
+            </div>
+
+            <div class="mapping">
+              <h4>키워드 → 답변 매핑</h4>
+              <p>대용량 처리 답변과 메모리·배치·인프라 개념을 연결합니다.</p>
+              <table class="mapping-table">
+                <tr><th>스트리밍 읽기</th><td><span class="keyword">Heap</span><span class="keyword">Stream</span> 파일 전체를 메모리에 올리지 않고 일부씩 처리해 메모리 사용량을 제한합니다.</td></tr>
+                <tr><th>비동기 작업 생성</th><td><span class="keyword">Async</span><span class="keyword">Timeout</span> 웹 요청은 빠르게 끝내고 오래 걸리는 처리는 뒤에서 수행합니다.</td></tr>
+                <tr><th>Worker 처리</th><td><span class="keyword">Queue</span><span class="keyword">Architecture</span> 업로드 서버와 실제 데이터 처리 역할을 분리합니다.</td></tr>
+                <tr><th>Batch Insert</th><td><span class="keyword">DB 성능</span><span class="keyword">Transaction</span> 한 건씩 저장하는 횟수를 줄여 DB 왕복과 커밋 비용을 낮춥니다.</td></tr>
+                <tr><th>S3 저장</th><td><span class="keyword">Object Storage</span><span class="keyword">Infra</span> 애플리케이션 서버의 임시 디스크 대신 공유 가능한 파일 저장소를 사용합니다.</td></tr>
+              </table>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Mission 5 -->
+        <article class="mission" id="mission5">
+          <div class="mission-head">
+            <div class="mission-no">05</div>
+            <div><h3>주문 확정 알림</h3><p>동기·비동기, 메시지 큐를 이해한다.</p></div>
+            <div class="toggle">+</div>
+          </div>
+          <div class="mission-body">
+            <span class="label mission-label">MISSION</span>
+            <div class="box">주문이 확정되면 담당자에게 이메일 알림을 보내세요.</div>
+            <span class="label problem-label">PROBLEM</span>
+            <div class="box">메일 서버가 느려 주문 저장 화면이 10초 동안 멈춥니다.</div>
+
+            <div class="knowledge-grid">
+              <div class="knowledge"><strong>CS</strong><ul><li>Sync/Async</li><li>Blocking</li><li>Thread</li></ul></div>
+              <div class="knowledge"><strong>DB</strong><ul><li>Outbox</li><li>트랜잭션 경계</li><li>이벤트 유실</li></ul></div>
+              <div class="knowledge"><strong>Network</strong><ul><li>외부 API</li><li>Retry</li><li>Timeout</li></ul></div>
+              <div class="knowledge"><strong>Architecture</strong><ul><li>Event</li><li>Producer/Consumer</li><li>느슨한 결합</li></ul></div>
+              <div class="knowledge"><strong>Infra</strong><ul><li>Kafka/SQS</li><li>DLQ</li><li>Consumer</li></ul></div>
+            </div>
+
+            <div class="answer">
+              <h4>주문 저장과 이메일 발송을 분리한다.</h4>
+              <p>주문 저장 직후 알림 이벤트를 발행하고 사용자에게 먼저 응답합니다. 별도 Consumer가 이벤트를 받아 이메일을 전송합니다. 실패한 이벤트는 재시도하고 반복 실패 시 Dead Letter Queue로 이동시킵니다.</p>
+            </div>
+
+            <div class="mapping">
+              <h4>키워드 → 답변 매핑</h4>
+              <p>주문 저장과 알림 발송을 분리하는 이유를 개념별로 풀어냅니다.</p>
+              <table class="mapping-table">
+                <tr><th>이벤트 발행 후 응답</th><td><span class="keyword">Async</span><span class="keyword">Non-blocking flow</span> 메일 완료를 기다리지 않아 사용자 응답 시간을 줄입니다.</td></tr>
+                <tr><th>Producer / Consumer</th><td><span class="keyword">느슨한 결합</span> 주문 서비스는 알림 방식의 세부 구현을 직접 알 필요가 없습니다.</td></tr>
+                <tr><th>메시지 큐</th><td><span class="keyword">Kafka/SQS</span><span class="keyword">Buffer</span> 메일 서버가 느려도 이벤트를 임시 보관하며 처리 속도 차이를 흡수합니다.</td></tr>
+                <tr><th>재시도</th><td><span class="keyword">Retry</span><span class="keyword">외부 장애</span> 일시적인 네트워크 오류나 메일 서버 장애를 자동 복구합니다.</td></tr>
+                <tr><th>DLQ</th><td><span class="keyword">Dead Letter Queue</span> 반복 실패한 메시지를 별도로 격리해 원인 분석과 수동 재처리를 가능하게 합니다.</td></tr>
+              </table>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Mission 6 -->
+        <article class="mission" id="mission6">
+          <div class="mission-head">
+            <div class="mission-no">06</div>
+            <div><h3>딜러별 데이터 권한</h3><p>인증과 인가, 신뢰 경계를 이해한다.</p></div>
+            <div class="toggle">+</div>
+          </div>
+          <div class="mission-body">
+            <span class="label mission-label">MISSION</span>
+            <div class="box">딜러는 자기 지점 주문만, 법인 관리자는 전체 주문을 볼 수 있게 하세요.</div>
+            <span class="label problem-label">PROBLEM</span>
+            <div class="box">프론트에서 메뉴를 숨겼지만 사용자가 API를 직접 호출해 다른 딜러의 주문을 조회했습니다.</div>
+
+            <div class="knowledge-grid">
+              <div class="knowledge"><strong>CS</strong><ul><li>Trust Boundary</li><li>Client/Server</li><li>입력 검증</li></ul></div>
+              <div class="knowledge"><strong>DB</strong><ul><li>조회 범위</li><li>Row-level Security</li><li>최소 권한</li></ul></div>
+              <div class="knowledge"><strong>Network</strong><ul><li>API 직접 호출</li><li>DevTools</li><li>요청 조작</li></ul></div>
+              <div class="knowledge"><strong>Architecture</strong><ul><li>Authorization</li><li>RBAC</li><li>Service 강제</li></ul></div>
+              <div class="knowledge"><strong>Infra</strong><ul><li>API Gateway</li><li>IAM</li><li>감사 로그</li></ul></div>
+            </div>
+
+            <div class="answer">
+              <h4>권한 검사는 반드시 서버에서 수행한다.</h4>
+              <p>화면에서 버튼을 숨기는 것은 UX일 뿐 보안이 아닙니다. 서버는 로그인 사용자 정보에서 딜러 코드를 가져와 조회 범위를 강제해야 합니다. 관리자 역할인 경우에만 범위를 확장합니다.</p>
+            </div>
+
+            <div class="mapping">
+              <h4>키워드 → 답변 매핑</h4>
+              <p>“서버에서 검사한다”는 답변이 보안 개념과 어떻게 이어지는지 보여줍니다.</p>
+              <table class="mapping-table">
+                <tr><th>화면 숨김은 UX</th><td><span class="keyword">Client</span><span class="keyword">Trust Boundary</span> 브라우저 코드는 사용자가 조작할 수 있으므로 보안 경계로 사용할 수 없습니다.</td></tr>
+                <tr><th>서버 권한 검사</th><td><span class="keyword">Authorization</span> 요청 사용자가 해당 데이터에 접근할 권리가 있는지 서버가 판단합니다.</td></tr>
+                <tr><th>로그인 사용자 딜러 코드 사용</th><td><span class="keyword">입력 검증</span> 요청 파라미터의 딜러 코드를 믿지 않고 인증된 사용자 정보에서 범위를 가져옵니다.</td></tr>
+                <tr><th>관리자 역할 확인</th><td><span class="keyword">RBAC</span> 역할에 따라 조회 가능한 데이터 범위를 다르게 부여합니다.</td></tr>
+                <tr><th>감사 로그</th><td><span class="keyword">Audit</span><span class="keyword">Infra</span> 누가 언제 어떤 데이터에 접근했는지 운영 환경에서 추적합니다.</td></tr>
+              </table>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Mission 7 -->
+        <article class="mission" id="mission7">
+          <div class="mission-head">
+            <div class="mission-no">07</div>
+            <div><h3>운영 환경 배포</h3><p>AWS, 네트워크, 환경 분리를 이해한다.</p></div>
+            <div class="toggle">+</div>
+          </div>
+          <div class="mission-body">
+            <span class="label mission-label">MISSION</span>
+            <div class="box">React 프론트와 Spring Boot 백엔드를 인터넷에 배포하세요.</div>
+            <span class="label problem-label">PROBLEM</span>
+            <div class="box">로컬에서는 정상인데 운영에서는 프론트가 백엔드 API를 호출하지 못합니다.</div>
+
+            <div class="knowledge-grid">
+              <div class="knowledge"><strong>CS</strong><ul><li>Process</li><li>Port</li><li>환경변수</li></ul></div>
+              <div class="knowledge"><strong>DB</strong><ul><li>RDS</li><li>Connection</li><li>Migration</li></ul></div>
+              <div class="knowledge"><strong>Network</strong><ul><li>IP/DNS</li><li>CORS</li><li>Security Group</li></ul></div>
+              <div class="knowledge"><strong>Architecture</strong><ul><li>환경 분리</li><li>Reverse Proxy</li><li>HTTPS</li></ul></div>
+              <div class="knowledge"><strong>Infra</strong><ul><li>EC2</li><li>S3</li><li>CloudFront</li></ul></div>
+            </div>
+
+            <pre>개발계  API_URL=http://localhost:8080
+검증계  API_URL=https://api-stg.example.com
+운영계  API_URL=https://api.example.com</pre>
+
+            <div class="answer">
+              <h4>프론트와 백엔드의 운영 주소, 포트, 보안 규칙, CORS 설정을 함께 맞춘다.</h4>
+              <p>React는 S3·CloudFront, Spring Boot는 EC2 또는 컨테이너, DB는 RDS에 배포할 수 있습니다. 환경마다 API 주소와 DB 접속 정보를 분리하고 HTTPS와 Security Group을 설정해야 합니다.</p>
+            </div>
+
+            <div class="mapping">
+              <h4>키워드 → 답변 매핑</h4>
+              <p>운영 배포 답변이 각 환경·네트워크 개념과 연결되는 지점입니다.</p>
+              <table class="mapping-table">
+                <tr><th>환경별 API_URL</th><td><span class="keyword">환경변수</span><span class="keyword">환경 분리</span> 같은 코드가 개발·검증·운영에서 서로 다른 서버를 바라보게 합니다.</td></tr>
+                <tr><th>S3·CloudFront</th><td><span class="keyword">Frontend Hosting</span><span class="keyword">CDN</span> 정적 React 파일을 저장하고 사용자 가까운 위치에서 배포합니다.</td></tr>
+                <tr><th>EC2·Container</th><td><span class="keyword">Process</span><span class="keyword">Port</span> Spring Boot 애플리케이션을 실제 서버 프로세스로 실행합니다.</td></tr>
+                <tr><th>Security Group</th><td><span class="keyword">Network</span><span class="keyword">Firewall</span> 어떤 포트와 출발지의 접근을 허용할지 제어합니다.</td></tr>
+                <tr><th>CORS·HTTPS</th><td><span class="keyword">Browser Security</span><span class="keyword">TLS</span> 브라우저의 출처 정책을 맞추고 통신 내용을 암호화합니다.</td></tr>
+              </table>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Mission 8 -->
+        <article class="mission" id="mission8">
+          <div class="mission-head">
+            <div class="mission-no">08</div>
+            <div><h3>운영 장애 대응</h3><p>로그, 메트릭, 연결 고갈을 이해한다.</p></div>
+            <div class="toggle">+</div>
+          </div>
+          <div class="mission-body">
+            <span class="label mission-label">MISSION</span>
+            <div class="box">간헐적으로 발생하는 500 오류의 원인을 찾아 복구하세요.</div>
+            <span class="label problem-label">PROBLEM</span>
+            <div class="box">코드를 읽어도 문제를 찾기 어렵고, 재현도 잘 되지 않습니다.</div>
+
+            <div class="knowledge-grid">
+              <div class="knowledge"><strong>CS</strong><ul><li>Thread</li><li>Memory Leak</li><li>Resource Leak</li></ul></div>
+              <div class="knowledge"><strong>DB</strong><ul><li>Connection Pool</li><li>Lock</li><li>Deadlock</li></ul></div>
+              <div class="knowledge"><strong>Network</strong><ul><li>Timeout</li><li>외부 API 지연</li><li>연결 실패</li></ul></div>
+              <div class="knowledge"><strong>Architecture</strong><ul><li>Correlation ID</li><li>Circuit Breaker</li><li>Retry</li></ul></div>
+              <div class="knowledge"><strong>Infra</strong><ul><li>CPU/Memory</li><li>APM</li><li>Alarm</li></ul></div>
+            </div>
+
+            <div class="answer">
+              <h4>감이 아니라 요청 단위 로그와 지표로 장애 지점을 좁힌다.</h4>
+              <p>Correlation ID로 프론트·백엔드·DB·외부 API 로그를 연결합니다. CPU, 메모리, Connection Pool 사용량, 응답시간을 함께 확인합니다. 원인이 DB Connection 반환 누락이라면 코드 수정뿐 아니라 풀 사용량 알람과 재발 방지 테스트도 추가해야 합니다.</p>
+            </div>
+
+            <div class="mapping">
+              <h4>키워드 → 답변 매핑</h4>
+              <p>장애 대응 절차와 로그·DB·인프라 키워드를 직접 연결합니다.</p>
+              <table class="mapping-table">
+                <tr><th>Correlation ID</th><td><span class="keyword">Distributed Tracing</span> 여러 시스템에 흩어진 로그를 하나의 요청 흐름으로 묶습니다.</td></tr>
+                <tr><th>CPU·Memory 확인</th><td><span class="keyword">Metric</span><span class="keyword">Infra</span> 코드 밖에서 발생하는 자원 고갈 여부를 확인합니다.</td></tr>
+                <tr><th>Connection Pool 확인</th><td><span class="keyword">DB</span><span class="keyword">Resource Leak</span> 연결이 반환되지 않아 새 요청이 DB 연결을 얻지 못하는지 판단합니다.</td></tr>
+                <tr><th>응답시간 분석</th><td><span class="keyword">APM</span><span class="keyword">Bottleneck</span> Controller·DB·외부 API 중 어느 구간이 느린지 찾습니다.</td></tr>
+                <tr><th>알람 추가</th><td><span class="keyword">Monitoring</span><span class="keyword">재발 방지</span> 같은 문제가 사용자 신고 전에 탐지되도록 운영 체계를 보완합니다.</td></tr>
+              </table>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Mission 9 -->
+        <article class="mission" id="mission9">
+          <div class="mission-head">
+            <div class="mission-no">09</div>
+            <div><h3>기준정보 캐시</h3><p>메모리와 일관성의 trade-off를 이해한다.</p></div>
+            <div class="toggle">+</div>
+          </div>
+          <div class="mission-body">
+            <span class="label mission-label">MISSION</span>
+            <div class="box">차량 모델 코드 목록을 빠르게 제공하세요.</div>
+            <span class="label problem-label">PROBLEM</span>
+            <div class="box">거의 바뀌지 않는 코드 테이블을 매번 DB에서 조회해 부하가 커졌습니다.</div>
+
+            <div class="knowledge-grid">
+              <div class="knowledge"><strong>CS</strong><ul><li>공간-시간 교환</li><li>Cache Hit</li><li>Locality</li></ul></div>
+              <div class="knowledge"><strong>DB</strong><ul><li>반복 조회</li><li>기준정보</li><li>변경 주기</li></ul></div>
+              <div class="knowledge"><strong>Network</strong><ul><li>HTTP Cache</li><li>CDN</li><li>TTL</li></ul></div>
+              <div class="knowledge"><strong>Architecture</strong><ul><li>Cache Aside</li><li>Invalidation</li><li>Stale Data</li></ul></div>
+              <div class="knowledge"><strong>Infra</strong><ul><li>Redis</li><li>다중 서버</li><li>장애 대응</li></ul></div>
+            </div>
+
+            <div class="answer">
+              <h4>캐시에 있으면 반환하고, 없으면 DB에서 조회해 캐시에 저장한다.</h4>
+              <p>서버가 여러 대면 각 서버 로컬 캐시의 값이 달라질 수 있어 Redis 같은 중앙 캐시가 유리합니다. 다만 데이터 변경 시 캐시를 어떻게 갱신할지가 핵심입니다. 캐시는 성능 문제를 해결하지만 일관성 문제를 새로 만듭니다.</p>
+            </div>
+
+            <div class="mapping">
+              <h4>키워드 → 답변 매핑</h4>
+              <p>캐시 적용이 성능과 일관성 문제를 동시에 만드는 과정을 보여줍니다.</p>
+              <table class="mapping-table">
+                <tr><th>캐시 우선 조회</th><td><span class="keyword">Cache Hit</span><span class="keyword">시간 절약</span> DB까지 가지 않고 메모리에서 빠르게 값을 반환합니다.</td></tr>
+                <tr><th>없으면 DB 조회</th><td><span class="keyword">Cache Miss</span><span class="keyword">Cache Aside</span> 캐시에 값이 없을 때 애플리케이션이 직접 원본을 읽습니다.</td></tr>
+                <tr><th>Redis 사용</th><td><span class="keyword">다중 서버</span><span class="keyword">Shared Cache</span> 모든 서버가 같은 캐시 값을 공유하도록 합니다.</td></tr>
+                <tr><th>TTL 설정</th><td><span class="keyword">Stale Data</span><span class="keyword">Network</span> 오래된 값이 무한히 남지 않도록 일정 시간이 지나면 만료합니다.</td></tr>
+                <tr><th>변경 시 무효화</th><td><span class="keyword">Cache Invalidation</span><span class="keyword">Consistency</span> DB가 바뀌었는데 캐시에는 옛값이 남는 문제를 해결합니다.</td></tr>
+              </table>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Mission 10 -->
+        <article class="mission" id="mission10">
+          <div class="mission-head">
+            <div class="mission-no">10</div>
+            <div><h3>판매 집계 배치</h3><p>대량 데이터와 스케줄링을 이해한다.</p></div>
+            <div class="toggle">+</div>
+          </div>
+          <div class="mission-body">
+            <span class="label mission-label">MISSION</span>
+            <div class="box">매일 새벽 전날 주문을 법인·딜러·모델별로 집계하세요.</div>
+            <span class="label problem-label">PROBLEM</span>
+            <div class="box">사용자가 통계 화면을 열 때마다 주문 수백만 건을 집계해 30초 이상 걸립니다.</div>
+
+            <div class="knowledge-grid">
+              <div class="knowledge"><strong>CS</strong><ul><li>사전 계산</li><li>시간 복잡도</li><li>병렬 처리</li></ul></div>
+              <div class="knowledge"><strong>DB</strong><ul><li>GROUP BY</li><li>집계 테이블</li><li>Partition</li></ul></div>
+              <div class="knowledge"><strong>Network</strong><ul><li>결과 전송</li><li>재전송</li><li>외부 연계</li></ul></div>
+              <div class="knowledge"><strong>Architecture</strong><ul><li>OLTP/분석</li><li>재실행</li><li>Idempotent Job</li></ul></div>
+              <div class="knowledge"><strong>Infra</strong><ul><li>Cron</li><li>Spring Batch</li><li>Job Monitor</li></ul></div>
+            </div>
+
+            <div class="answer">
+              <h4>자주 보는 통계는 미리 계산해 집계 테이블에 저장한다.</h4>
+              <p>매일 02시에 전날 데이터를 집계하고 통계 화면은 요약 테이블만 조회하도록 합니다. 특정 날짜만 다시 실행할 수 있어야 하며, 같은 날짜를 재실행해도 중복 집계되지 않도록 설계해야 합니다.</p>
+            </div>
+
+            <div class="mapping">
+              <h4>키워드 → 답변 매핑</h4>
+              <p>사전 집계 답변이 배치·DB·재실행 설계와 연결되는 방식입니다.</p>
+              <table class="mapping-table">
+                <tr><th>새벽 사전 집계</th><td><span class="keyword">Batch</span><span class="keyword">사전 계산</span> 사용자가 화면을 열기 전에 무거운 연산을 미리 끝냅니다.</td></tr>
+                <tr><th>집계 테이블 저장</th><td><span class="keyword">DB</span><span class="keyword">OLTP/분석 분리</span> 원본 주문 테이블 대신 읽기 좋은 요약 데이터를 사용합니다.</td></tr>
+                <tr><th>특정 날짜 재실행</th><td><span class="keyword">Job Parameter</span><span class="keyword">운영성</span> 전체를 다시 돌리지 않고 실패 구간만 복구할 수 있습니다.</td></tr>
+                <tr><th>중복 집계 방지</th><td><span class="keyword">Idempotent Job</span> 같은 날짜 작업을 다시 실행해도 결과가 중복되지 않게 합니다.</td></tr>
+                <tr><th>Scheduler·모니터링</th><td><span class="keyword">Cron</span><span class="keyword">Job Monitor</span> 정해진 시각에 실행하고 성공·실패 여부를 운영에서 확인합니다.</td></tr>
+              </table>
+            </div>
+
+          </div>
+        </article>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <h2>학습 결과</h2>
+          <p>미션을 거치며 기능 구현에서 운영과 설계로 시야가 확장됩니다.</p>
+        </div>
+        <div class="roadmap">
+          <div class="roadmap-card"><strong>1. 코드 읽기</strong><span>Java·Spring·React의 기본 구조를 이해한다.</span></div>
+          <div class="roadmap-card"><strong>2. 기능 구현</strong><span>요구사항을 API·Service·DB 변경으로 연결한다.</span></div>
+          <div class="roadmap-card"><strong>3. 원리 이해</strong><span>CS·DB·네트워크 지식으로 문제 원인을 설명한다.</span></div>
+          <div class="roadmap-card"><strong>4. 운영 책임</strong><span>배포·장애·성능·보안까지 고려해 시스템을 다룬다.</span></div>
+        </div>
+      </section>
+
+      <div class="footer">
+        <strong>PM에서 개발자로</strong>
+        <p>정답 코드를 외우는 대신, 실제 시스템에서 왜 문제가 생기고 무엇을 고쳐야 하는지 판단하는 힘을 훈련합니다.</p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.querySelectorAll('.mission-head').forEach(head => {
+      head.addEventListener('click', () => {
+        head.parentElement.classList.toggle('open');
+      });
+    });
+
+    const links = [...document.querySelectorAll('nav a')];
+    const sections = links
+      .map(link => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(link => link.classList.remove('active'));
+          const active = links.find(link => link.getAttribute('href') === '#' + entry.target.id);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+
+    sections.forEach(section => observer.observe(section));
+  </script>
+</body>
+</html>

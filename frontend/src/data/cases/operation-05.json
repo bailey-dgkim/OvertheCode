@@ -1,0 +1,245 @@
+{
+  "id": "operation-05",
+  "steps": [
+    {
+      "id": "intro",
+      "type": "mission",
+      "label": "Mission",
+      "mission": "주문이 확정되면 담당자에게 이메일 알림을 보내는 기능을 구현했습니다. 주문 저장 처리 안에서 메일 발송 API를 호출합니다.",
+      "problem": "메일 서버가 느려지자 주문 저장 화면이 10초 동안 멈췄습니다. 메일과 아무 상관 없는 주문 등록 업무 전체가 함께 느려졌습니다.",
+      "question": "왜 메일 서버 문제가 주문 저장을 멈추게 했을까요?",
+      "actionLabel": "문제 해결 시작"
+    },
+    {
+      "id": "question-1",
+      "type": "quiz",
+      "label": "질문 1",
+      "question": "주문 저장 화면이 10초 동안 멈춘 직접적인 이유는 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "주문 저장 요청 안에서 메일 발송이 끝날 때까지 기다렸기 때문" },
+        { "id": "B", "text": "주문 테이블에 데이터가 너무 많이 쌓였기 때문" },
+        { "id": "C", "text": "사용자의 인터넷 속도가 느렸기 때문" },
+        { "id": "D", "text": "담당자의 이메일 주소가 잘못 입력되었기 때문" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "남의 속도가 내 응답 시간이 되었습니다",
+        "description": "주문 저장과 메일 발송이 한 요청 안에 묶여 있으면, 사용자는 두 작업이 모두 끝나야 응답을 받습니다. 메일 서버가 10초 걸리면 주문 저장도 10초짜리 기능이 됩니다.",
+        "keywords": ["동기와 비동기", "Blocking", "외부 API"],
+        "note": "더 큰 문제는 그 10초 동안 서버의 처리 스레드와 연결이 계속 붙잡혀 있다는 점입니다. 동시 요청이 몰리면 메일과 무관한 다른 화면까지 함께 느려집니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "메일 서버가 느려진 시점부터 발생했고, 주문 저장 자체는 원래 빨랐습니다. 두 작업이 지금 어떤 관계로 실행되고 있는지 생각해보세요."
+      }
+    },
+    {
+      "id": "question-2",
+      "type": "quiz",
+      "label": "질문 2",
+      "situation": "메일 발송을 주문 저장에서 떼어내기로 했습니다. 아래 네 가지 모두 현장에서 실제로 쓰이는 방법입니다. 알림은 몇 초 늦어도 괜찮지만, 유실되면 안 됩니다.",
+      "question": "가장 적절한 구조는 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "주문 저장 후 알림 이벤트를 발행하고, 별도 Consumer가 큐에서 꺼내 메일을 보낸다" },
+        { "id": "B", "text": "메일 발송을 새 스레드로 띄우고 주문 저장은 먼저 응답한다" },
+        { "id": "C", "text": "메일 발송에 2초 타임아웃을 걸어 느리면 포기한다" },
+        { "id": "D", "text": "더 빠른 메일 서비스로 교체한다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "떼어내되, 잃어버리지 않아야 합니다",
+        "description": "큐에 넣으면 응답은 즉시 돌아가고 메일은 뒤에서 처리됩니다. 중요한 건 이벤트가 큐에 남아 있다는 점입니다. Consumer가 죽어도, 메일 서버가 30분간 장애여도 일감은 사라지지 않고 기다립니다.",
+        "keywords": ["메시지 큐", "Producer / Consumer", "느슨한 결합", "비동기 처리"],
+        "detail": {
+          "title": "B가 아쉬운 이유",
+          "body": "스레드를 띄우면 응답은 빨라지지만 그 일감은 서버 메모리 안에만 존재합니다. 배포로 서버가 재시작되거나 프로세스가 죽으면 발송되지 않은 알림은 흔적 없이 사라집니다. 재시도 기록도, 실패 확인 수단도 없습니다.",
+          "example": "요청이 몰리면 스레드가 계속 늘어나 결국 서버 자원을 고갈시키는 문제도 함께 생깁니다."
+        },
+        "note": "C와 D는 대응이지 구조 변경이 아닙니다. C는 알림을 조용히 버리게 되고, D는 새 메일 서버가 느려지면 같은 일이 반복됩니다."
+      },
+      "incorrectFeedback": {
+        "title": "방향은 맞지만 지금은 아닙니다",
+        "description": "고른 방법도 실제로 쓰입니다. 다만 이번 조건에는 '유실되면 안 된다'가 있습니다. 서버가 갑자기 재시작되어도 아직 못 보낸 알림이 남아 있는 방법인지 따져보세요."
+      }
+    },
+    {
+      "id": "question-3",
+      "type": "quiz",
+      "label": "질문 3",
+      "situation": "큐를 도입했습니다. 그런데 수신 주소가 잘못된 메시지 몇 건이 계속 실패하고, 재시도를 무한 반복하면서 뒤에 쌓인 정상 메시지까지 처리가 밀리기 시작했습니다.",
+      "question": "반복 실패하는 메시지를 어떻게 다뤄야 할까요?",
+      "choices": [
+        { "id": "A", "text": "정해진 횟수까지만 재시도하고, 그래도 실패하면 별도 보관소로 옮겨 격리한다" },
+        { "id": "B", "text": "실패한 메시지는 즉시 삭제해 큐를 비운다" },
+        { "id": "C", "text": "성공할 때까지 계속 재시도한다" },
+        { "id": "D", "text": "큐 전체를 비우고 처음부터 다시 시작한다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "고칠 수 없는 실패는 격리합니다",
+        "description": "재시도는 일시적인 장애를 전제로 한 대응입니다. 주소가 틀린 메시지는 몇 번을 보내도 실패하므로, 일정 횟수 뒤에는 따로 빼내야 뒤에 있는 정상 메시지가 처리됩니다. 옮겨둔 메시지는 나중에 원인을 분석하고 수동으로 재처리할 수 있습니다.",
+        "keywords": ["Dead Letter Queue", "재시도", "Consumer"],
+        "note": "B와 D는 무엇이 왜 실패했는지 알 수 없게 만듭니다. 알림이 안 갔다는 사실 자체를 아무도 모르게 되는 것이 가장 나쁜 상태입니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "이 메시지들은 다시 보낸다고 성공하지 않습니다. 그렇다고 없애버리면 무엇이 실패했는지 알 수 없습니다. 정상 처리를 막지 않으면서 기록은 남기는 방법을 생각해보세요."
+      }
+    },
+    {
+      "id": "solution",
+      "type": "solution",
+      "label": "최종 해결안",
+      "title": "주문 저장과 알림 발송을 분리합니다",
+      "description": "세 질문에서 확인한 조치를 요청이 흐르는 순서대로 정리했습니다.",
+      "flow": [
+        {
+          "layer": "backend",
+          "layerLabel": "Backend Service",
+          "action": "주문을 저장하고 알림 이벤트를 발행한 뒤 사용자에게 즉시 응답",
+          "solves": "메일 서버 속도가 주문 저장 응답 시간이 되는 문제",
+          "keywords": ["비동기 처리", "Non-blocking"]
+        },
+        {
+          "layer": "backend",
+          "layerLabel": "Message Queue",
+          "action": "이벤트를 큐에 보관해 처리 속도 차이를 흡수",
+          "solves": "받는 쪽이 느리거나 잠시 죽었을 때 일감이 사라지는 문제",
+          "keywords": ["메시지 큐", "Buffer"]
+        },
+        {
+          "layer": "backend",
+          "layerLabel": "Consumer",
+          "action": "큐에서 이벤트를 꺼내 실제 메일을 발송",
+          "solves": "주문 서비스가 알림 방식의 세부 구현까지 알아야 하는 문제",
+          "keywords": ["Producer / Consumer", "느슨한 결합"]
+        },
+        {
+          "layer": "backend",
+          "layerLabel": "Retry",
+          "action": "일시적 실패는 정해진 횟수까지 재시도하고 외부 호출에 타임아웃 설정",
+          "solves": "네트워크 순단이나 짧은 장애로 알림이 유실되는 문제",
+          "keywords": ["재시도", "Timeout"]
+        },
+        {
+          "layer": "operation",
+          "layerLabel": "Operation",
+          "action": "반복 실패 메시지를 DLQ로 격리하고 적체량과 실패율을 모니터링",
+          "solves": "실패한 알림을 아무도 모른 채 넘어가는 상태",
+          "keywords": ["Dead Letter Queue", "Monitoring"]
+        }
+      ],
+      "summary": [
+        "사용자를 기다리게 하는 작업과, 반드시 끝나야 하는 작업은 다릅니다.",
+        "알림은 몇 초 늦어도 되지만 사라지면 안 됩니다. 그래서 응답에서는 떼어내되 큐에 남겨 두고, 실패는 재시도한 뒤 격리해 추적합니다."
+      ]
+    },
+    {
+      "id": "mapping",
+      "type": "mapping",
+      "label": "키워드 매핑",
+      "title": "조치와 기술 키워드 연결",
+      "description": "내가 선택한 조치가 실제로 어떤 개념을 사용한 것인지 확인합니다.",
+      "mappings": [
+        {
+          "action": "이벤트 발행 후 즉시 응답",
+          "keywords": ["동기와 비동기", "Non-blocking"],
+          "solves": "외부 시스템 속도가 사용자 응답 시간을 결정하는 문제",
+          "layer": "backend",
+          "layerLabel": "Backend",
+          "why": "사용자는 자기 업무와 무관한 작업을 기다릴 이유가 없습니다."
+        },
+        {
+          "action": "메시지 큐 도입",
+          "keywords": ["메시지 큐", "Buffer"],
+          "solves": "받는 쪽이 느리거나 잠시 멈췄을 때 일감이 사라지는 문제",
+          "layer": "backend",
+          "layerLabel": "Backend",
+          "why": "보내는 속도와 처리하는 속도가 달라도 중간에서 흡수해 줍니다."
+        },
+        {
+          "action": "Producer와 Consumer 분리",
+          "keywords": ["느슨한 결합", "Producer / Consumer"],
+          "solves": "주문 로직이 알림 구현 세부까지 알아야 하는 문제",
+          "layer": "backend",
+          "layerLabel": "Backend",
+          "why": "알림 수단이 메일에서 문자로 바뀌어도 주문 코드는 그대로입니다."
+        },
+        {
+          "action": "재시도와 타임아웃 설정",
+          "keywords": ["재시도", "Timeout"],
+          "solves": "일시적 장애로 알림이 그대로 유실되는 문제",
+          "layer": "backend",
+          "layerLabel": "Backend",
+          "why": "짧은 장애는 자동으로 복구되고, 긴 지연은 빨리 포기합니다."
+        },
+        {
+          "action": "DLQ 격리와 모니터링",
+          "keywords": ["Dead Letter Queue", "Monitoring"],
+          "solves": "고칠 수 없는 실패가 큐 전체를 막는 문제",
+          "layer": "operation",
+          "layerLabel": "Operation",
+          "why": "정상 처리를 막지 않으면서 실패 원인은 남겨 분석할 수 있습니다."
+        }
+      ]
+    },
+    {
+      "id": "concepts",
+      "type": "concepts",
+      "label": "개념 복습",
+      "title": "이번 미션에서 사용한 개념",
+      "description": "문제를 풀며 등장한 개념을 정리합니다.",
+      "conceptRefs": [
+        { "id": "sync-async", "usedAt": "질문 1 — 화면이 멈춘 이유" },
+        { "id": "async-processing", "usedAt": "질문 2 — 요청 흐름에서 알림 분리" },
+        { "id": "message-queue", "usedAt": "질문 2 — 이벤트를 보관하는 장치" },
+        { "id": "producer-consumer", "usedAt": "질문 2 — 발행과 처리의 분리" },
+        { "id": "loose-coupling", "usedAt": "최종 해결안 — 주문과 알림의 관계" },
+        { "id": "retry", "usedAt": "질문 3 — 일시적 실패 대응" },
+        { "id": "timeout", "usedAt": "최종 해결안 — 외부 호출 보호" },
+        { "id": "dead-letter-queue", "usedAt": "질문 3 — 반복 실패 격리" }
+      ]
+    },
+    {
+      "id": "transfer",
+      "type": "quiz",
+      "label": "응용 문제",
+      "situation": "결제가 완료되면 포인트를 적립하기 위해 포인트 시스템 API를 호출합니다. 포인트 시스템에 장애가 나자 결제 완료 화면이 멈추고, 일부 사용자는 결제가 실패한 줄 알고 다시 결제를 시도했습니다.",
+      "question": "가장 핵심적으로 적용해야 하는 개념은 무엇일까요?",
+      "choices": [
+        { "id": "A", "text": "결제 완료와 포인트 적립을 분리하고, 적립은 이벤트로 발행해 별도로 처리한다" },
+        { "id": "B", "text": "포인트 적립 화면을 결제 화면과 다른 색으로 표시한다" },
+        { "id": "C", "text": "포인트 시스템이 복구될 때까지 결제 기능을 중단한다" },
+        { "id": "D", "text": "사용자에게 포인트는 나중에 직접 문의하라고 안내한다" }
+      ],
+      "correctAnswer": "A",
+      "correctFeedback": {
+        "title": "알림에서 배운 것이 그대로 적용됩니다",
+        "description": "결제는 즉시 확정되어야 하지만 포인트 적립은 몇 초 늦어도 됩니다. 성격이 다른 두 작업을 한 요청에 묶으면, 덜 중요한 쪽의 장애가 더 중요한 쪽을 멈추게 합니다.",
+        "keywords": ["느슨한 결합", "비동기 처리", "메시지 큐"],
+        "note": "여기에는 케이스 01의 멱등성도 함께 걸립니다. 사용자가 결제를 다시 시도했으니, 중복 결제를 막는 장치도 필요합니다."
+      },
+      "incorrectFeedback": {
+        "title": "다시 생각해보세요",
+        "description": "결제 자체는 성공할 수 있었는데 포인트 시스템 때문에 멈췄습니다. 두 작업의 중요도와 급한 정도가 같은지 생각해보세요."
+      }
+    },
+    {
+      "id": "complete",
+      "type": "complete",
+      "label": "미션 완료",
+      "title": "운영 케이스 05 완료",
+      "learnedConcepts": [
+        "동기와 비동기",
+        "비동기 처리",
+        "메시지 큐",
+        "Producer / Consumer",
+        "느슨한 결합",
+        "재시도",
+        "Timeout",
+        "Dead Letter Queue"
+      ],
+      "badge": "알림 분리 설계자"
+    }
+  ]
+}

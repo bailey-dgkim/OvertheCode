@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 2,
+  "id": "network-access-control",
+  "partId": "network",
+  "order": 5,
+  "status": "draft",
+  "title": "어떤 요청을 어디까지 허용할까?",
+  "description": "로컬에서는 되지만 운영에서 실패하는 API 요청의 방화벽·CORS 원인을 구분합니다.",
+  "estimatedMinutes": null,
+  "coreQuestion": "서버가 실행 중이어도 네트워크가 요청을 막을 수 있는가?",
+  "mission": "로컬에서는 되지만 운영에서 실패하는 API 요청의 방화벽·CORS 원인을 구분합니다.",
+  "incident": null,
+  "map": {
+    "primaryNodeIds": [
+      "firewall"
+    ],
+    "relatedNodeIds": [
+      "browser",
+      "dns",
+      "cdn",
+      "tls",
+      "load-balancer",
+      "application-instance"
+    ],
+    "activeEdgeIds": [
+      "firewall-to-load-balancer"
+    ]
+  },
+  "learningObjectives": [],
+  "outlineConcepts": [
+    "Public",
+    "Private Network",
+    "NAT",
+    "Firewall",
+    "Security Group",
+    "CORS"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": null
+}

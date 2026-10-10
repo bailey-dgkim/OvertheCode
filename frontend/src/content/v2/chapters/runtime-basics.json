@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 2,
+  "id": "runtime-basics",
+  "partId": "runtime",
+  "order": 1,
+  "status": "draft",
+  "title": "코드와 실행 중인 프로그램은 무엇이 다를까?",
+  "description": "터미널을 닫자 사라진 서비스를 통해 파일과 실행 중인 프로세스를 구분합니다.",
+  "estimatedMinutes": 40,
+  "coreQuestion": "파일이 존재하는데 왜 서비스는 동작하지 않는가?",
+  "mission": "터미널을 닫자 사라진 서비스를 통해 파일과 실행 중인 프로세스를 구분합니다.",
+  "incident": "터미널을 닫자 조금 전까지 접속되던 서비스가 사라졌습니다.",
+  "map": {
+    "primaryNodeIds": [
+      "source-code",
+      "build",
+      "runtime",
+      "process"
+    ],
+    "relatedNodeIds": [
+      "environment-variable",
+      "memory",
+      "port",
+      "container",
+      "health-check"
+    ],
+    "activeEdgeIds": [
+      "source-to-build",
+      "build-to-container",
+      "container-to-runtime",
+      "environment-to-runtime",
+      "runtime-to-process",
+      "process-to-port",
+      "health-check-to-process"
+    ]
+  },
+  "learningObjectives": [
+    "소스 코드와 실행 중인 프로그램을 구분합니다.",
+    "프로그램을 실행하는 데 필요한 환경과 설정을 찾습니다.",
+    "프로세스, 메모리, 포트의 관계를 설명합니다."
+  ],
+  "outlineConcepts": [
+    "Source Code",
+    "Runtime",
+    "Program",
+    "Process",
+    "PID"
+  ],
+  "conceptRefs": [
+    "source-code",
+    "runtime",
+    "process"
+  ],
+  "steps": [],
+  "completionPrompt": "이 서비스가 실행되기 위해 필요한 조건을 설명하세요."
+}
