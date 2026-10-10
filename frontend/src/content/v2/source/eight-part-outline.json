@@ -1,7 +1,7 @@
 {
   "sourceVersion": 1,
   "partCount": 9,
-  "chapterCount": 46,
+  "chapterCount": 47,
   "parts": [
     {
       "code": 0,
@@ -72,7 +72,7 @@
       "code": 1,
       "name": "프론트엔드",
       "question": "내가 구상한 화면은 코드로 어떻게 만들어지는 걸까?",
-      "realization": "화면은 단순한 그림이 아니라 사용자의 입력을 받고 상태를 바꾸며 서버에 요청을 보내는 실행 중인 프로그램이라는 사실을 발견합니다.",
+      "realization": "\"나 이런 화면 하나 만들어줘\" 뒤에서 벌어지고 있는 수많은 일들",
       "scope": [
         "사용자·클라이언트",
         "Browser",
@@ -92,28 +92,34 @@
       "outcome": "화면에 보이는 요소, 브라우저가 기억하는 상태, 서버에 저장된 데이터를 구분하고 사용자 행동이 코드 어디에서 시작되는지 찾을 수 있습니다.",
       "chapters": [
         {
-          "title": "구상한 화면은 코드 어디에 존재할까?",
+          "title": "사용자, 클라이언트? 프론트엔드는 어디서 실행되지?",
           "question": "디자인과 실제 실행되는 화면은 무엇이 다른가?",
-          "concepts": "HTML · CSS · JavaScript · React · Component · DOM",
-          "mission": "AI가 만든 주문 화면에서 사용자에게 보이는 요소와 그것을 그리는 Component를 연결합니다."
+          "concepts": "User · Client · Browser · Frontend · HTML · CSS · JavaScript · React",
+          "mission": "User·Client·Frontend를 구분하고 디자인과 실행 화면, HTML·CSS·JavaScript의 역할을 연결합니다."
         },
         {
-          "title": "화면은 사용자의 행동을 어떻게 기억할까?",
+          "title": "AI가 만들어준 화면은 브라우저에 어떻게 나타날까?",
           "question": "입력한 값과 버튼 상태는 어디에 보관되는가?",
           "concepts": "State · Event · Rendering · Form · Event Handler",
           "mission": "화면에는 금액이 바뀌었지만 저장 요청에는 이전 값이 들어간 원인을 추적합니다."
         },
         {
-          "title": "화면의 값과 저장된 값은 같은가?",
+          "title": "같은 컴포넌트를 쓰는데 왜 화면이 달라질까?",
           "question": "새로고침하면 사라지는 값과 남는 값은 무엇이 다른가?",
           "concepts": "Memory State · Local Storage · Cookie · Server State",
           "mission": "새로고침 전후의 값을 비교해 브라우저 상태와 서버 데이터를 분류합니다."
         },
         {
-          "title": "AI가 만든 화면을 어떻게 검토할까?",
-          "question": "화면이 보인다는 사실만으로 기능이 완성됐다고 할 수 있는가?",
-          "concepts": "Loading · Success · Error · Validation · Accessibility",
-          "mission": "정상 상황만 처리한 AI 화면에서 실패·대기·빈 데이터 상태를 찾아 보완합니다."
+          "title": "사용자 입력",
+          "question": "사용자가 화면을 조작하면 코드에서는 무슨 일이 일어날까?",
+          "concepts": "Event · onClick · onChange · Event Handler · Event Object",
+          "mission": "배송 완료 처리 버튼을 누른 뒤 click Event부터 화면 재렌더링까지의 실행 순서를 맞춥니다."
+        },
+        {
+          "title": "API 호출의 시작",
+          "question": "사용자가 버튼을 누르면 어떻게 서버의 데이터까지 바뀔까?",
+          "concepts": "Client · Server · API · Request · Response · HTTP Method · JSON · fetch()",
+          "mission": "API 코드를 한국어로 해석하고 GET·POST·PATCH·DELETE 요청을 화면 기능과 연결합니다."
         }
       ],
       "memory": {

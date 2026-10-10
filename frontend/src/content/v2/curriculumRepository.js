@@ -1,5 +1,4 @@
 import partsDocument from './parts.json';
-import systemMapDocument from './system-map.json';
 import conceptsDocument from './concepts.json';
 import { CURRICULUM_SCHEMA_VERSION } from './contentContract';
 
@@ -46,7 +45,6 @@ function assertSupportedVersion(document, label) {
 }
 
 assertSupportedVersion(partsDocument, 'parts.json');
-assertSupportedVersion(systemMapDocument, 'system-map.json');
 assertSupportedVersion(conceptsDocument, 'concepts.json');
 chapters.forEach((chapter) => assertSupportedVersion(chapter, `${chapter.id}.json`));
 
@@ -65,7 +63,6 @@ export const curriculumRepository = Object.freeze({
     partId ? chapters.filter((chapter) => chapter.partId === partId) : chapters
   ),
   getChapter: (chapterId) => chaptersById.get(chapterId) ?? null,
-  getSystemMap: () => systemMapDocument,
   listConcepts: () => conceptsDocument.concepts,
   getConcept: (conceptId) => conceptsById.get(conceptId) ?? null,
 });

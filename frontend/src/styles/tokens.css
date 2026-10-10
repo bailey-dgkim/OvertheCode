@@ -1,51 +1,51 @@
 /**
  * 디자인 토큰.
- * V2 공통 톤 — 따뜻한 아이보리, 세이지 그린, 절제된 대비.
+ * V2 공통 톤 — 밝은 캔버스, 흰색 카드, 선명한 블루 포인트.
  */
 :root {
   /* 강조 */
-  --brand-50: #eef1eb;
-  --brand-100: #d9dfd3;
-  --brand-500: #75836f;
-  --brand-600: #566451;
-  --brand-700: #435144;
+  --brand-50: #eef6ff;
+  --brand-100: #dbeafe;
+  --brand-500: #3182f6;
+  --brand-600: #1b64da;
+  --brand-700: #1354bd;
 
   /* 피드백 */
-  --success-50: #f0fdf4;
-  --success-200: #bbf7d0;
-  --success-600: #16a34a;
-  --success-700: #15803d;
+  --success-50: #edfff4;
+  --success-200: #b8e8c9;
+  --success-600: #18a957;
+  --success-700: #08783c;
 
-  --danger-50: #fef2f2;
-  --danger-200: #fecaca;
-  --danger-600: #dc2626;
-  --danger-700: #b91c1c;
+  --danger-50: #fff1f2;
+  --danger-200: #ffc7cd;
+  --danger-600: #e5484d;
+  --danger-700: #b4232a;
 
-  --warning-50: #f8e8de;
-  --warning-200: #e8b9a8;
-  --warning-600: #b65f4d;
+  --warning-50: #fff7ed;
+  --warning-200: #fed7aa;
+  --warning-600: #e77917;
 
   /* 계층 배지 */
-  --layer-frontend: #2563eb;
-  --layer-frontend-bg: #eff6ff;
-  --layer-backend: #7c3aed;
-  --layer-backend-bg: #f5f3ff;
-  --layer-database: #16a34a;
-  --layer-database-bg: #f0fdf4;
-  --layer-operation: #ea580c;
-  --layer-operation-bg: #fff7ed;
+  --layer-frontend: #1769d2;
+  --layer-frontend-bg: #eaf3ff;
+  --layer-backend: #7048c8;
+  --layer-backend-bg: #f3efff;
+  --layer-database: #14804a;
+  --layer-database-bg: #eaf9f0;
+  --layer-operation: #b85c12;
+  --layer-operation-bg: #fff3e8;
 
   /* 표면 */
-  --canvas: #f3ede2;
-  --surface: #fffaf2;
-  --surface-muted: #ece5da;
-  --border: #cbc5b8;
-  --border-strong: #aaa99d;
+  --canvas: #f7f9fc;
+  --surface: #ffffff;
+  --surface-muted: #f2f4f6;
+  --border: #e5e8eb;
+  --border-strong: #d1d6db;
 
   /* 텍스트 */
-  --text: #3f473f;
-  --text-strong: #273029;
-  --text-muted: #62695f;
+  --text: #333d4b;
+  --text-strong: #191f28;
+  --text-muted: #6b7684;
   --text-on-brand: #ffffff;
 
   /* 레이아웃 */
@@ -54,12 +54,12 @@
   --list-max: 1080px;
 
   /* 형태 */
-  --radius-sm: 3px;
-  --radius: 5px;
-  --radius-lg: 8px;
-  --shadow-sm: none;
-  --shadow: none;
-  --shadow-md: none;
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 22px;
+  --shadow-sm: 0 8px 24px rgba(15, 23, 42, 0.07);
+  --shadow: 0 16px 44px rgba(15, 23, 42, 0.09);
+  --shadow-md: 0 24px 64px rgba(15, 23, 42, 0.12);
 
   /* 타이포 */
   --sans: system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo',

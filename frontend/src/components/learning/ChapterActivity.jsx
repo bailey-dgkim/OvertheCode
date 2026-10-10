@@ -1,6 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import {
-  getMapCandidateIds,
   isSequenceCorrect,
   sameIdSet,
 } from './chapterActivityUtils';
@@ -163,66 +162,6 @@ function MultiChoiceActivity({ activity, isLastStep, onComplete }) {
   );
 }
 
-function MapSelectActivity({ activity, chapterMap, systemMap, isLastStep, onComplete }) {
-  const candidateIds = useMemo(
-    () => getMapCandidateIds(activity, chapterMap),
-    [activity, chapterMap],
-  );
-  const nodeById = useMemo(
-    () => new Map(systemMap.nodes.map((node) => [node.id, node])),
-    [systemMap.nodes],
-  );
-  const [selectedIds, setSelectedIds] = useState([]);
-  const [submitted, setSubmitted] = useState(false);
-  const correct = sameIdSet(selectedIds, activity.correctNodeIds);
-
-  const toggleNode = (nodeId) => {
-    setSubmitted(false);
-    setSelectedIds((current) => (
-      current.includes(nodeId)
-        ? current.filter((id) => id !== nodeId)
-        : [...current, nodeId]
-    ));
-  };
-
-  return (
-    <article className="cv2-activity">
-      <p className="cv2-player-kicker">Locate on system map</p>
-      <h2>{activity.question}</h2>
-      <div className="cv2-map-choice-grid" role="group" aria-label="시스템 맵 노드">
-        {candidateIds.map((nodeId) => (
-          <button
-            className="cv2-map-choice"
-            type="button"
-            key={nodeId}
-            aria-pressed={selectedIds.includes(nodeId)}
-            onClick={() => toggleNode(nodeId)}
-          >
-            <span aria-hidden="true">{selectedIds.includes(nodeId) ? '●' : '○'}</span>
-            {nodeById.get(nodeId)?.label ?? nodeId}
-          </button>
-        ))}
-      </div>
-      {!submitted ? (
-        <StepAction
-          disabled={selectedIds.length === 0}
-          label="위치 확인"
-          onComplete={() => setSubmitted(true)}
-        />
-      ) : (
-        <>
-          <Feedback correct={correct}>
-            {correct
-              ? (activity.correctFeedback ?? '문제가 생긴 위치를 정확히 찾았습니다.')
-              : (activity.incorrectFeedback ?? '증거가 가리키는 위치를 다시 좁혀 보세요.')}
-          </Feedback>
-          <StepAction disabled={!correct} isLastStep={isLastStep} onComplete={onComplete} />
-        </>
-      )}
-    </article>
-  );
-}
-
 function SequenceActivity({ activity, isLastStep, onComplete }) {
   const [items, setItems] = useState(activity.items);
   const [submitted, setSubmitted] = useState(false);
@@ -376,7 +315,7 @@ function CompletionActivity({ activity, onComplete }) {
   );
 }
 
-function ChapterActivity({ chapterMap, isLastStep, onComplete, step, systemMap }) {
+function ChapterActivity({ isLastStep, onComplete, step }) {
   const commonProps = { activity: step.activity, isLastStep, onComplete };
 
   switch (step.activity.type) {
@@ -388,8 +327,6 @@ function ChapterActivity({ chapterMap, isLastStep, onComplete, step, systemMap }
       return <SingleChoiceActivity {...commonProps} />;
     case 'multi-choice':
       return <MultiChoiceActivity {...commonProps} />;
-    case 'map-select':
-      return <MapSelectActivity {...commonProps} chapterMap={chapterMap} systemMap={systemMap} />;
     case 'sequence':
       return <SequenceActivity {...commonProps} />;
     case 'diff-review':

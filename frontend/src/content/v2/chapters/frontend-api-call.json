@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 2,
+  "id": "frontend-api-call",
+  "partId": "frontend",
+  "order": 5,
+  "status": "available",
+  "renderer": "frontend-api",
+  "lessonCount": 14,
+  "title": "API 호출의 시작",
+  "description": "화면 안의 State 변경과 서버 데이터 변경을 구분하고, fetch 코드에서 HTTP Request와 Response의 흐름을 읽습니다.",
+  "estimatedMinutes": 45,
+  "coreQuestion": "사용자가 버튼을 누르면 어떻게 서버의 데이터까지 바뀔까?",
+  "mission": "API 코드를 한국어로 해석하고 GET·POST·PATCH·DELETE 요청을 화면 기능과 연결합니다.",
+  "incident": "버튼을 눌러 화면의 배송 상태는 바뀌었지만 새로고침하면 원래 상태로 돌아옵니다.",
+  "map": {
+    "primaryNodeIds": [
+      "api-client",
+      "http-api"
+    ],
+    "relatedNodeIds": [
+      "user",
+      "browser",
+      "frontend",
+      "component",
+      "frontend-state"
+    ],
+    "activeEdgeIds": [
+      "user-to-browser",
+      "browser-to-frontend",
+      "frontend-to-component",
+      "state-to-api-client",
+      "api-client-to-http-api"
+    ]
+  },
+  "learningObjectives": [
+    "화면 State 변경과 서버 데이터 변경을 구분한다.",
+    "Request와 Response의 흐름을 읽는다.",
+    "fetch 코드에서 HTTP Method, URL, JSON을 찾아 기능과 연결한다."
+  ],
+  "outlineConcepts": [
+    "Client · Server",
+    "Request · Response",
+    "API · fetch()",
+    "HTTP Method · URL · JSON"
+  ],
+  "conceptRefs": [],
+  "steps": [],
+  "completionPrompt": "OTC의 fetch 코드에서 누가, 어디로, 무엇을 요청하고 어떤 응답을 받는지 설명해보세요."
+}

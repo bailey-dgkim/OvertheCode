@@ -25,15 +25,15 @@ test('Part 0부터 Part 8까지 정확히 존재한다', () => {
   );
 });
 
-test('46개 Chapter가 Part별 원본 개수대로 존재한다', () => {
+test('47개 Chapter가 Part별 원본 개수대로 존재한다', () => {
   const documents = freshDocuments();
   const chapters = documents.chapters.map((chapter) => chapter.document);
   const chapterCounts = documents.partsDocument.parts.map((part) => (
     chapters.filter((chapter) => chapter.partId === part.id).length
   ));
 
-  assert.equal(chapters.length, 46);
-  assert.deepEqual(chapterCounts, [5, 4, 5, 5, 5, 5, 5, 6, 6]);
+  assert.equal(chapters.length, 47);
+  assert.deepEqual(chapterCounts, [5, 5, 5, 5, 5, 5, 5, 6, 6]);
 });
 
 test('존재하지 않는 시스템 맵 노드를 잡는다', () => {

@@ -3,13 +3,15 @@
   "id": "frontend-review",
   "partId": "frontend",
   "order": 4,
-  "status": "draft",
-  "title": "AI가 만든 화면을 어떻게 검토할까?",
-  "description": "정상 상황만 처리한 AI 화면에서 실패·대기·빈 데이터 상태를 찾아 보완합니다.",
-  "estimatedMinutes": null,
-  "coreQuestion": "화면이 보인다는 사실만으로 기능이 완성됐다고 할 수 있는가?",
-  "mission": "정상 상황만 처리한 AI 화면에서 실패·대기·빈 데이터 상태를 찾아 보완합니다.",
-  "incident": null,
+  "status": "available",
+  "renderer": "frontend-input",
+  "lessonCount": 11,
+  "title": "사용자 입력",
+  "description": "사용자의 클릭과 입력이 Event, Event Handler, State 변경을 거쳐 화면에 반영되는 흐름을 따라갑니다.",
+  "estimatedMinutes": 40,
+  "coreQuestion": "사용자가 화면을 조작하면 코드에서는 무슨 일이 일어날까?",
+  "mission": "배송 완료 처리 버튼을 누른 뒤 click Event부터 화면 재렌더링까지의 실행 순서를 맞춥니다.",
+  "incident": "사용자가 배송 완료 버튼을 눌렀지만 어떤 함수가 실행되고 화면이 왜 바뀌는지 코드만 보고는 연결하기 어렵습니다.",
   "map": {
     "primaryNodeIds": [
       "component",
@@ -29,15 +31,19 @@
       "component-to-state"
     ]
   },
-  "learningObjectives": [],
+  "learningObjectives": [
+    "사용자 행동과 Event를 연결한다.",
+    "Event Handler가 State 변경 함수를 호출하는 순서를 읽는다.",
+    "onClick과 onChange가 사용되는 실제 OTC 코드를 해석한다."
+  ],
   "outlineConcepts": [
-    "Loading",
-    "Success",
-    "Error",
-    "Validation",
-    "Accessibility"
+    "Event",
+    "onClick",
+    "onChange",
+    "Event Handler",
+    "Event Object"
   ],
   "conceptRefs": [],
   "steps": [],
-  "completionPrompt": null
+  "completionPrompt": "사용자 클릭부터 Event Handler, State 변경, 재렌더링까지의 순서를 실제 버튼 코드로 설명해보세요."
 }

@@ -3,13 +3,15 @@
   "id": "frontend-components",
   "partId": "frontend",
   "order": 1,
-  "status": "draft",
-  "title": "구상한 화면은 코드 어디에 존재할까?",
-  "description": "AI가 만든 주문 화면에서 사용자에게 보이는 요소와 그것을 그리는 Component를 연결합니다.",
-  "estimatedMinutes": null,
-  "coreQuestion": "디자인과 실제 실행되는 화면은 무엇이 다른가?",
-  "mission": "AI가 만든 주문 화면에서 사용자에게 보이는 요소와 그것을 그리는 Component를 연결합니다.",
-  "incident": null,
+  "status": "available",
+  "renderer": "frontend-foundation",
+  "lessonCount": 11,
+  "title": "프론트엔드는 어디에서 실행될까?",
+  "description": "User와 Client를 구분하고, Browser에서 Frontend 코드가 실행되어 화면이 되는 위치 관계를 익힙니다.",
+  "estimatedMinutes": 35,
+  "coreQuestion": "사용자와 클라이언트는 무엇이 다르고, 프론트엔드는 어디에서 실행될까?",
+  "mission": "User·Client·Frontend를 구분하고 디자인과 실행 화면, HTML·CSS·JavaScript의 역할을 연결합니다.",
+  "incident": "같은 주문 서비스라도 사용자가 보는 화면, 화면을 실행하는 브라우저, 화면을 만드는 프론트엔드 코드는 서로 다른 역할을 합니다.",
   "map": {
     "primaryNodeIds": [
       "dom",
@@ -29,16 +31,20 @@
       "component-to-state"
     ]
   },
-  "learningObjectives": [],
+  "learningObjectives": [
+    "User와 Client의 역할을 구분한다.",
+    "Frontend 코드가 Browser에서 실행되어 화면이 되는 흐름을 설명한다.",
+    "HTML, CSS, JavaScript의 역할을 실제 화면과 연결한다."
+  ],
   "outlineConcepts": [
-    "HTML",
-    "CSS",
-    "JavaScript",
-    "React",
-    "Component",
-    "DOM"
+    "User",
+    "Client",
+    "Browser",
+    "Frontend",
+    "HTML · CSS · JavaScript",
+    "Design · Implementation"
   ],
   "conceptRefs": [],
   "steps": [],
-  "completionPrompt": null
+  "completionPrompt": "사용자, 클라이언트, 프론트엔드의 위치와 HTML·CSS·JavaScript의 역할을 한 문장씩 설명해보세요."
 }

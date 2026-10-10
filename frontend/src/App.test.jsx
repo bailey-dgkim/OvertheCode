@@ -13,12 +13,12 @@ function renderAt(path) {
 }
 
 describe('V2 화면 주소', () => {
-  it('46개 Chapter를 Part별 순서대로 제공한다', () => {
+  it('47개 Chapter를 Part별 순서대로 제공한다', () => {
     const parts = curriculumRepository.listParts();
 
-    expect(curriculumRepository.listChapters()).toHaveLength(46);
+    expect(curriculumRepository.listChapters()).toHaveLength(47);
     expect(parts.map((part) => curriculumRepository.listChapters(part.id).length))
-      .toEqual([5, 4, 5, 5, 5, 5, 5, 6, 6]);
+      .toEqual([5, 5, 5, 5, 5, 5, 5, 6, 6]);
   });
 
   it('커리큘럼 홈에서 Part 0과 여덟 교육 Part를 보여준다', () => {
@@ -59,33 +59,148 @@ describe('V2 화면 주소', () => {
     expect(html).toContain('/chapters/runtime-basics');
   });
 
-  it('Part 1에서 반복 학습 설계를 보여준다', () => {
+  it('Part 1은 교육 범위와 5개 Chapter만 간결하게 보여준다', () => {
     const html = renderAt('/parts/frontend');
 
-    expect(html).toContain('깜빡이 학습 · 동일 개념 3회 연속');
-    expect(html).toContain('같은 문제와 같은 답안으로 3회 연속 정답이면 암기 완료입니다.');
+    expect(html).toContain('&quot;나 이런 화면 하나 만들어줘&quot; 뒤에서 벌어지고 있는 수많은 일들');
+    expect(html).toContain('교육 범위');
+    expect(html).toContain('5개 Chapter');
+    expect(html).toContain('프론트엔드는 어디에서 실행될까?');
+    expect(html).toContain('화면 코드는 어디에 있을까?');
+    expect(html).toContain('화면과 상태');
+    expect(html).toContain('사용자 입력');
+    expect(html).toContain('API 호출의 시작');
+    expect(html).toContain('cv2-foundation-badge');
+    expect(html).toContain('기초');
+    expect(html).toContain('프론트엔드 인증 퀴즈');
+    expect(html).toContain('/parts/frontend/quiz');
+    expect(html).toContain('cv2-chapter-card__badges');
+    expect(html).toContain('cv2-chapter-card__info');
+    expect(html).toContain('핵심 질문');
+    expect(html).toContain('학습 구성');
+    expect(html).toContain('Chapter 시작');
+    expect(html).toContain('/chapters/frontend-components/learn');
+    expect(html).not.toContain('AI가 만든 주문 화면에서 사용자에게 보이는 요소와 그것을 그리는 Component를 연결합니다.');
+    expect(html).not.toContain('대표 시스템 영역');
+    expect(html).not.toContain('Core Question');
+    expect(html).not.toContain('이미 가진 역량과 연결');
+    expect(html).toContain('화면에 보이는 요소, 브라우저가 기억하는 상태');
+    expect(html).not.toContain('깜빡이 학습 · 동일 개념 3회 연속');
+    expect(html).toContain('11개 학습 단계 · 35분');
+    expect(html).not.toContain('학습 목표');
   });
 
-  it('Chapter 입구에서 핵심 질문과 연결된 시스템 지도를 보여준다', () => {
+  it('프론트엔드 인증 퀴즈 소개 화면을 제공한다', () => {
+    const html = renderAt('/parts/frontend/quiz');
+
+    expect(html).toContain('화면을 보고');
+    expect(html).toContain('수정 위치를 찾아라');
+    expect(html).toContain('주문 관리 프로젝트');
+    expect(html).toContain('macOS 주문 관리 앱');
+    expect(html).toContain('cv2-order-card');
+    expect(html).toContain('15개');
+    expect(html).toContain('12문항 이상');
+    expect(html).toContain('인증 퀴즈 시작');
+  });
+
+  it('Chapter 2 주소에서 중간 화면 없이 본 학습을 시작한다', () => {
+    const html = renderAt('/chapters/frontend-state-events');
+
+    expect(html).toContain('HTML을 화면으로 만드는 과정');
+    expect(html).toContain('브라우저는 받은 HTML을 해석해서 화면을 만듭니다.');
+    expect(html).not.toContain('브라우저를 다시 생각해보기');
+  });
+
+  it('Chapter 1에서 User와 Client의 위치를 배우는 학습 플레이어를 제공한다', () => {
+    const directHtml = renderAt('/chapters/frontend-components');
+    const lessonHtml = renderAt('/chapters/frontend-components/learn');
+
+    expect(directHtml).toContain('AI가 만든 주문 화면은 그냥 그림일까?');
+    expect(directHtml).not.toContain('Chapter 시작하기');
+    expect(lessonHtml).toContain('AI가 만든 주문 화면은 그냥 그림일까?');
+    expect(lessonHtml).toContain('상세보기');
+    expect(lessonHtml).toContain('1 / 11');
+    expect(lessonHtml).toContain('미션 · 역할 찾기');
+    expect(lessonHtml).toContain('미션 · 화면 구분');
+    expect(lessonHtml).toContain('미션 · 수정 위치');
+    expect(lessonHtml).toContain('필수 암기');
+    expect(lessonHtml).not.toContain('학습 콘텐츠 준비 중');
+  });
+
+  it('Chapter 2 본 학습 화면을 제공한다', () => {
+    const html = renderAt('/chapters/frontend-state-events/learn');
+
+    expect(html).toContain('HTML을 화면으로 만드는 과정');
+    expect(html).toContain('브라우저는 받은 HTML을 해석해서 화면을 만듭니다.');
+    expect(html).toContain('1 / 9');
+    expect(html).toContain('OTC 코드 추적');
+    expect(html).toContain('React의 위치');
+    expect(html).toContain('JSX · .jsx');
+    expect(html).toContain('필수 암기');
+    expect(html).not.toContain('대화');
+    expect(html).not.toContain('학습 콘텐츠 준비 중');
+  });
+
+  it('Chapter 3에서 화면과 상태 학습 플레이어를 제공한다', () => {
+    const directHtml = renderAt('/chapters/browser-and-server-state');
+    const lessonHtml = renderAt('/chapters/browser-and-server-state/learn');
+
+    expect(directHtml).toContain('같은 Component인데 화면은 왜 달라질까?');
+    expect(directHtml).not.toContain('Chapter 시작하기');
+    expect(lessonHtml).toContain('같은 Component인데 화면은 왜 달라질까?');
+    expect(lessonHtml).toContain('배송 준비중');
+    expect(lessonHtml).toContain('배송 완료');
+    expect(lessonHtml).toContain('1 / 13');
+    expect(lessonHtml).toContain('미션 · status');
+    expect(lessonHtml).toContain('미션 · itemCount');
+    expect(lessonHtml).toContain('필수 암기');
+    expect(lessonHtml).not.toContain('학습 콘텐츠 준비 중');
+  });
+
+  it('Chapter 4에서 사용자 입력 학습 플레이어를 제공한다', () => {
+    const directHtml = renderAt('/chapters/frontend-review');
+    const lessonHtml = renderAt('/chapters/frontend-review/learn');
+
+    expect(directHtml).toContain('버튼 클릭과 State 변경 사이에는 무엇이 있을까?');
+    expect(directHtml).not.toContain('Chapter 시작하기');
+    expect(lessonHtml).toContain('버튼 클릭과 State 변경 사이에는 무엇이 있을까?');
+    expect(lessonHtml).toContain('배송 완료 처리');
+    expect(lessonHtml).toContain('1 / 11');
+    expect(lessonHtml).toContain('Event Handler');
+    expect(lessonHtml).toContain('실행 순서 미션');
+    expect(lessonHtml).toContain('Event Object');
+    expect(lessonHtml).not.toContain('학습 콘텐츠 준비 중');
+  });
+
+  it('Chapter 5에서 API 호출의 시작 학습 플레이어를 제공한다', () => {
+    const directHtml = renderAt('/chapters/frontend-api-call');
+    const lessonHtml = renderAt('/chapters/frontend-api-call/learn');
+
+    expect(directHtml).toContain('배송 완료로 보이는데, 정말 주문 데이터도 바뀌었을까?');
+    expect(directHtml).not.toContain('Chapter 시작하기');
+    expect(lessonHtml).toContain('배송 완료로 보이는데, 정말 주문 데이터도 바뀌었을까?');
+    expect(lessonHtml).toContain('새로고침 시뮬레이션');
+    expect(lessonHtml).toContain('1 / 14');
+    expect(lessonHtml).toContain('Request · Response');
+    expect(lessonHtml).toContain('코드 읽기 미션');
+    expect(lessonHtml).toContain('HTTP Method');
+    expect(lessonHtml).not.toContain('학습 콘텐츠 준비 중');
+  });
+
+  it('준비 중인 Chapter도 중간 화면 없이 준비 안내로 이동한다', () => {
     const html = renderAt('/chapters/runtime-basics');
 
-    expect(html).toContain('파일이 존재하는데 왜 서비스는 동작하지 않는가?');
-    expect(html).toContain('Source Code');
-    expect(html).toContain('11개 영역');
-    expect(html).toContain('62개 요소');
-    expect(html).toContain('7개 연결 강조');
-    expect(html).toContain('data-node-state="primary"');
-    expect(html).toContain('이번 Chapter에서 따라갈 연결');
-    expect(html).not.toContain('맵 준비 중');
-    expect(html).toContain('Chapter 시작하기 · 준비 중');
+    expect(html).toContain('학습 콘텐츠 준비 중');
+    expect(html).toContain('Part로 돌아가기');
+    expect(html).not.toContain('Chapter 시작하기');
   });
 
-  it('마지막 Chapter 개요와 시스템 지도를 보여준다', () => {
+  it('마지막 Chapter도 중간 화면 없이 준비 안내로 이동한다', () => {
     const html = renderAt('/chapters/backup-and-recovery');
 
-    expect(html).toContain('백업이 존재한다는 것만으로 복구할 수 있는가?');
-    expect(html).toContain('62개 요소');
-    expect(html).toContain('Chapter 시작하기 · 준비 중');
+    expect(html).toContain('학습 콘텐츠 준비 중');
+    expect(html).toContain('Part로 돌아가기');
+    expect(html).not.toContain('Chapter 시작하기');
   });
 
   it('잘못된 주소에는 찾을 수 없다는 안내를 보여준다', () => {
@@ -100,6 +215,6 @@ describe('V2 화면 주소', () => {
 
     expect(html).toContain('학습 콘텐츠 준비 중');
     expect(html).toContain('공통 학습 화면은 준비되었습니다');
-    expect(html).toContain('Chapter 소개로 돌아가기');
+    expect(html).toContain('Part로 돌아가기');
   });
 });

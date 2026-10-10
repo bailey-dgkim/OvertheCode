@@ -24,7 +24,6 @@ export const ACTIVITY_TYPES = Object.freeze([
   'evidence',
   'single-choice',
   'multi-choice',
-  'map-select',
   'sequence',
   'diff-review',
   'checklist',

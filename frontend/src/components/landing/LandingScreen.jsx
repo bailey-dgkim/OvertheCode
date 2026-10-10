@@ -1,126 +1,128 @@
-import { useScrollReveal } from '../../hooks/useScrollReveal';
-import {
-  landingHero,
-  landingManifesto,
-  landingClosing,
-} from '../../data/landing';
-import { curriculumRepository } from '../../content/v2';
+import { useEffect, useRef, useState } from 'react';
+import { landingHero, landingPhilosophy } from '../../data/landing';
 
-function Reveal({ children, delay = 0, className = '' }) {
-  const [ref, revealed] = useScrollReveal();
-  const classes = 'ld-reveal'
-    + (revealed ? ' ld-reveal--in' : '')
-    + (className ? ' ' + className : '');
+function Brand() {
+  return (
+    <a className="ld-brand" href="#top" aria-label="Over the Code 첫 화면">
+      <span className="ld-brand__mark" aria-hidden="true">O</span>
+      <strong>Over the Code</strong>
+    </a>
+  );
+}
+
+function PhilosophyModal({ onClose, onDiagnosis }) {
+  const closeButtonRef = useRef(null);
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') onClose();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onClose]);
 
   return (
     <div
-      ref={ref}
-      className={classes}
-      style={{ transitionDelay: delay + 'ms' }}
+      className="ld-modal-backdrop"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
     >
-      {children}
+      <section
+        className="ld-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="philosophy-title"
+      >
+        <div className="ld-modal__topbar">
+          <p>{landingPhilosophy.eyebrow}</p>
+          <button ref={closeButtonRef} type="button" onClick={onClose} aria-label="설명 닫기">×</button>
+        </div>
+
+        <div className="ld-modal__content">
+          <div className="ld-modal__intro">
+            <h2 id="philosophy-title">{landingPhilosophy.title}</h2>
+            <p>{landingPhilosophy.intro}</p>
+          </div>
+
+          <ol className="ld-philosophy-list">
+            {landingPhilosophy.sections.map((section, index) => (
+              <li key={section.label}>
+                <span>{String(index + 1).padStart(2, '0')} · {section.label}</span>
+                <div>
+                  <h3>{section.title}</h3>
+                  <p>{section.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <div className="ld-modal__learning">
+            <p>학습의 방향</p>
+            <ol>
+              {landingPhilosophy.outcomes.map((outcome, index) => (
+                <li key={outcome}><span>{index + 1}</span>{outcome}</li>
+              ))}
+            </ol>
+          </div>
+
+          <div className="ld-modal__principles">
+            <p>{landingPhilosophy.principle}</p>
+            <p>{landingPhilosophy.system}</p>
+          </div>
+        </div>
+
+        <footer className="ld-modal__footer">
+          <p>5개의 상황으로 지금의 출발점을 확인합니다.</p>
+          <button type="button" className="ld-btn ld-btn--primary" onClick={onDiagnosis}>
+            {landingPhilosophy.cta}<span aria-hidden="true">→</span>
+          </button>
+        </footer>
+      </section>
     </div>
   );
 }
 
-function ManifestoBlock({ item, index }) {
-  return (
-    <Reveal delay={index * 60} className="ld-manifesto__item">
-      <p className="ld-manifesto__lead">{item.lead}</p>
-      <p className="ld-manifesto__body">{item.body}</p>
-    </Reveal>
-  );
-}
-
-function PartPreview({ part, index }) {
-  return (
-    <Reveal delay={index * 60}>
-      <article className="ld-track">
-        <span className="ld-track__label">{String(part.order).padStart(2, '0')}</span>
-        <div className="ld-track__body">
-          <h3 className="ld-track__headline">{part.title}</h3>
-          <p className="ld-track__desc">{part.goal}</p>
-        </div>
-        <span className="ld-track__arrow" aria-hidden="true">→</span>
-      </article>
-    </Reveal>
-  );
-}
-
-function LandingScreen({ onStart }) {
-  const parts = curriculumRepository.listParts();
+function LandingScreen({ onDiagnosis }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <main className="ld">
+    <main className="ld" id="top">
       <header className="ld-header">
-        <div className="ld-header__inner">
-          <div className="ld-brand">
-            <span className="ld-brand__mark" aria-hidden="true">O</span>
-            <strong>Over the Code</strong>
-          </div>
-          <button type="button" className="ld-header__action" onClick={onStart}>
-            커리큘럼 보기 →
-          </button>
-        </div>
+        <div className="ld-header__inner"><Brand /></div>
       </header>
 
-      <section className="ld-section ld-hero">
-        <div className="ld-inner ld-hero__inner">
-          <p className="ld-hero__eyebrow">{landingHero.eyebrow}</p>
-
-          <h1 className="ld-hero__title">
-            {landingHero.title.map((line) => (
-              <span key={line} className="ld-hero__line">
-                {line}
-              </span>
-            ))}
+      <section className="ld-hero">
+        <div className="ld-hero__copy">
+          <p className="ld-eyebrow">{landingHero.eyebrow}</p>
+          <h1>
+            {landingHero.title.map((line) => <span key={line}>{line}</span>)}
           </h1>
-
-          <p className="ld-hero__subtitle">{landingHero.subtitle}</p>
-
-          <button type="button" className="ld-btn ld-btn--primary" onClick={onStart}>
-            {landingHero.cta} →
+          <p className="ld-hero__description">{landingHero.description}</p>
+          <button type="button" className="ld-btn ld-btn--primary ld-hero__cta" onClick={() => setIsModalOpen(true)}>
+            {landingHero.cta}<span aria-hidden="true">→</span>
           </button>
+          <ul className="ld-hero__subjects" aria-label="주요 학습 주제">
+            {landingHero.subjects.map((subject) => <li key={subject}>{subject}</li>)}
+          </ul>
         </div>
+        <p className="ld-hero__note">Technical agency for people who build digital products.</p>
       </section>
 
-      <section className="ld-section ld-manifesto" id="ld-manifesto">
-        <div className="ld-inner">
-          {landingManifesto.map((item, index) => (
-            <ManifestoBlock key={item.id} item={item} index={index} />
-          ))}
-        </div>
-      </section>
-
-      <section className="ld-section ld-tracks">
-        <div className="ld-inner">
-          <Reveal>
-            <h2 className="ld-tracks__title">
-              Part 0에서 Part 8까지 시스템 전체를 배웁니다
-            </h2>
-            <p className="ld-tracks__intro">
-              하나의 서비스가 만들어지고 운영될 때까지, 순서대로 연결해서 살펴봅니다.
-            </p>
-          </Reveal>
-
-          <div className="ld-tracks__grid">
-            {parts.map((part, index) => (
-              <PartPreview key={part.id} part={part} index={index} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="ld-section ld-closing">
-        <div className="ld-inner">
-          <Reveal>
-            <h2 className="ld-closing__title">{landingClosing.title}</h2>
-            <button type="button" className="ld-btn ld-btn--primary" onClick={onStart}>
-              {landingClosing.cta} →
-            </button>
-          </Reveal>
-        </div>
-      </section>
+      {isModalOpen && (
+        <PhilosophyModal
+          onClose={() => setIsModalOpen(false)}
+          onDiagnosis={onDiagnosis}
+        />
+      )}
     </main>
   );
 }

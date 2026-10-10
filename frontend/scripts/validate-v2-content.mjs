@@ -22,7 +22,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const DEFAULT_CONTENT_DIR = join(HERE, '..', 'src', 'content', 'v2');
 const CHAPTER_STATUS = ['draft', 'available'];
 const PART_KINDS = ['orientation', 'curriculum'];
-const EXPECTED_CHAPTER_COUNTS = [5, 4, 5, 5, 5, 5, 5, 6, 6];
+const EXPECTED_CHAPTER_COUNTS = [5, 5, 5, 5, 5, 5, 5, 6, 6];
 const REQUIRED_AVAILABLE_STAGES = [
   'orientation',
   'incident',
@@ -129,7 +129,7 @@ function validateChoiceActivity(activity, where, fail, multiple) {
   });
 }
 
-function validateActivity(activity, where, fail, mapNodeIds) {
+function validateActivity(activity, where, fail) {
   requireFields(activity, ['type'], where, fail);
   if (!activity?.type) return;
 
@@ -150,15 +150,6 @@ function validateActivity(activity, where, fail, mapNodeIds) {
       break;
     case 'multi-choice':
       validateChoiceActivity(activity, where, fail, true);
-      break;
-    case 'map-select':
-      requireFields(activity, ['question', 'correctNodeIds'], where, fail);
-      validateUniqueValues(activity.correctNodeIds ?? [], where + '.correctNodeIds', fail);
-      (activity.correctNodeIds ?? []).forEach((nodeId) => {
-        if (!mapNodeIds.has(nodeId)) {
-          fail(where, "존재하지 않는 시스템 맵 노드 '" + nodeId + "'가 정답에 있음");
-        }
-      });
       break;
     case 'sequence': {
       requireFields(activity, ['prompt', 'items', 'correctOrder'], where, fail);
@@ -192,14 +183,15 @@ function validateActivity(activity, where, fail, mapNodeIds) {
   }
 }
 
-function validateSteps(chapter, where, fail, mapNodeIds) {
+function validateSteps(chapter, where, fail) {
   const steps = chapter.steps ?? [];
+  const usesCustomRenderer = Boolean(chapter.renderer);
   if (!Array.isArray(steps)) {
     fail(where, "'steps'는 배열이어야 함");
     return;
   }
 
-  if (chapter.status === 'available' && steps.length === 0) {
+  if (chapter.status === 'available' && steps.length === 0 && !usesCustomRenderer) {
     fail(where, 'status가 available인데 steps가 비어 있음');
     return;
   }
@@ -221,7 +213,7 @@ function validateSteps(chapter, where, fail, mapNodeIds) {
     }
     if (stageIndex !== -1) lastStageIndex = stageIndex;
 
-    validateActivity(step.activity, stepWhere + '.activity', fail, mapNodeIds);
+    validateActivity(step.activity, stepWhere + '.activity', fail);
   });
 
   if (steps.length > 0 && steps[0].stage !== 'orientation') {
@@ -233,7 +225,7 @@ function validateSteps(chapter, where, fail, mapNodeIds) {
     fail(where, '마지막 단계는 explain 또는 complete여야 함');
   }
 
-  if (chapter.status === 'available') {
+  if (chapter.status === 'available' && !usesCustomRenderer) {
     const stages = new Set(steps.map((step) => step.stage));
     REQUIRED_AVAILABLE_STAGES.forEach((stage) => {
       if (!stages.has(stage)) fail(where, "available Chapter에 '" + stage + "' 단계가 없음");
@@ -370,8 +362,8 @@ export function validateDocuments({
   const conceptIds = new Set(concepts.map((concept) => concept.id));
   const partIds = new Set(parts.map((part) => part.id));
   const chapterDocuments = chapters.map((chapter) => chapter.document);
-  if (chapterDocuments.length !== 46) {
-    fail('chapters', 'Chapter가 ' + chapterDocuments.length + '개 — 새 커리큘럼 기준 46개 필요');
+  if (chapterDocuments.length !== 47) {
+    fail('chapters', 'Chapter가 ' + chapterDocuments.length + '개 — 새 커리큘럼 기준 47개 필요');
   }
   parts.forEach((part, index) => {
     const expectedCount = EXPECTED_CHAPTER_COUNTS[part.order];
@@ -415,14 +407,16 @@ export function validateDocuments({
     requireArray(chapter, 'conceptRefs', where, fail, { allowEmpty: true });
 
     if (chapter.status === 'available') {
-      requireFields(
-        chapter,
-        ['estimatedMinutes', 'incident', 'learningObjectives', 'conceptRefs', 'completionPrompt'],
-        where,
-        fail,
-      );
+      const availableFields = chapter.renderer
+        ? ['estimatedMinutes', 'incident', 'learningObjectives', 'completionPrompt', 'renderer', 'lessonCount']
+        : ['estimatedMinutes', 'incident', 'learningObjectives', 'conceptRefs', 'completionPrompt'];
+      requireFields(chapter, availableFields, where, fail);
       requireArray(chapter, 'learningObjectives', where, fail);
-      requireArray(chapter, 'conceptRefs', where, fail);
+      requireArray(chapter, 'conceptRefs', where, fail, { allowEmpty: Boolean(chapter.renderer) });
+    }
+
+    if (chapter.renderer && (!Number.isInteger(chapter.lessonCount) || chapter.lessonCount < 1)) {
+      fail(where, 'renderer Chapter의 lessonCount는 1 이상의 정수여야 함');
     }
 
     const expectedId = basename(fileName, '.json');
@@ -470,7 +464,7 @@ export function validateDocuments({
       }
     });
 
-    validateSteps(chapter, where, fail, mapNodeIds);
+    validateSteps(chapter, where, fail);
   });
 
   validateUniqueValues(chapterOrderKeys, 'chapters partId/order', fail);

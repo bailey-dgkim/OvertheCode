@@ -2,28 +2,13 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import ChapterActivity from './ChapterActivity';
 import {
-  getMapCandidateIds,
   isSequenceCorrect,
   sameIdSet,
 } from './chapterActivityUtils';
 
-const systemMap = {
-  nodes: [
-    { id: 'source-code', label: 'Source Code' },
-    { id: 'runtime', label: 'Runtime' },
-    { id: 'process', label: 'Process' },
-  ],
-};
-
-const chapterMap = {
-  primaryNodeIds: ['source-code', 'runtime'],
-  relatedNodeIds: ['process'],
-};
-
 function renderActivity(type, activity) {
   return renderToStaticMarkup(
     <ChapterActivity
-      chapterMap={chapterMap}
       isLastStep={false}
       onComplete={() => {}}
       step={{
@@ -32,7 +17,6 @@ function renderActivity(type, activity) {
         label: type,
         activity: { type, ...activity },
       }}
-      systemMap={systemMap}
     />,
   );
 }
@@ -57,7 +41,6 @@ describe('V2 Chapter 활동 렌더러', () => {
       ],
       correctChoiceIds: ['a', 'b'],
     }, '필요한 조건을 고르세요.'],
-    ['map-select', { question: '문제 위치를 고르세요.', correctNodeIds: ['runtime'] }, 'Source Code'],
     ['sequence', {
       prompt: '실행 순서를 맞추세요.',
       items: [
@@ -87,12 +70,5 @@ describe('V2 Chapter 활동 렌더러', () => {
 
     expect(isSequenceCorrect(items, ['source', 'build'])).toBe(true);
     expect(isSequenceCorrect(items, ['build', 'source'])).toBe(false);
-  });
-
-  it('지도 선택 후보는 Chapter 영역과 정답 노드를 중복 없이 합친다', () => {
-    expect(getMapCandidateIds(
-      { correctNodeIds: ['runtime', 'process'] },
-      chapterMap,
-    )).toEqual(['source-code', 'runtime', 'process']);
   });
 });

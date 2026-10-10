@@ -72,6 +72,7 @@ const CHAPTER_IDS = {
     'frontend-state-events',
     'browser-and-server-state',
     'frontend-review',
+    'frontend-api-call',
   ],
   2: [
     'persistent-data',
@@ -415,8 +416,8 @@ function resolveSourceNode(label, partOrder, nodeAliases) {
 
 function validateSource(parts, nodeAliases, mapNodeIds) {
   const chapterCount = parts.reduce((total, part) => total + part.chapters.length, 0);
-  if (chapterCount !== 46) {
-    throw new Error('원본 Chapter는 46개여야 합니다. 현재 ' + chapterCount + '개입니다.');
+  if (chapterCount !== 47) {
+    throw new Error('원본 Chapter는 47개여야 합니다. 현재 ' + chapterCount + '개입니다.');
   }
 
   const unmappedNodes = [];
@@ -440,8 +441,8 @@ function validateSource(parts, nodeAliases, mapNodeIds) {
     });
   });
 
-  if (unique(chapterIds).length !== 46) {
-    throw new Error('Chapter id는 중복 없이 46개여야 합니다.');
+  if (unique(chapterIds).length !== 47) {
+    throw new Error('Chapter id는 중복 없이 47개여야 합니다.');
   }
   if (unmappedNodes.length > 0) {
     throw new Error('시스템 요소 별칭이 없습니다: ' + unmappedNodes.join(', '));
@@ -632,8 +633,8 @@ async function main() {
 
   console.log('새 커리큘럼 전체 이관');
   console.log('  전체 Part 9개');
-  console.log('  Chapter 46개 생성');
-  console.log('  내용 설계 중 46개');
+  console.log('  Chapter 47개 생성');
+  console.log('  내용 설계 중 47개');
 }
 
 main().catch((error) => {

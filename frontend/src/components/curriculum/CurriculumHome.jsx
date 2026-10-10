@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom';
 import { curriculumRepository } from '../../content/v2';
+import '../../styles/curriculum-home.css';
 
 function formatDuration(chapters) {
-  if (chapters.length === 0) return '콘텐츠 준비 중';
+  if (chapters.length === 0) return null;
 
   const durations = chapters
     .map((chapter) => chapter.estimatedMinutes)
     .filter((minutes) => typeof minutes === 'number');
-  if (durations.length !== chapters.length) return '예상 시간 정리 중';
+  if (durations.length !== chapters.length) return null;
 
   const minutes = durations.reduce((total, duration) => total + duration, 0);
   if (minutes < 60) return minutes + '분';
@@ -17,51 +18,34 @@ function formatDuration(chapters) {
   return remainder ? hours + '시간 ' + remainder + '분' : hours + '시간';
 }
 
-function PartRow({ part, chapters, nodeLabels }) {
+function PartRow({ part, chapters }) {
+  const duration = formatDuration(chapters);
+  const unitLabel = part.unitLabel === 'Chapter' ? '챕터' : part.unitLabel;
+
   return (
     <Link
       className={'cv2-part-card cv2-part-card--' + part.order}
       to={'/parts/' + part.id}
       aria-label={'Part ' + part.order + ' ' + part.title + ' 살펴보기'}
     >
-      <span className="cv2-part-card__number">
-        {String(part.order).padStart(2, '0')}
-      </span>
-
       <div className="cv2-part-card__body">
-        <h2 className="cv2-part-card__title">{part.title}</h2>
+        <div className="cv2-part-card__heading">
+          <span className="cv2-part-card__number" aria-hidden="true">
+            {String(part.order).padStart(2, '0')}
+          </span>
+          <h2 className="cv2-part-card__title">{part.title}</h2>
+        </div>
         <p className="cv2-part-card__goal">{part.goal}</p>
 
-        <div className="cv2-part-card__nodes" aria-label="대표 시스템 영역">
-          {nodeLabels.map((label) => (
-            <span key={label} className="cv2-node-chip">{label}</span>
-          ))}
-        </div>
       </div>
 
       <div className="cv2-part-card__side">
         <div className="cv2-part-card__meta">
-          <span>{chapters.length}개 {part.unitLabel}</span>
-          <span aria-hidden="true">·</span>
-          <span>{formatDuration(chapters)}</span>
+          <span>{chapters.length}개 {unitLabel}</span>
+          {part.order === 0 && <span>오리엔테이션</span>}
+          {duration && <span>· {duration}</span>}
         </div>
-
-        <div className="cv2-progress">
-          <div className="cv2-progress__labels">
-            <span>진행률</span>
-            <strong>0%</strong>
-          </div>
-          <div
-            className="cv2-progress__track"
-            role="progressbar"
-            aria-label={part.title + ' 진행률'}
-            aria-valuemin="0"
-            aria-valuemax="100"
-            aria-valuenow="0"
-          >
-            <span className="cv2-progress__value" />
-          </div>
-        </div>
+        <span className="cv2-part-card__status">시작 전</span>
       </div>
 
       <span className="cv2-part-card__arrow" aria-hidden="true">→</span>
@@ -71,11 +55,9 @@ function PartRow({ part, chapters, nodeLabels }) {
 
 function CurriculumHome() {
   const parts = curriculumRepository.listParts();
-  const systemMap = curriculumRepository.getSystemMap();
-  const nodeById = new Map(systemMap.nodes.map((node) => [node.id, node]));
 
   return (
-    <div className="cv2-container cv2-page">
+    <div className="cv2-container cv2-page cv2-home">
       <section className="cv2-hero" aria-labelledby="curriculum-title">
         <div>
           <p className="cv2-eyebrow">Common Engineering Curriculum</p>
@@ -84,15 +66,13 @@ function CurriculumHome() {
             개발 작업 공간에서 시작해 프론트엔드, 데이터, 서버, 네트워크와 운영까지
             소프트웨어가 확장되는 순서로 배웁니다.
           </p>
+          <div className="cv2-home__diagnosis">
+            <p>어디서 시작할지 모르겠다면</p>
+            <Link className="cv2-diagnosis-card" to="/diagnosis">
+              <span>진단테스트 바로가기 →</span>
+            </Link>
+          </div>
         </div>
-
-        <Link className="cv2-diagnosis-card" to="/diagnosis">
-          <span>
-            <strong>어디서 시작할지 모르겠다면</strong>
-            <small>진단은 학습을 막지 않고 힌트와 복습만 조절합니다.</small>
-          </span>
-          <span aria-hidden="true">진단 보기 →</span>
-        </Link>
       </section>
 
       <section aria-labelledby="part-list-title">
@@ -101,7 +81,6 @@ function CurriculumHome() {
             <p className="cv2-eyebrow">Curriculum</p>
             <h2 id="part-list-title">Part를 선택하세요</h2>
           </div>
-          <p>모든 Part는 잠겨 있지 않습니다.</p>
         </div>
 
         <div className="cv2-part-grid">
@@ -110,9 +89,6 @@ function CurriculumHome() {
               key={part.id}
               part={part}
               chapters={curriculumRepository.listChapters(part.id)}
-              nodeLabels={part.representativeNodeIds
-                .map((nodeId) => nodeById.get(nodeId)?.label)
-                .filter(Boolean)}
             />
           ))}
         </div>
